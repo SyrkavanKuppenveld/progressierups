@@ -4,10 +4,16 @@ import numpy as np
 
 
 class ChipGrid():
-    """Initialize the Chip Grid structure."""
+    """Provides the Chip Object."""
 
     def __init__(self, print_0, netlist_1):
-        """Reads configuration files."""
+        """ Initializes chip with the configuration files.
+
+        Parameters
+        ----------
+        gates : list of gates (tuples: 0. gatenumber, 1. gateletter, 2. x-coordinate and 3. y-coordinate)
+        connections :list of connected gates (tuples: 0. chip_a and 1. chip_b)
+        """
 
         self.gates = []
 
@@ -15,17 +21,18 @@ class ChipGrid():
         with open(print_0, newline='') as csvfile:
             reader = csv.reader(csvfile)
             for i, row in enumerate(reader):
-                # Store 0) gatenumber, 1) gateletter and its coordinates: 2) x, 3) y
+                # Store gate information
                 if i > 0:
                     gate = (i, row[0], row[1], row[2])
                     self.gates.append(gate)
 
         self.connections = []
 
-        # Open and read file containing netlist
+        # Parse netlist information
         with open(netlist_1, newline='') as csvfile:
             reader = csv.reader(csvfile)
             for i, row in enumerate(reader):
+                # Store connections
                 if i > 0:
                     self.connections.append(tuple(row))
 
@@ -33,7 +40,13 @@ class ChipGrid():
         pass
         
     def restrictions(self):
-        """ Returns obligatory inter-gate connections"""
+        """ Identifies and returns gateRestrictions.
+        
+        Return
+        ------
+        gateRestrictions : dictionary of gates (key = gateNumber (int)) with it's connected gates (value: list of gateNumbers)
+        """
+
         gateRestrictions = {}
 
         # Acquire connections per gate
@@ -49,10 +62,11 @@ class ChipGrid():
                     else:
                         gateConnections.append(connection[1])
             
+            # Store gate connections
             gateRestrictions[gateNumber] = gateConnections
 
 
-        return(gateRestrictions)
+        return gateRestrictions
 
     
     
@@ -64,11 +78,6 @@ if __name__ == "__main__":
     netlist_file = "example/netlist_1.csv"
 
     chipgrid = ChipGrid(print_file, netlist_file)
-
-    # grid_x, grid_y = chipgrid.grid()
-
-    # print(grid_x)
-    # print(grid_y)
 
     gateRestrictions = chipgrid.restrictions()
     print(gateRestrictions)
