@@ -1,4 +1,4 @@
-from gates import Gate
+from classes.gates import Gate
 import csv
 
 class Chip():
