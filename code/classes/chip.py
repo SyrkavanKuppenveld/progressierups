@@ -1,10 +1,10 @@
 import csv
-from code.classes import Gate
+from code.classes.gates import Gate
 
 class Chip():
     def __init__(self, print_file, netlist_file):
-        self.gates = load_gates(print_file)
-        self.gateConnections = load_gateConnections(netlist_file)
+        self.gates = self.load_gates(print_file)
+        self.gateConnections = self.load_gateConnections(netlist_file)
         self.grid = []
         self.wire = []
 
@@ -19,15 +19,12 @@ class Chip():
 
             # Iterate over lines in reader
             for i, row in enumerate(reader):
-                    
-                    # Store gate information
-                    gateID, gateLetter, xcoord, ycoord = (i, row[0], row[1], row[2])
 
                     # Initialize Gate object
-                    gate = Gate(gateID, gateLetter, xcoord, ycoord)
+                    gate = Gate(i, row['chip'], row['x'], row['y'])
 
                     # Add gate to gates dict with gateID as key
-                    gates[gateID] = gate
+                    gates[i] = gate
         
         return gates
 

@@ -7,5 +7,5 @@ if __name__ == "__main__":
 
     chip = Chip(print_file, netlist_file)
 
-    gateConnections = chip.load_gateConnections()
+    gateConnections = chip.load_gateConnections(netlist_file)
     print(gateConnections)
