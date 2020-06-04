@@ -7,5 +7,3 @@ class Gate():
         self.xcoord = int(xcoord)
         self.ycoord = int(ycoord)
         self.connections = connections
-
-    
