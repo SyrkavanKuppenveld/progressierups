@@ -9,6 +9,3 @@ if __name__ == "__main__":
 
     gateConnections = chip.load_gateConnections(netlist_file)
     print(gateConnections)
-
-    grid = chip.get_grid()
-    print(grid)
