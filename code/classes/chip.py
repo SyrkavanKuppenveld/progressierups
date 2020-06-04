@@ -1,13 +1,14 @@
 import csv
 from code.classes.gates import Gate
 from code.classes.grid import Grid
+from code.classes.wire import Wire
 
 class Chip():
     def __init__(self, print_file, netlist_file):
         self.netlist = self.load_netlist(netlist_file)
         self.gates = self.load_gates(print_file)
         self.grid = self.get_grid()
-        self.wire = '?'
+        self.wire = self.construct_wirePath
 
     def load_netlist(self, source_file):
         connections = []
@@ -58,6 +59,8 @@ class Chip():
 
                     # Add gate to gates dict with gateID as key
                     gates[i] = gate
+
+        print(gates)
         
         return gates
 
@@ -68,5 +71,9 @@ class Chip():
         return grid.filled_grid
 
     def construct_wirePath(self):
-        pass
+         
+        wire = Wire(self.grid, self.gates, self.netlist)
+
+
+        return wire
 

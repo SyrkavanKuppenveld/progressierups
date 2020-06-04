@@ -4,12 +4,14 @@ import numpy as np
 class Grid():
 
     def __init__(self, gates):
+        """Initialize Grid object."""
 
         self.gates = gates
         self.grid = self.create_grid(gates)
         self.filled_grid = self.fill_grid(self.gates, self.grid)
     
     def create_grid(self, gates):
+        """"Returns empty grid."""
 
         x_values = []
         y_values = []
@@ -29,6 +31,7 @@ class Grid():
         return grid
 
     def fill_grid(self, gates, grid):
+        """Returnes grid with gate coordinates."""
         
         # Fill gates in grid
         for gate in self.gates:

@@ -12,3 +12,5 @@ if __name__ == "__main__":
 
     grid = chip.get_grid()
     print(grid)
+
+    wire = chip.construct_wirePath()
