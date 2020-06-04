@@ -47,16 +47,17 @@ class Chip():
 
     def get_gateSpecificConnections(self, gateID):
 
-        connections = set()
+        connections = {}
 
         # Iterate over all gate connections
         for connection in self.gateConnections:
             if gateID in connection:
                 # Only store the connected gate and not the current gates' ID
+                # Set the connected gateID as key with a default value of False corresponding with it's connection status
                 if connection[0] != gateID:
-                    connections.add(connection[0])
+                    connections[connection[0]] = False
                 else:
-                    connections.add(connection[1])
+                    connections[connection[1]] = False
         
         return connections
 
