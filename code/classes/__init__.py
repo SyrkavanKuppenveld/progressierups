@@ -1,6 +1,5 @@
 
 
 
-
-# from classes.gates import Gate
-# from classes.chip import Chip
+from code.classes.gates import Gate
+from code.classes.chip import Chip

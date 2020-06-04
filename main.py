@@ -1,4 +1,4 @@
-from code.classes import chip, gates
+from code.classes import Gate, Chip
 
 if __name__ == "__main__":
 
