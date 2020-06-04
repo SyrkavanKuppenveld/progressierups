@@ -4,8 +4,8 @@ from code.classes.grid import Grid
 
 class Chip():
     def __init__(self, print_file, netlist_file):
-        self.gates = self.load_gates(print_file)
         self.gateConnections = self.load_gateConnections(netlist_file)
+        self.gates = self.load_gates(print_file)
         self.grid = self.get_grid()
         self.wire = []
 
@@ -20,9 +20,13 @@ class Chip():
 
             # Iterate over lines in reader
             for i, row in enumerate(reader, 1):
+                    
+                    # Retrieve connections with the current gate
+                    gateID = str(i)
+                    connections = self.get_gateSpecificConnections(gateID)
 
                     # Initialize Gate object
-                    gate = Gate(i, row['chip'], row['x'], row['y'])
+                    gate = Gate(str(i), row['chip'], row['x'], row['y'], connections)
 
                     # Add gate to gates dict with gateID as key
                     gates[i] = gate
@@ -40,6 +44,23 @@ class Chip():
                     connections.append((row['chip_a'], row['chip_b']))
 
         return connections
+
+    def get_gateSpecificConnections(self, gateID):
+
+        connections = set()
+
+        # Iterate over all gate connections
+        for connection in self.gateConnections:
+            if gateID in connection:
+                # Only store the connected gate and not the current gates' ID
+                if connection[0] != gateID:
+                    connections.add(connection[0])
+                else:
+                    connections.add(connection[1])
+        
+        return connections
+
+
 
     def get_grid(self):
 
