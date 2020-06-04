@@ -40,3 +40,10 @@ class Chip():
                     connections.append((row['chip_a'], row['chip_b']))
 
         return connections
+
+    def get_grid(self):
+
+        grid = Grid(self.gates)
+        
+        return grid.filled_grid
+
