@@ -16,7 +16,7 @@ class Wire():
 
     def wire_path(self):
 
-        total_path = []
+        total_path = {}
 
         for connection in self.netlist:
 
@@ -96,7 +96,8 @@ class Wire():
             elif y_diff == 0:
                 print(f'y = check')
             
-            total_path.append([connection, path])
+            # Create dict entry for path with connection as key
+            total_path[connection] = path
 
 
         print(total_path)
