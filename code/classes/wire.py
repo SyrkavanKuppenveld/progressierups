@@ -99,19 +99,25 @@ class Wire():
     def get_wire_units(self, path):
         
         wire_units = []
+        # For path in paths:
+        #   rest of code mentioned below.
+        
+        # Stores a maximum of two coordinates
         temp_storage = []
 
         for coordinate in path:
             temp_storage.append(coordinate)
 
+            # Get wire-unit when two coordinates are present in the storage
             if len(temp_storage) == 2:
                 wire_units.append((temp_storage[0], temp_storage[1]))
+                # Discard first coord to make room for next coord of path
                 temp_storage.pop(0)
         
         return wire_units
 
     def compute_length(self, wire_units):
-        """ Returns number of wire-units (= wire length"""
+        """ Returns wire length"""
         return len(wire_units)
 
     
