@@ -20,12 +20,16 @@ class Chip():
         # Parse netlist information
         with open(source_file, newline='') as input_file:
             reader = csv.DictReader(input_file)
+            
+            # Store connections in list
             for row in reader:
-                # Store connections (as a tuple)
                 connections.append((int(row['chip_a']), int(row['chip_b'])))
 
         return connections
     
+    # DEZE FUNCTIE RETURN MOMENTEEL NOG EEN LEGE DICT, AANGEZIEN DIE NOOIT DOOR DE
+    # IF STATEMENT HEENKOMT, IK WEET NIET PRECIES WAT DEZE NOU MOET DOEN DUS DAAR
+    # MOETEN WE DAN NOG EVEN NAAR KIJKEN (Eline)
     def get_gateConnections(self, gateID):
         """Returns ."""
 
@@ -41,8 +45,6 @@ class Chip():
                     connections[connection[0]] = False
                 else:
                     connections[connection[1]] = False
-
-        print(connections)
         
         return connections
     
@@ -69,8 +71,6 @@ class Chip():
 
                     # Add gate to gates dict with gateID as key
                     gates[i] = gate
-
-        print(gates)
         
         return gates
 

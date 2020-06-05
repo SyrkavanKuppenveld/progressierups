@@ -1,5 +1,6 @@
 import numpy as numpy
 from collections import Counter
+from scipy.spatial import distance
 
 class Wire():
 
@@ -9,18 +10,19 @@ class Wire():
         self.gates = gates
         self.grid = grid
         self.netlist = netlist
-        self.start_x = self.gates[1].xcoord
-        self.start_y = self.gates[1].ycoord
         self.total_path = self.wire_path()
         self.wire_units, self.all_coordinates = self.get_wire_details()
         self.length = self.compute_length()
         self.intersections = self.count_intersections()
         self.collisions = self.count_collisions()
 
+
     def wire_path(self):
+        """Returns wire path."""
 
         total_path = {}
 
+        # Iterate over connections in netlist
         for connection in self.netlist:
 
             path = []
@@ -102,11 +104,62 @@ class Wire():
             # Create dict entry for path with connection as key
             total_path[connection] = path
 
-
         print(total_path)
 
-
         return total_path
+
+
+    def generate_path(self):
+        """Returns generated wire path."""
+
+        current_path = set()
+
+        # Iterate over connections in netlist
+        for connection in self.netlist:
+
+            path = set()
+            
+            # Get gateID's
+            a, b = connection[0], connection[1]
+
+            # Get gate coordinates
+            a_x, a_y = self.gates[a].xcoord, self.gates[a].ycoord
+            b_x, b_y = self.gates[b].xcoord, self.gates[b].ycoord
+
+            # Compute steps en difference for x and y
+            x_steps = abs(b_x - a_x)
+            x_diff = b_x - a_x
+            y_steps = abs(b_y - a_y)
+            y_diff = b_y - a_y
+
+            x_current = a_x
+            y_current = a_y
+
+            x_update = a_x
+            y_update = a_y
+
+            # Approach if difference x > 0
+            if x_diff > 0: # kan denk ik wel wel want dat is niet belangrijk hierbij
+                
+                # Update and append step coordinates
+                while b_x is not x_current and b_y is not y_current:
+                    
+                    # Generate new wire line
+                    current_coords = (x_current, y_current)
+                    x_update += 1
+                    step_coords = (x_update, a_y)
+
+                    # Only add new wire line if no collision occurs
+                    if (current_coords, step_coords) not in path:
+                        path.add(step_coords)
+                        x_current = x_update
+
+                    if b_x == x_update:
+                        print(f'x = check')
+            
+
+        return total_path 
+    
 
     def get_wire_details(self):
         
@@ -151,6 +204,8 @@ class Wire():
         # starts when a coordinate is >1 times present
         intersections = coordinates_sum - unique_coordinates
 
+        print(intersections)
+
         return intersections
 
     def count_collisions(self):
@@ -171,6 +226,8 @@ class Wire():
         # starts when a wire unit is >1 times present
         collisions = collisions_sum - unique_wire_units
     
+        print(collisions)
+
         return collisions
 
 
