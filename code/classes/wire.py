@@ -16,9 +16,11 @@ class Wire():
 
     def wire_path(self):
 
-        path = []
+        total_path = []
 
         for connection in self.netlist:
+
+            path = []
             
             # Get gateID's
             a, b = connection[0], connection[1]
@@ -26,6 +28,9 @@ class Wire():
             # Get gate coordinates
             a_x, a_y = self.gates[a].xcoord, self.gates[a].ycoord
             b_x, b_y = self.gates[b].xcoord, self.gates[b].ycoord
+
+            start_coords = (a_x, a_y)
+            path.append(start_coords)
 
             # Compute steps en difference for x and y
             x_steps = abs(b_x - a_x)
@@ -90,8 +95,11 @@ class Wire():
 
             elif y_diff == 0:
                 print(f'y = check')
+            
+            total_path.append([connection, path])
 
-        print(path)
+
+        print(total_path)
 
 
         return path
@@ -112,6 +120,7 @@ class Wire():
 
     def compute_length(self, wire_units):
         """ Returns number of wire-units (= wire length"""
+
         return len(wire_units)
 
     
