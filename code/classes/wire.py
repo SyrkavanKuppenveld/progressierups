@@ -10,59 +10,82 @@ class Wire():
         self.netlist = netlist
         self.start_x = self.gates[1].xcoord
         self.start_y = self.gates[1].ycoord
-
-        self.wire_order = self.wire_gates_order()
-
-    def wire_gates_order(self):
-        """Returns wire order."""
-        
-        self.order = []
-        total = len(self.netlist)
-
-        for i in range(total):
-
-            # Compute check variable
-            check = i % 2
-            
-            
-            if i == 0:
-                self.order.append(self.netlist[0][0])
-                self.order.append(self.netlist[0][1])
-                next_gate = self.netlist[0][1]
-                position = 0
-
-            elif check == 1:
-
-                for j, element in enumerate(self.netlist):
-                    if next_gate == element[1] and j is not position:
-                        self.order.append(element[0])
-                        next_gate = element[0]
-                        position = j
-                        break 
-
-            elif check == 0:
-                for j, element in enumerate(self.netlist):
-                    if next_gate == element[0] and j is not position:
-                        self.order.append(element[1])
-                        next_gate = element[1]
-                        position = j
-                        break 
-            
-            if i + 1 == total:
-                self.order.append(1)
-            
-            # print(f'check: {check}')
-            # print(f'position: {position}')
-            # print(f'next gate: {next_gate}')
-
-
-        # Check print
-        print(self.order)
-
-        return self.order
-
-            
+        self.path = self.wire_path()
 
     def wire_path(self):
 
+        path = []
+
+        for connection in self.netlist:
+            
+            print
+
+            # Get gateID's
+            a, b = connection[0], connection[1]
+
+            # Get gate coordinates
+            a_x, a_y = self.gates[a].xcoord, self.gates[a].ycoord
+            b_x, b_y = self.gates[b].xcoord, self.gates[b].ycoord
+
+            print(b_x, b_y)
+
+            x_steps = b_x - a_x
+            y_steps = b_y - a_y
+
+            x_update = a_x
+
+            if x_steps > 0:
+                
+                for _ in range(x_steps):
+                    x_update += 1
+                    step_coords = (x_update, a_y)
+                    path.append(step_coords)
+
+                    if b_x == x_update:
+                        print('check')
+            
+            elif x_steps < 0:
+                
+                for _ in range(x_steps,):
+                    x_update -= 1
+                    step_coords = (x_update, a_y)
+                    path.append(step_coords)
+
+                    if b_x == x_update:
+                        print('check')
+
+            y_update = a_y
+
+            if y_steps > 0:
+
+                for _ in range(y_steps):
+                    y_update += 1
+                    step_coords = (x_update, y_update)
+                    path.append(step_coords)
+
+                    if b_y == y_update:
+                        print('check')
+            
+            elif y_steps < 0:
+
+                for _ in range(y_steps):
+                    y_update -= 1
+                    step_coords = (x_update, y_update)
+                    path.append(step_coords)
+
+                    if b_y == y_update:
+                        print('check')
+
+
+
+            # else:
+            #     pass
+
+        print(path)
+
+
         return 1
+
+
+
+'***************************************************************************'

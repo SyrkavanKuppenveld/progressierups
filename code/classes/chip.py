@@ -35,6 +35,8 @@ class Chip():
                     connections[connection[0]] = False
                 else:
                     connections[connection[1]] = False
+
+        print(connections)
         
         return connections
     
