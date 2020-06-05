@@ -1,4 +1,5 @@
 import numpy as numpy
+from collections import Counter
 
 class Wire():
 
@@ -11,8 +12,10 @@ class Wire():
         self.start_x = self.gates[1].xcoord
         self.start_y = self.gates[1].ycoord
         self.total_path = self.wire_path()
-        self.wire_details = self.get_wire_details()
-        self.length = self.compute_length(self.wire_details[0])
+        self.wire_units, self.all_coordinates = self.get_wire_details()
+        self.length = self.compute_length()
+        self.intersections = self.count_intersections()
+        self.collisions = self.count_collisions()
 
     def wire_path(self):
 
@@ -123,17 +126,53 @@ class Wire():
                 # Get wire-unit when two coordinates are present in the storage
                 if len(temp_storage) == 2:
                     wire_units.append((temp_storage[0], temp_storage[1]))
+                    
                     # Discard first coord to make room for next coord of path
                     temp_storage.pop(0)
             
         return wire_units, all_coordinates
 
-    def compute_length(self, wire_units):
-        """ Returns wire length"""
+    def compute_length(self):
+        """ Returns wire length."""
 
-        return len(wire_units)
+        return len(self.wire_units)
 
+    def count_intersections(self):
+        """ Returns the number of intersections."""
+        
+        # Counts occurences of coordinates
+        coordinate_counter = Counter(self.all_coordinates)
+        coordinates_sum = sum(coordinate_counter.values())
+        
+        # Counts uniquely visited coordinates
+        unique_coordinates = len(coordinate_counter)
+        
+        # Subtracts the number of unique coordinates since an intersection 
+        # starts when a coordinate is >1 times present
+        intersections = coordinates_sum - unique_coordinates
+
+        return intersections
+
+    def count_collisions(self):
+        """ Returns the number of collisions."""
+
+        # Sorts wire units since to ensure that a wire unit from
+        # A > B is equal to B > A
+        sorted_wir_units = sorted(self.wire_units)
+        
+        # Counts occurences of wire units
+        collisions_counter = Counter(sorted_wir_units)
+        collisions_sum = sum(collisions_counter.values())
+        
+        # Counts uniquely visited wire units
+        unique_wire_units = len(collisions_counter)
+        
+        # Subtracts the number of unique wire units since a collision 
+        # starts when a wire unit is >1 times present
+        collisions = collisions_sum - unique_wire_units
     
+        return collisions
+
 
     
 
