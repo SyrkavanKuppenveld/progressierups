@@ -11,6 +11,8 @@ class Wire():
         self.start_x = self.gates[1].xcoord
         self.start_y = self.gates[1].ycoord
         self.path = self.wire_path()
+        self.wire_units = self.get_wire_units(self.path)
+        self.length = self.compute_length(self.wire_units)
 
     def wire_path(self):
 
@@ -94,6 +96,27 @@ class Wire():
 
         return path
 
+    def get_wire_units(self, path):
+        
+        wire_units = []
+        temp_storage = []
+
+        for coordinate in path:
+            temp_storage.append(coordinate)
+
+            if len(temp_storage) == 2:
+                wire_units.append((temp_storage[0], temp_storage[1]))
+                temp_storage.pop(0)
+        
+        return wire_units
+
+    def compute_length(self, wire_units):
+        """ Returns number of wire-units (= wire length"""
+        return len(wire_units)
+
+    
+
+            
 
 
 '***************************************************************************'
