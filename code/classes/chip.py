@@ -5,12 +5,16 @@ from code.classes.wire import Wire
 
 class Chip():
     def __init__(self, print_file, netlist_file):
+        """Initialize Chip object."""
+
         self.netlist = self.load_netlist(netlist_file)
         self.gates = self.load_gates(print_file)
         self.grid = self.get_grid()
         self.wire = self.construct_wirePath
 
     def load_netlist(self, source_file):
+        """Returns list with gate connections."""
+
         connections = []
 
         # Parse netlist information
@@ -18,17 +22,19 @@ class Chip():
             reader = csv.DictReader(input_file)
             for row in reader:
                 # Store connections (as a tuple)
-                    connections.append((int(row['chip_a']), int(row['chip_b'])))
+                connections.append((int(row['chip_a']), int(row['chip_b'])))
 
         return connections
     
     def get_gateConnections(self, gateID):
+        """Returns ."""
 
         connections = {}
 
         # Iterate over all gate connections
         for connection in self.netlist:
             if gateID in connection:
+        
                 # Only store the connected gate and not the current gates' ID
                 # Set the connected gateID as key with a default value of False corresponding with it's connection status
                 if connection[0] != gateID:
@@ -41,6 +47,8 @@ class Chip():
         return connections
     
     def load_gates(self, source_file):
+        """Returns dictionary with all gate objects."""
+
         gates = {}
 
         # Open and read input_file
@@ -67,12 +75,14 @@ class Chip():
         return gates
 
     def get_grid(self):
+        """Returns chip grid with gates filled in."""
 
         grid = Grid(self.gates)
         
         return grid.filled_grid
 
     def construct_wirePath(self):
+        """Returns constructed wire path."""
          
         wire = Wire(self.grid, self.gates, self.netlist)
 

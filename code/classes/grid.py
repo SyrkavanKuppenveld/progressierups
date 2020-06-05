@@ -21,8 +21,8 @@ class Grid():
             x_values.append(gates[gate].xcoord)
             y_values.append(gates[gate].ycoord)
 
-        # Get max grid coordinates 
-        # 2 is for initialization of outer edges
+        # Get gid initialization values for x and y
+        # 2 is for addition outer edges
         nx = max(x_values) + 2
         ny = max(y_values) + 2
 
