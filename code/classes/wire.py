@@ -18,8 +18,6 @@ class Wire():
 
         for connection in self.netlist:
             
-            print
-
             # Get gateID's
             a, b = connection[0], connection[1]
 
@@ -27,64 +25,74 @@ class Wire():
             a_x, a_y = self.gates[a].xcoord, self.gates[a].ycoord
             b_x, b_y = self.gates[b].xcoord, self.gates[b].ycoord
 
-            print(b_x, b_y)
-
-            x_steps = b_x - a_x
-            y_steps = b_y - a_y
+            # Compute steps en difference for x and y
+            x_steps = abs(b_x - a_x)
+            x_diff = b_x - a_x
+            y_steps = abs(b_y - a_y)
+            y_diff = b_y - a_y
 
             x_update = a_x
 
-            if x_steps > 0:
+            # Approach if difference x > 0
+            if x_diff > 0:
                 
+                # Update and append step coordinates
                 for _ in range(x_steps):
                     x_update += 1
                     step_coords = (x_update, a_y)
                     path.append(step_coords)
 
                     if b_x == x_update:
-                        print('check')
+                        print(f'x = check')
             
-            elif x_steps < 0:
+            # Approach if difference x < 0
+            elif x_diff < 0:
                 
-                for _ in range(x_steps,):
+                # Update and append step coordinates
+                for _ in range(x_steps):
                     x_update -= 1
                     step_coords = (x_update, a_y)
                     path.append(step_coords)
 
                     if b_x == x_update:
-                        print('check')
+                        print(f'x = check')
+
+            elif x_diff == 0:
+                print(f'x = check')
 
             y_update = a_y
 
-            if y_steps > 0:
+            # Approach if difference y > 0
+            if y_diff > 0:
 
+                # Update and append step coordinates
                 for _ in range(y_steps):
                     y_update += 1
                     step_coords = (x_update, y_update)
                     path.append(step_coords)
 
                     if b_y == y_update:
-                        print('check')
+                        print(f'y = check')
             
-            elif y_steps < 0:
+            # Approach if difference y < 0
+            elif y_diff < 0:
 
+                # Update and append step coordinates
                 for _ in range(y_steps):
                     y_update -= 1
                     step_coords = (x_update, y_update)
                     path.append(step_coords)
 
                     if b_y == y_update:
-                        print('check')
+                        print(f'y = check')
 
-
-
-            # else:
-            #     pass
+            elif y_diff == 0:
+                print(f'y = check')
 
         print(path)
 
 
-        return 1
+        return path
 
 
 
