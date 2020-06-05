@@ -18,7 +18,7 @@ class Chip():
             reader = csv.DictReader(input_file)
             for row in reader:
                 # Store connections (as a tuple)
-                    connections.append((row['chip_a'], row['chip_b']))
+                    connections.append((int(row['chip_a']), int(row['chip_b'])))
 
         return connections
     

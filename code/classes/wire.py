@@ -14,27 +14,49 @@ class Wire():
         self.wire_order = self.wire_gates_order()
 
     def wire_gates_order(self):
+        """Returns wire order."""
         
         self.order = []
         total = len(self.netlist)
 
-        for i, _ in enumerate(range(total), 1):
+        for i in range(total):
+
+            # Compute check variable
+            check = i % 2
             
-            if i == 1:
+            
+            if i == 0:
                 self.order.append(self.netlist[0][0])
                 self.order.append(self.netlist[0][1])
-                next_con =  int(self.netlist[0][1]) - 1
+                next_gate = self.netlist[0][1]
+                position = 0
 
-            elif total > i:
-                self.order.append(self.netlist[next_con][1])
-                next_con =  int(self.netlist[next_con][1]) - 1
-                print(next_con)
+            elif check == 1:
 
-            else:
-                # self.order.append(self.netlist[next_con][1])
-                # last_con = int(self.netlist[next_con][0]) - 1
-                self.order.append(self.netlist[next_con][1])
+                for j, element in enumerate(self.netlist):
+                    if next_gate == element[1] and j is not position:
+                        self.order.append(element[0])
+                        next_gate = element[0]
+                        position = j
+                        break 
 
+            elif check == 0:
+                for j, element in enumerate(self.netlist):
+                    if next_gate == element[0] and j is not position:
+                        self.order.append(element[1])
+                        next_gate = element[1]
+                        position = j
+                        break 
+            
+            if i + 1 == total:
+                self.order.append(1)
+            
+            # print(f'check: {check}')
+            # print(f'position: {position}')
+            # print(f'next gate: {next_gate}')
+
+
+        # Check print
         print(self.order)
 
         return self.order
