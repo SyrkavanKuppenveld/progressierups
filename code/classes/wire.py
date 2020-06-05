@@ -118,7 +118,7 @@ class Wire():
         for connection in self.netlist:
 
             path = set()
-            
+
             # Get gateID's
             a, b = connection[0], connection[1]
 
@@ -139,24 +139,62 @@ class Wire():
             y_update = a_y
 
             # Approach if difference x > 0
-            if x_diff > 0: # kan denk ik wel wel want dat is niet belangrijk hierbij
-                
+            if x_diff > 0: # kan denk ik wel weg want dat is niet belangrijk hierbij
+                           ## Mimoun: Ik denk ook dat dit weg kan, aangezien hieronder al 'while' begint
+
                 # Update and append step coordinates
-                while b_x is not x_current and b_y is not y_current:
+                while b_x != x_current and b_y != y_current:
                     
+                    # Create options going east, west, north and south
+                    option_e_coords = (b_x + 1, b_y)
+                    option_w_coords = (b_x - 1, b_y)
+                    option_n_coords = (b_x, b_y + 1)
+                    option_s_coords = (b_x, b_y - 1)
+
+                    direction_options = [option_e_coords, option_w_coords, option_n_coords, option_s_coords]
+
+                    # Calculate possible collisions
+                    for option in direction_options:
+                        if option in path:
+                            direction_options.pop(option)
+                    
+                    # If no options
+                    if len(direction_options) == 0:
+                        ## Mimoun: Wat als er geen opties zijn?
+
+                    # If one option
+                    elif len(direction_options) == 1:
+                        optimal_direction = direction_options[1]
+                    
+                    # If multiple options left, calculate closest option
+                    elif len(direction_options) > 1:
+                        direction_lengths = {}
+                        for option in direction_options:
+                            direction_lengths[option] = b_x - option(0) + b_y - option(0)
+                        optimal_direction = 0
+                        for option in direction_options:
+                            if direction_lengths[option] < optimal_direction:
+                                optimal_direction = option
+
+
                     # Generate new wire line
                     current_coords = (x_current, y_current)
-                    x_update += 1
+                    x_update = optimal_direction(0)
+                    y_update = optimal_direction(1)
                     step_coords = (x_update, a_y)
 
                     # Only add new wire line if no collision occurs
-                    if (current_coords, step_coords) not in path:
-                        path.add(step_coords)
-                        x_current = x_update
+                    ## Mimoun: Waarom checken we hier ook nog 'current_coords'? Als het goed is zit die sowieso al in path toch?
+                #    if (current_coords, step_coords) not in path:
+                #        path.add(step_coords)
+                #        x_current = x_update
 
                     if b_x == x_update:
-                        print(f'x = check')
-            
+                        print('x = check')
+                                # Update and append step coordinates
+                    if b_y == y_update:
+                        print('y = check')
+
 
         return total_path 
     
