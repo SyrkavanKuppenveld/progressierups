@@ -28,74 +28,74 @@ class Wire():
             path = []
             
             # Get gateID's
-            a, b = connection[0], connection[1]
+            gate_a, gate_b = connection[0], connection[1]
 
             # Get gate coordinates
-            a_x, a_y = self.gates[a].xcoord, self.gates[a].ycoord
-            b_x, b_y = self.gates[b].xcoord, self.gates[b].ycoord
+            gate_a_x, gate_a_y = self.gates[gate_a].xcoord, self.gates[gate_a].ycoord
+            gate_b_x, gate_b_y = self.gates[gate_b].xcoord, self.gates[gate_b].ycoord
 
-            start_coords = (a_x, a_y)
+            start_coords = (gate_a_x, gate_a_y)
             path.append(start_coords)
 
             # Compute steps en difference for x and y
-            x_steps = abs(b_x - a_x)
-            x_diff = b_x - a_x
-            y_steps = abs(b_y - a_y)
-            y_diff = b_y - a_y
+            x_steps = abs(gate_b_x - gate_a_x)
+            x_diff = gate_b_x - gate_a_x
+            y_steps = abs(gate_b_y - gate_a_y)
+            y_diff = gate_b_y - gate_a_y
 
-            x_update = a_x
+            x_update = gate_a_x
 
             # Approach if difference x > 0
             if x_diff > 0:
                 
                 # Update and append step coordinates
-                for _ in range(x_steps):
+                for step in range(x_steps):
                     x_update += 1
-                    step_coords = (x_update, a_y)
+                    step_coords = (x_update, gate_a_y)
                     path.append(step_coords)
 
-                    if b_x == x_update:
+                    if gate_b_x == x_update:
                         print(f'x = check')
             
             # Approach if difference x < 0
             elif x_diff < 0:
                 
                 # Update and append step coordinates
-                for _ in range(x_steps):
+                for step in range(x_steps):
                     x_update -= 1
-                    step_coords = (x_update, a_y)
+                    step_coords = (x_update, gate_a_y)
                     path.append(step_coords)
 
-                    if b_x == x_update:
+                    if gate_b_x == x_update:
                         print(f'x = check')
 
             elif x_diff == 0:
                 print(f'x = check')
 
-            y_update = a_y
+            y_update = gate_a_y
 
             # Approach if difference y > 0
             if y_diff > 0:
 
                 # Update and append step coordinates
-                for _ in range(y_steps):
+                for step in range(y_steps):
                     y_update += 1
                     step_coords = (x_update, y_update)
                     path.append(step_coords)
 
-                    if b_y == y_update:
+                    if gate_b_y == y_update:
                         print(f'y = check')
             
             # Approach if difference y < 0
             elif y_diff < 0:
 
                 # Update and append step coordinates
-                for _ in range(y_steps):
+                for step in range(y_steps):
                     y_update -= 1
                     step_coords = (x_update, y_update)
                     path.append(step_coords)
 
-                    if b_y == y_update:
+                    if gate_b_y == y_update:
                         print(f'y = check')
 
             elif y_diff == 0:
@@ -160,6 +160,7 @@ class Wire():
                     
                     # If no options
                     if len(direction_options) == 0:
+                        pass
                         ## Mimoun: Wat als er geen opties zijn?
 
                     # If one option
@@ -214,7 +215,7 @@ class Wire():
                 all_coordinates.append(coordinate)
                 temp_storage.append(coordinate)
 
-                # Get wire-unit when two coordinates are present in the storage
+                # Get wire-unit coordinates when two coordinates are present in the storage
                 if len(temp_storage) == 2:
                     wire_units.append((temp_storage[0], temp_storage[1]))
                     
@@ -241,8 +242,6 @@ class Wire():
         # Subtracts the number of unique coordinates since an intersection 
         # starts when a coordinate is >1 times present
         intersections = coordinates_sum - unique_coordinates
-
-        print(intersections)
 
         return intersections
 
