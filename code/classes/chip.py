@@ -2,6 +2,7 @@ import csv
 from code.classes.gates import Gate
 from code.classes.grid import Grid
 from code.classes.wire import Wire
+from code.classes.graph import Graph
 
 class Chip():
     def __init__(self, print_file, netlist_file):
@@ -11,13 +12,14 @@ class Chip():
         self.gates = self.load_gates(print_file)
         self.grid = self.get_grid()
         self.wire = self.construct_wirePath
+        self.connections = self.create_graph()
 
     def load_netlist(self, source_file):
         """Returns list with gate connections."""
 
         connections = []
 
-        # Parse netlist information
+           # Parse netlist information
         with open(source_file, newline='') as input_file:
             reader = csv.DictReader(input_file)
             
@@ -26,6 +28,15 @@ class Chip():
                 connections.append((int(row['chip_a']), int(row['chip_b'])))
 
         return connections
+
+
+    def create_graph(self):
+        """Returns graph with gates as key and the connections als values."""
+
+        connections = Graph(self.netlist)
+        
+        return connections
+
     
     # DEZE FUNCTIE RETURN MOMENTEEL NOG EEN LEGE DICT, AANGEZIEN DIE NOOIT DOOR DE
     # IF STATEMENT HEENKOMT, IK WEET NIET PRECIES WAT DEZE NOU MOET DOEN DUS DAAR
@@ -71,6 +82,10 @@ class Chip():
 
                     # Add gate to gates dict with gateID as key
                     gates[i] = gate
+
+        print('gates')
+        print(gates[1].connections)
+        
         
         return gates
 
