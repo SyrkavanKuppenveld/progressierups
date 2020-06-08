@@ -1,0 +1,3 @@
+# Ignore static given case-information
+example/
+gates&netlists/
