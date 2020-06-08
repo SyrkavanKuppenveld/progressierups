@@ -141,6 +141,7 @@ class Wire():
             # Approach if difference x > 0
             if x_diff > 0: # kan denk ik wel weg want dat is niet belangrijk hierbij
                            ## Mimoun: Ik denk ook dat dit weg kan, aangezien hieronder al 'while' begint
+                           # Syrka : eens kan weg
 
                 # Update and append step coordinates
                 while b_x != x_current and b_y != y_current:
@@ -154,6 +155,10 @@ class Wire():
                     direction_options = [option_e_coords, option_w_coords, option_n_coords, option_s_coords]
 
                     # Calculate possible collisions
+                    # Syrka: Hier vind je geen collisions mee, want je checkt alleen coordinaten, dus je kan hier wel
+                    # intersections mee checken maar voor een collision heb je een a-coordinaat (vertrekpunt) en een
+                    # b-coordinaat nodig (aankomst punt). Als je deze dan gezamelijk (in een lijst van tuples bv) opslaat, 
+                    # dan kun je collisions checken
                     for option in direction_options:
                         if option in path:
                             direction_options.pop(option)
@@ -162,15 +167,17 @@ class Wire():
                     if len(direction_options) == 0:
                         pass
                         ## Mimoun: Wat als er geen opties zijn?
+                        # Syrka: Misschien een volledige restart of een stap terug waarbij je de huidige stap uitsluit als mogelijke optie?
 
                     # If one option
                     elif len(direction_options) == 1:
                         optimal_direction = direction_options[1]
                     
-                    # If multiple options left, calculate closest option
+                    # If multiple options left, calculate closest option according to Manhatten distance
                     elif len(direction_options) > 1:
                         direction_lengths = {}
                         for option in direction_options:
+                            # Syrka: bedoel je hier option[0] dus met blokhaken?
                             direction_lengths[option] = b_x - option(0) + b_y - option(0)
                         optimal_direction = 0
                         for option in direction_options:
@@ -186,6 +193,8 @@ class Wire():
 
                     # Only add new wire line if no collision occurs
                     ## Mimoun: Waarom checken we hier ook nog 'current_coords'? Als het goed is zit die sowieso al in path toch?
+                    #  Syr: is deze niet voor het checken van collisions? Want je checkt (vertrekpunt, aankomstpunt) en dat is een wire-unit-length...
+                    # ...dus eignenlijk houden we hier dan al rekening met de hard constraint van de collisions
                 #    if (current_coords, step_coords) not in path:
                 #        path.add(step_coords)
                 #        x_current = x_update
