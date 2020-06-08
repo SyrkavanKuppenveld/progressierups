@@ -99,7 +99,7 @@ class Chip():
     def construct_wirePath(self):
         """Returns constructed wire path."""
          
-        wire = Wire(self.grid, self.gates, self.netlist)
+        wire = Wire(self.grid, self.gates, self.connections)
 
 
         return wire
