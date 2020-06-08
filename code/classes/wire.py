@@ -178,7 +178,7 @@ class Wire():
                         direction_lengths = {}
                         for option in direction_options:
                             # Syrka: bedoel je hier option[0] dus met blokhaken?
-                            direction_lengths[option] = b_x - option(0) + b_y - option(0)
+                            direction_lengths[option] = b_x - option[0] + b_y - option[1]
                         optimal_direction = 0
                         for option in direction_options:
                             if direction_lengths[option] < optimal_direction:
@@ -195,6 +195,7 @@ class Wire():
                     ## Mimoun: Waarom checken we hier ook nog 'current_coords'? Als het goed is zit die sowieso al in path toch?
                     #  Syr: is deze niet voor het checken van collisions? Want je checkt (vertrekpunt, aankomstpunt) en dat is een wire-unit-length...
                     # ...dus eignenlijk houden we hier dan al rekening met de hard constraint van de collisions
+                    ## Mimoun: Maar als current_coords en step_coords in path staan, betekent dat nog niet dat er collision is, toch?
                 #    if (current_coords, step_coords) not in path:
                 #        path.add(step_coords)
                 #        x_current = x_update
