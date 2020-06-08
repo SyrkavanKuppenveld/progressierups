@@ -23,7 +23,6 @@ class Graph():
                 gdict[element[1]].append(element[0])
             else:
                 gdict[element[1]] = [element[0]]    
-
         
         return gdict
 

@@ -9,10 +9,10 @@ class Chip():
         """Initialize Chip object."""
 
         self.netlist = self.load_netlist(netlist_file)
+        self.connections = self.create_graph()
         self.gates = self.load_gates(print_file)
         self.grid = self.get_grid()
         self.wire = self.construct_wirePath
-        self.connections = self.create_graph()
 
     def load_netlist(self, source_file):
         """Returns list with gate connections."""
@@ -72,21 +72,16 @@ class Chip():
 
             # Iterate over lines in reader
             for i, row in enumerate(reader, 1):
-                    
-                    # Retrieve connections with the current gate
-                    gateID = str(i)
-                    connections = self.get_gateConnections(gateID)
 
-                    # Initialize Gate object
-                    gate = Gate(str(i), row['chip'], row['x'], row['y'], connections)
+                # Retrieve connections with the current gate
+                gateID = str(i)
 
-                    # Add gate to gates dict with gateID as key
-                    gates[i] = gate
+                # Initialize Gate object
+                gate = Gate(str(i), row['chip'], row['x'], row['y'], self.connections.graph[i])
 
-        print('gates')
-        print(gates[1].connections)
-        
-        
+                # Add gate to gates dict with gateID as key
+                gates[i] = gate    
+
         return gates
 
     def get_grid(self):
