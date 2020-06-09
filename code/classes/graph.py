@@ -7,6 +7,8 @@ class Graph():
 
         self.graph = self.createGraph(connections)
         self.vertices = self.getVertices()
+
+        print(self.graph)
         
     def createGraph(self, connections):
         """Returns filled gdict."""

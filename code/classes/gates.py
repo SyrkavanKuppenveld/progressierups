@@ -10,9 +10,9 @@ class Gate():
         self.gateLetter = gateLetter
         self.xcoord = int(xcoord)
         self.ycoord = int(ycoord)
-        self.status = self.startStatus(connections)
+        self.status = self.setStatus(connections)
 
-    def startStatus(self, connections):
+    def setStatus(self, connections):
         """Returns a dict with the start status of completed connections."""
         
         status = {}
