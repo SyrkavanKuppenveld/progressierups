@@ -1,4 +1,6 @@
 import csv
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
 from code.classes.gates import Gate
 from code.classes.grid import Grid
 from code.classes.wire import Wire
@@ -12,7 +14,7 @@ class Chip():
         self.connections = self.create_graph()
         self.gates = self.load_gates(print_file)
         self.grid = self.get_grid()
-        self.wire = self.construct_wirePath
+        self.wire = self.construct_wirePath()
 
     def load_netlist(self, source_file):
         """Returns list with gate connections."""
@@ -102,4 +104,45 @@ class Chip():
         return wire
 
     
+    def visualise_chip(self):
+        """ Visualises the chip Object in 3D."""
+
+        gates = self.gates
+        total_path = self.wire.total_path
+
+        # Create 3D plot
+        fig = plt.figure()  
+        ax = fig.add_subplot(111, projection='3d') 
+        ax.set_xlabel('X')
+        ax.set_ylabel('Y')
+        ax.set_zlabel('Z')
+        ax.set_zlim(0,10)
+
+        # Add gates to the 3D plot
+        for gate in gates:
+            xs = gates[gate].xcoord
+            ys = gates[gate].ycoord
+            zs = 0
+            ax.scatter(xs, ys, zs, color='firebrick')
+
+        # Add wire paths to the 3D plot
+        for path in total_path:
+            current_path = total_path[path]
+            x_coords = []
+            y_coords = []
+            for coord in current_path:
+                x_coords.append(coord[0])
+                y_coords.append(coord[1])
+
+            ax.plot(x_coords, y_coords, color='lightseagreen')
+        
+        plt.show()
+
+
+
+ 
+
+  
+
+
 
