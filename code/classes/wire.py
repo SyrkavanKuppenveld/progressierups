@@ -279,6 +279,7 @@ class Wire():
         # starts when a wire unit is >1 times visited
         collisions = collisions_sum - unique_wire_units
     
+        print(f'collisions')
         print(collisions)
 
         return collisions

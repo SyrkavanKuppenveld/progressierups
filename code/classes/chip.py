@@ -64,6 +64,8 @@ class Chip():
 
         gates = {}
 
+        print(self.connections)
+
         # Open and read input_file
         with open(source_file, newline='') as input_file:
 
