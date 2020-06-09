@@ -231,7 +231,7 @@ class Wire():
                 all_coordinates.append(coordinate)
                 temp_storage.append(coordinate)
 
-                # Get wire-unit coordinates when two coordinates are present in the storage
+                # Get wire-unit coordinates: when two coordinates are present in the storage, create wire length unit
                 if len(temp_storage) == 2:
                     wire_units.append((temp_storage[0], temp_storage[1]))
                     
@@ -264,7 +264,7 @@ class Wire():
     def count_collisions(self):
         """ Returns the number of collisions."""
 
-        # Sorts wire units since to ensure that a wire unit from
+        # Sorts wire units  to ensure that a wire unit from
         # A > B is equal to B > A
         sorted_wir_units = sorted(self.wire_units)
         
@@ -272,16 +272,24 @@ class Wire():
         collisions_counter = Counter(sorted_wir_units)
         collisions_sum = sum(collisions_counter.values())
         
-        # Counts uniquely visited wire units
+        # Counts unique visited wire units
         unique_wire_units = len(collisions_counter)
         
         # Subtracts the number of unique wire units since a collision 
-        # starts when a wire unit is >1 times present
+        # starts when a wire unit is >1 times visited
         collisions = collisions_sum - unique_wire_units
     
         print(collisions)
 
         return collisions
+
+    def compute_cost(self):
+        """ Returns the cost of the wire."""
+
+        intersections = self.count_intersections()
+        cost = self.length + (300 * intersections)
+        
+        return cost
 
 
     
