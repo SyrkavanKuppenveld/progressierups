@@ -87,7 +87,8 @@ class Wire():
         """ Returns the cost of the wire."""
 
         intersections = self.count_intersections()
-        cost = self.length + (300 * intersections)
+        length = self.compute_length()
+        cost = length + (300 * intersections)
         
         return cost
 
