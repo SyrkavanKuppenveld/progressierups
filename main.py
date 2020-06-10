@@ -11,7 +11,8 @@ if __name__ == "__main__":
     # print_file = "gates&netlists/chip_2/print_2.csv"
     # netlist_file = "gates&netlists/chip_2/netlist_9.csv"
 
-    chip = Chip(graph.gates, graph.connections)
+    layers = 0
+    chip = Chip(graph.gates, graph.connections, 0)
 
     
 
