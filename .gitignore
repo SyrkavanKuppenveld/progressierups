@@ -1,3 +1,14 @@
 # Ignore static given case-information
 example/
 gates&netlists/
+
+# Ignore personal test files
+eline.py
+mimoun.py
+syrka.py
+
+# Ignore cache files
+__pycache__/
+
+# Ignore checkpoints
+.ipynb_checkpoints
