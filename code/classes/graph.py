@@ -11,6 +11,7 @@ class Graph():
 
         self.gates = self.load_gates(print_file)
         self.connections = self.load_netlist(netlist_file)
+        self.density = self.compute_densities()
 
     def load_gates(self, source_file):
         """Returns dictionary with all gate objects."""
@@ -51,58 +52,83 @@ class Graph():
                 a, b = int(row['chip_a']), int(row['chip_b'])
                 gate_a, gate_b = self.gates[a], self.gates[b]
 
-                # Make connections >> DIT KAN NETTER MBT DUPLICATED CODE!
-                if gate_a not in connections:
-                    connections[gate_a] = {gate_b}
-                else:
-                    connections[gate_a].add(gate_b)
-                
-                if gate_b not in connections:
-                    connections[gate_b] = {gate_a}
-                else:
-                    connections[gate_b].add(gate_a)
-
+                # Create connections dictionary
+                iter_list = [(gate_a, gate_b), (gate_b, gate_a)]
+                for gates in iter_list:
+                    if gates[0] not in connections:
+                        connections[gates[0]] = {gates[1]}
+                    else:
+                        connections[gates[0]].add(gates[1])
+        
         return connections
 
-    def computeDensities(self):
-        pass
+    def compute_densities(self):
+        """Returns dictionary with gate densities."""
 
+        density = {}
 
+        # Iterate over the gates
+        for gate in self.gates:
+            dist = []
 
+            # Iterate over the neighbors
+            for neighbor in self.gates:
 
-    # def getDensity(self, gates):
-    #     """Returns """
+                # Assign gate coordinates
+                gate_x, gate_y = self.gates[gate].xcoord, self.gates[gate].ycoord
 
-    #     k = round(sqrt(len(self.vertices)))
+                # Ensure that neighbor is not the current gate
+                if neighbor is not gate:
 
-    #     density = {}
+                    # Assign neigbhors coordinates
+                    neighbor_x, neighbor_y = self.gates[neighbor].xcoord, self.gates[neighbor].ycoord
 
-    #     for gate in self.vertices:
+                    # Compute Manhattan Distance
+                    mdist= abs(gate_x - neighbor_x) + abs(gate_y - neighbor_y)
+                    dist.append(mdist)
+            
+            # Create density 
+            density[gate] = dist
 
-    #         dist = []
+        return density
 
-    #         for neighbor in self.vertices:
+    def get_densityMin(self):
+        """Returns gate with lowest density."""
 
-    #             if neighbor is not gate:
-                    
-    #                 # Get coordinates 
-    #                 gate_x, gate_y = gates[gate].xcoord, gates[gate].ycoord
-    #                 neighbor_x, neighbor_y = gates[neighbor].xcoord, gates[neighbor].ycoord
+        # Compute number of gates and k
+        num_gates = len(self.gates)
+        k = round(sqrt(num_gates))
 
-    #                 # Compute Manhattan Distance
-    #                 mdist= abs(gate_x - neighbor_x) + abs(gate_y - neighbor_y)
-    #                 dist.append(mdist)
+        min_dist = []
 
-    #         # Sum k lowest distances      
-    #         k_min = sorted(dist)
-    #         k_total = sum(k_min[0:k])
-    #         density[gate] = k_total
+        # Sum k min distances and append for all gates
+        for gate in self.density:
+            dist_sorted = sorted(self.density[gate])
+            k_total = sum(dist_sorted[0:k])
+            min_dist.append((gate, k_total))
 
-    #     # Test prints
-    #     print(k)
-    #     print(density)
+        # Sort max_dist from min to max
+        min_dist = sorted(min_dist, key=lambda x: x[1])
 
+        return min(min_dist)
 
+    def get_densityMax(self):
+        """Returns gate with lowest density."""
 
+        # Compute number of gates and k
+        num_gates = len(self.gates)
+        k = round(sqrt(num_gates))
+
+        max_dist = []
+
+        # Sum k max distances and append for all gates
+        for gate in self.density:
+            dist_sorted = sorted(self.density[gate], reverse=False)
+            k_total = sum(dist_sorted[0:k])
+            max_dist.append((gate, k_total))
+
+        # Sort max_dist from max to min
+        max_dist = sorted(max_dist, key=lambda x: x[1])
         
-
+        return max(max_dist)
+        

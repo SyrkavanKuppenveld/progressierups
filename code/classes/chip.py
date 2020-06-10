@@ -23,10 +23,8 @@ class Chip():
         x = []
         y = []
 
-        # Iterate over the gates
+        # Get x and y coordinates of all gates
         for gate in self.gates:
-
-            # Append x and y coordinates 
             xcoord = self.gates[gate].xcoord
             x.append(xcoord)
             ycoord = self.gates[gate].ycoord
