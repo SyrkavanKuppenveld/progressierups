@@ -89,4 +89,5 @@ class RandomEline():
                     completed.add(combination)
 
 
+
         return total_path
