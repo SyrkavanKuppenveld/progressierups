@@ -1,5 +1,5 @@
 from code.classes import Graph, Gate, Chip
-from code.visualization import visualise_chip
+from code.visualization import Chip_Visualization
 
 if __name__ == "__main__":
 

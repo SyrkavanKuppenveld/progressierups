@@ -5,14 +5,15 @@ from code.algorithms import RandomEline
 
 class Wire():
 
-    def __init__(self, gates, connections):
+    def __init__(self, gate, connection):
         """Initialize Wire object."""
 
-        self.gates = gates
-        self.connections = connections
+        self.gates = graph.gates
+        self.connections = graph.connections
         self.algorithm = RandomEline(connections, gates)
         self.total_path = self.algorithm.run()
         self.wire_units, self.all_coordinates = self.get_wire_details()
+
         
     def get_wire_details(self):
         
