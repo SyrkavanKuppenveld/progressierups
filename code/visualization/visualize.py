@@ -67,7 +67,7 @@ class Chip_Visualization():
         X, Y = np.meshgrid(x_layer, y_layer)
 
         # Create 3D plane for each layer
-        for i in range(6):   
+        for i in range(7):   
             Z = np.power(X, 0) * (i + 1)
             self.ax.plot_surface(X, Y, Z, color='lightcyan', alpha=0.5)
 
