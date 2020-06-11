@@ -11,15 +11,18 @@ The code is entirely written in Python 3.7. The instructions below will enable y
 
 ### Prerequisites
 Prerequisite libraries, and packages can be installed through:    
+
 `pip install -r requirements.txt`    
+
 or    
+
 `conda install --file requirements.txt`    
 
 This will install the correct versions of:
 
-matplotlib (...<versie>)    
-scipy (...<versie>)    
-numpy (...<versie>)    
+- matplotlib (...<versie>)    
+- scipy (...<versie>)    
+- numpy (...<versie>)    
 ....    
 
 ### Usage
