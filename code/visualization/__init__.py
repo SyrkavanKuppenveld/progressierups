@@ -1,2 +1,2 @@
 
-from code.visualization.visualize import visualise_chip
+from code.visualization.visualize import Chip_Visualization
