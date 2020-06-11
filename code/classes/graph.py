@@ -11,7 +11,7 @@ class Graph():
 
         self.gates = self.load_gates(print_file)
         self.connections = self.load_netlist(netlist_file)
-        self.density = self.compute_densities()
+        self.compute_distance()
 
     def load_gates(self, source_file):
         """Returns dictionary with all gate objects."""
@@ -62,10 +62,8 @@ class Graph():
         
         return connections
 
-    def compute_densities(self):
-        """Returns dictionary with gate densities."""
-
-        density = {}
+    def compute_distance(self):
+        """Computes the distance to other gates."""
 
         # Iterate over the gates
         for gate in self.gates:
@@ -87,48 +85,5 @@ class Graph():
                     mdist= abs(gate_x - neighbor_x) + abs(gate_y - neighbor_y)
                     dist.append(mdist)
             
-            # Create density 
-            density[gate] = dist
-
-        return density
-
-    def get_densityMin(self):
-        """Returns gate with lowest density."""
-
-        # Compute number of gates and k
-        num_gates = len(self.gates)
-        k = round(sqrt(num_gates))
-
-        min_dist = []
-
-        # Sum k min distances and append for all gates
-        for gate in self.density:
-            dist_sorted = sorted(self.density[gate])
-            k_total = sum(dist_sorted[0:k])
-            min_dist.append((gate, k_total))
-
-        # Sort max_dist from min to max
-        min_dist = sorted(min_dist, key=lambda x: x[1])
-
-        return min(min_dist)
-
-    def get_densityMax(self):
-        """Returns gate with lowest density."""
-
-        # Compute number of gates and k
-        num_gates = len(self.gates)
-        k = round(sqrt(num_gates))
-
-        max_dist = []
-
-        # Sum k max distances and append for all gates
-        for gate in self.density:
-            dist_sorted = sorted(self.density[gate], reverse=False)
-            k_total = sum(dist_sorted[0:k])
-            max_dist.append((gate, k_total))
-
-        # Sort max_dist from max to min
-        max_dist = sorted(max_dist, key=lambda x: x[1])
-        
-        return max(max_dist)
-        
+            # Instantiate gate distance and density
+            self.gates[gate].get_distance(dist)
