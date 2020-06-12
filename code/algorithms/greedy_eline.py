@@ -2,25 +2,12 @@ import random
 
 class Random():
 
-<<<<<<< HEAD
-class Greedy_eline():
-
-    def __init__(self, gates, connections):
-=======
     def __init__(self, graph):
->>>>>>> b104d1b58951bc8595f6e70127da6b18d1b29f01
         """Initializes a Greedy object."""
         pass
     #     gates = self.gates
     #     connections = self.connections
 
-<<<<<<< HEAD
-    # def get_nextGate(self):
-
-    #     # Compute gate density
-    #     for gate in self.gates:
-    #         self.gates[gate].get_density(False)
-=======
         self.graph = graph
 
     def get_next_gate(self, gates):
@@ -60,15 +47,10 @@ class Greedy_eline():
 
 
 
->>>>>>> b104d1b58951bc8595f6e70127da6b18d1b29f01
 
 
     #     pass
 
-<<<<<<< HEAD
-    # def run(self):
-    #     pass
-=======
 
 class Greedy(Random):
 
@@ -81,4 +63,3 @@ class Greedy(Random):
         gates = self.graph.gates.sort(key=lambda gate: gate.density)
 
         return gates.pop()
->>>>>>> b104d1b58951bc8595f6e70127da6b18d1b29f01
