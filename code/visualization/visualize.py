@@ -50,8 +50,6 @@ class Chip_Visualization():
                 z_coords.append(coord[2])
 
             self.ax.plot(x_coords, y_coords, z_coords, color='lightseagreen')
-            print("z_coords:")
-            print(z_coords)
 
             # Store maxima of the x- and y- dimensions for later use
             x_max_path = max(x_coords)

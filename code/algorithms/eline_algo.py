@@ -113,7 +113,7 @@ class Algorithm():
                 combination = tuple(sorted((gate_a.gateID, gate_b.gateID)))
                 print(combination)
                 if combination not in completed:
-
+                    
                     route[combination] = self.make_connection(gate_a, gate_b)
                     completed.add(combination)
                     visualisation = Chip_Visualization(self.graph.gates, route)
