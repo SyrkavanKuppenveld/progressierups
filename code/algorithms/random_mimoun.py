@@ -3,7 +3,7 @@ from collections import Counter
 from scipy.spatial import distance
 import random
 
-class Wire():
+class RandomGreedy():
 
     def __init__(self, grid, gates, connections):
         """Initialize Wire object."""
@@ -19,7 +19,7 @@ class Wire():
         self.current_level = 1
         self.all_coordinates = []
 
-    def generate_path(self):
+    def run(self):
         """Returns generated wire path."""
 
         # Iterate over connections in netlist
@@ -122,7 +122,7 @@ class Wire():
                     if b_z == z_update:
                         print('z = check')
 
-        return self.wire_path, self.cost
+        return self.wire_path
     
 
     def get_wire_details(self):
