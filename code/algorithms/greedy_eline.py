@@ -4,6 +4,9 @@ class Random():
 
     def __init__(self, graph):
         """Initializes a Greedy object."""
+        pass
+    #     gates = self.gates
+    #     connections = self.connections
 
         self.graph = graph
 
@@ -46,7 +49,7 @@ class Random():
 
 
 
-        pass
+    #     pass
 
 
 class Greedy(Random):
