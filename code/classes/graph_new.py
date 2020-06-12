@@ -8,10 +8,10 @@ class Graph():
         """Initializes a Graph object."""
 
         self.gates = self.load_gates(print_file)
+        self.connections = self.load_connections(netlist_file)
         self.x_max, self.y_max, self.z_max = self.grid_coords(layers)
         self.nodes = self.generate_nodes()
         self.generate_neighbors()
-        self.connections = self.load_connections(netlist_file)
 
     def load_gates(self, source_file):
         """Returns dictionary with all gate objects."""
@@ -28,6 +28,33 @@ class Graph():
                 gates[int(row['chip'])] = gate
 
         return gates
+
+    def load_connections(self, source_file):
+        """Returns dictionary with gate connections."""
+
+        connections = {}
+
+        # Parse netlist information
+        with open(source_file, newline='') as input_file:
+            reader = csv.DictReader(input_file)
+
+            # Store connections in list
+            for row in reader:
+                
+                # Get corresponding gate objects
+                a, b = int(row['chip_a']), int(row['chip_b'])
+                gate_a, gate_b = self.gates[a], self.gates[b]
+
+                # Create connections dictionary
+                iter_list = [(gate_a, gate_b), (gate_b, gate_a)]
+                for gates in iter_list:
+                    if gates[0] not in connections:
+                        connections[gates[0]] = {gates[1]}
+                    else:
+                        connections[gates[0]].add(gates[1])
+        
+        return connections
+
 
     def grid_coords(self, layers):
         """Returns the max coordinates of the grid."""
@@ -56,43 +83,20 @@ class Graph():
 
         # Iterate over all nodes
         for node in self.nodes:
-            x, y, z = node[0], node[1], node[2]
-
+            
             # Generate all possible neighbors 
-            for i, j, k in itertools.product(range(-1, 2, 2), range(-1, 2, 2), range(-1, 2, 2)):
+            for i, j, k in itertools.product(range(-1, 2), range(-1, 2), range(-1, 2)):
+                x, y, z = node[0], node[1], node[2]
                 neighbor = x + i, y + j, z + k
 
                 # Only add existing neighbors
-                diff = abs(sum(node) - sum(neighbor))
-                if neighbor in self.nodes and diff is 1:
+                diff_x = abs(x - neighbor[0])
+                diff_y = abs(y - neighbor[1])
+                diff_z = abs(z - neighbor[2])
+                diff_total = diff_x + diff_y + diff_z
+                if neighbor in self.nodes and diff_total is 1 and diff_x < 2 and diff_y < 2 and diff_z < 2:
                     self.nodes[node].add(neighbor)
-
-    def load_connections(self, source_file):
-        """Returns dictionary with gate connections."""
-
-        connections = {}
-
-        # Parse netlist information
-        with open(source_file, newline='') as input_file:
-            reader = csv.DictReader(input_file)
-
-            # Store connections in list
-            for row in reader:
                 
-                # Get corresponding gate objects
-                a, b = int(row['chip_a']), int(row['chip_b'])
-                gate_a, gate_b = self.gates[a], self.gates[b]
-
-                # Create connections dictionary
-                iter_list = [(gate_a, gate_b), (gate_b, gate_a)]
-                for gates in iter_list:
-                    if gates[0] not in connections:
-                        connections[gates[0]] = {gates[1]}
-                    else:
-                        connections[gates[0]].add(gates[1])
-        
-        return connections
-
     
 
 
