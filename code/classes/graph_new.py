@@ -7,7 +7,7 @@ class Graph():
     def __init__(self, print_file, netlist_file, layers=7):
         """Initializes a Graph object."""
 
-        self.gates = self.load_gates(print_file)
+        self.gates, self.gates_coords = self.load_gates(print_file)
         self.connections = self.load_connections(netlist_file)
         self.x_max, self.y_max, self.z_max = self.grid_coords(layers)
         self.nodes = self.generate_nodes()
@@ -17,6 +17,7 @@ class Graph():
         """Returns dictionary with all gate objects."""
 
         gates = {}
+        gates_coords = set()
 
         # Open and read input_file
         with open(source_file, newline='') as input_file:
@@ -26,33 +27,36 @@ class Graph():
             for row in reader:
                 gate = Gate(int(row['chip']), int(row['x']), int(row['y']))
                 gates[int(row['chip'])] = gate
+                gates_coords.add((int(row['x']), int(row['y']), 0))
 
-        return gates
+        return gates, gates_coords
 
-    def load_connections(self, source_file):
+    def load_connections(self, netlists):
         """Returns dictionary with gate connections."""
 
         connections = {}
 
-        # Parse netlist information
-        with open(source_file, newline='') as input_file:
-            reader = csv.DictReader(input_file)
+        for file in netlists:
 
-            # Store connections in list
-            for row in reader:
-                
-                # Get corresponding gate objects
-                a, b = int(row['chip_a']), int(row['chip_b'])
-                gate_a, gate_b = self.gates[a], self.gates[b]
+            # Parse netlist information
+            with open(file, newline='') as input_file:
+                reader = csv.DictReader(input_file)
 
-                # Create connections dictionary
-                iter_list = [(gate_a, gate_b), (gate_b, gate_a)]
-                for gates in iter_list:
-                    if gates[0] not in connections:
-                        connections[gates[0]] = {gates[1]}
-                    else:
-                        connections[gates[0]].add(gates[1])
-        
+                # Store connections in list
+                for row in reader:
+                    
+                    # Get corresponding gate objects
+                    a, b = int(row['chip_a']), int(row['chip_b'])
+                    gate_a, gate_b = self.gates[a], self.gates[b]
+
+                    # Create connections dictionary
+                    iter_list = [(gate_a, gate_b), (gate_b, gate_a)]
+                    for gates in iter_list:
+                        if gates[0] not in connections:
+                            connections[gates[0]] = {gates[1]}
+                        else:
+                            connections[gates[0]].add(gates[1])
+        print(connections)
         return connections
 
     def grid_coords(self, layers):

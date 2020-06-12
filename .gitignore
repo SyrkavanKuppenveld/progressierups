@@ -4,6 +4,7 @@ gates&netlists/
 
 # Ignore personal test files
 eline.py
+class_eline.py
 mimoun.py
 syrka.py
 

@@ -1,10 +1,13 @@
 import random
-from code.visualization.visualize import Chip_Visualization
+import copy
+# from code.visualization.visualize import Chip_Visualization
+from class_eline import Chip_Visualization
 
 class Algorithm():
 
     def __init__(self, graph):
-
+        
+        self.graph = graph
         self.wire = set()        
 
     def get_next_gate(self, gates):
@@ -33,7 +36,7 @@ class Algorithm():
         return step not in self.wire
     
 
-    def make_connection(self, graph, gate_a, gate_b):
+    def make_connection(self, gate_a, gate_b):
         """Returns wire connection between gate_a and gate_b."""
         
         connection = []
@@ -42,38 +45,42 @@ class Algorithm():
         position = gate_a.xcoord, gate_a.ycoord, gate_a.zcoord
         goal = gate_b.xcoord, gate_b.ycoord, gate_b.zcoord
 
+        # Generate list with other gates except position and goal
+        other_gates = copy.deepcopy(self.graph.gates_coords)
+        other_gates.remove(position)
+        other_gates.remove(goal)
+        print(len(other_gates))
+
         # Add position
         connection.append(position)
 
         # Iterate until connection has been made
         while position != goal:
 
-            neighbors = graph.nodes[position]
+            neighbors = self.graph.nodes[position]
             mdist = []
 
-            # print(f"neighbors = {neighbors}")
-
             for neighbor in neighbors:
-                
+              
                 # Check if collision occurs 
-                if self.check_collision(position, neighbor):
+                if self.check_collision(position, neighbor) and neighbor not in other_gates:
                     
                     dist = self.compute_manhattan_dist(neighbor, goal)
                     mdist.append((neighbor, dist))
             
             # Get location with lowest Manhattan Distance
-            tmp = position
             min_dist = min(mdist, key=lambda x: x[1])
-
             minimum = []
-            
             # Get random minimum distance if multiple
             for dist in mdist:
                 if dist == min_dist:
                     minimum.append(dist[0])
+            
+            # Assign new position
+            tmp = position
             position = random.choice(minimum)
 
-            # Add wire to paths
+            # Add wire to path
             wire_path = tuple(sorted((tmp, position)))
             self.wire.add(wire_path)
 
@@ -82,10 +89,10 @@ class Algorithm():
       
         return tuple(connection)
 
-    def run(self, graph):
+    def run(self):
 
         route = {}
-        gates = list(graph.gates.values())
+        gates = list(self.graph.gates.values())
         completed = set()
 
         # Iterate until all connection are made
@@ -93,29 +100,27 @@ class Algorithm():
 
             # Get random gate object and corresponding connections
             gate = self.get_next_gate(gates)
-            print(f"gate = {gate}")
-            connections = list(graph.connections[gate])
+            connections = list(self.graph.connections[gate])
             
             # Iterate over the connections randomly
             while connections:
 
                 # Get random connection
                 connection = self.get_next_connection(connections)
-                print(f"connection = {connection}")
 
                 # Check if combination has already been made
                 gate_a, gate_b = gate, connection
                 combination = tuple(sorted((gate_a.gateID, gate_b.gateID)))
+                print(combination)
                 if combination not in completed:
 
-                    route[combination] = self.make_connection(graph, gate_a, gate_b)
+                    route[combination] = self.make_connection(gate_a, gate_b)
                     completed.add(combination)
-                    visualisation = Chip_Visualization(graph.gates, route)
+                    visualisation = Chip_Visualization(self.graph.gates, route)
                     visualisation.run()
 
                     # Test print
                     print("COMPLETED")
-                    print(route)
 
         return route
                     

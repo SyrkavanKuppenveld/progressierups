@@ -12,7 +12,7 @@ if __name__ == "__main__":
 
     # Perform Algorithm
     algo = Algorithm(graph)
-    wire_path = algo.run(graph)
+    wire_path = algo.run()
     print(wire_path)
 
     visualisation = Chip_Visualization(graph.gates, wire_path)
