@@ -55,7 +55,6 @@ class Graph():
         
         return connections
 
-
     def grid_coords(self, layers):
         """Returns the max coordinates of the grid."""
 
@@ -94,7 +93,7 @@ class Graph():
                 diff_y = abs(y - neighbor[1])
                 diff_z = abs(z - neighbor[2])
                 diff_total = diff_x + diff_y + diff_z
-                if neighbor in self.nodes and diff_total is 1 and diff_x < 2 and diff_y < 2 and diff_z < 2:
+                if neighbor in self.nodes and diff_total == 1 and diff_x < 2 and diff_y < 2 and diff_z < 2:
                     self.nodes[node].add(neighbor)
                 
     

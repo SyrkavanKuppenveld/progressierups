@@ -1,4 +1,5 @@
 import random
+from code.visualization.visualize import Chip_Visualization
 
 class Algorithm():
 
@@ -81,7 +82,6 @@ class Algorithm():
       
         return tuple(connection)
 
-
     def run(self, graph):
 
         route = {}
@@ -110,6 +110,8 @@ class Algorithm():
 
                     route[combination] = self.make_connection(graph, gate_a, gate_b)
                     completed.add(combination)
+                    visualisation = Chip_Visualization(graph.gates, route)
+                    visualisation.run()
 
                     # Test print
                     print("COMPLETED")
