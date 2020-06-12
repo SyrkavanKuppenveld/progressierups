@@ -1,7 +1,7 @@
 import random
 import copy
-# from code.visualization.visualize import Chip_Visualization
-from class_eline import Chip_Visualization
+from code.visualization.visualize import Chip_Visualization
+# from class_eline import Chip_Visualization
 
 class Algorithm():
 
