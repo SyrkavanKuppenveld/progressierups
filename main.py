@@ -1,4 +1,6 @@
-from code.classes import Graph, Gate, Chip
+from code.classes import Gate
+from code.classes.graph_new import Graph
+from code.algorithms.eline_algo import Algorithm
 from code.visualization import Chip_Visualization
 
 if __name__ == "__main__":
@@ -8,17 +10,10 @@ if __name__ == "__main__":
 
     graph = Graph(print_file, netlist_file)
 
-    # print_file = "gates&netlists/chip_2/print_2.csv"
-    # netlist_file = "gates&netlists/chip_2/netlist_9.csv"
+    # Perform Algorithm
+    algo = Algorithm(graph)
+    wire_path = algo.run(graph)
+    print(wire_path)
 
-    layers = 0
-    chip = Chip(graph.gates, graph.connections, 0)
-
-    
-
-    wire = chip.construct_wirePath()
-    # path = wire.path()
-    # wire.get_wire_units()
-
-    visualise_chip(graph.gates, wire)
-    # chip.visualise_chip()
+    visualisation = Chip_Visualization(graph.gates, wire_path)
+    visualisation.run()
