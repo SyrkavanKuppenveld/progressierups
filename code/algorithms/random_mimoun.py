@@ -1,6 +1,7 @@
 import numpy as numpy
 from collections import Counter
 from scipy.spatial import distance
+import random
 
 class Wire():
 
@@ -10,17 +11,16 @@ class Wire():
         self.gates = gates
         self.grid = grid
         self.connections = connections
-        self.total_path = self.wire_path()
-        self.wire_units, self.all_coordinates = self.get_wire_details()
+        self.wire_units = {}
+        self.wire_path = []
         self.length = self.compute_length()
         self.intersections = self.count_intersections()
         self.collisions = self.count_collisions()
         self.current_level = 1
+        self.all_coordinates = []
 
     def generate_path(self):
         """Returns generated wire path."""
-
-        current_path = set()
 
         # Iterate over connections in netlist
         for connection in self.connections:
@@ -34,28 +34,27 @@ class Wire():
 
                 # Get gate coordinates
                 a_x, a_y, a_z = self.gates[a].xcoord, self.gates[a].ycoord, 0
-                b_x, b_y, a_z = self.gates[b].xcoord, self.gates[b].ycoord, 0
+                b_x, b_y, b_z = self.gates[b].xcoord, self.gates[b].ycoord, 0
 
-                # Compute steps en difference for x and y
-                x_steps = abs(b_x - a_x)
-                x_diff = b_x - a_x
-                y_steps = abs(b_y - a_y)
-                y_diff = b_y - a_y
-                z_steps = 0
-                z_diff = 0
-
+                # Initialize wire coordinates
                 x_current = a_x
                 y_current = a_y
                 z_current = 0
+                current_location = [x_current, y_current, z_current]
 
                 x_update = a_x
                 y_update = a_y
                 z_update = 0
 
 
-                # Update and append step coordinates
+                # While Gate b not yet reached
                 while x_current != b_x and y_current != b_y and z_current != 0:
-
+                    
+                    # Add current wire unit to path
+                    current_location = [x_current, y_current, z_current]
+                    self.wire_path.append(current_location)
+                    
+                    # Try current level first
                     # Create options going east, west, north, south
                     option_e_coords = (x_current + 1, y_current, z_current)
                     option_w_coords = (x_current - 1, y_current, z_current)
@@ -65,58 +64,54 @@ class Wire():
                     options_current_level = [option_e_coords, option_w_coords, option_n_coords, option_s_coords]
 
                     # Calculate possible collisions
-                    for option in direction_options:
-                        if (current_path, option) in wire_units: ## Mimoun: Werkt 'wire_units' al goed?
-                            direction_options.pop(option)
-
+                    for option in options_current_level:
+                        if (current_location, option) in self.wire_units or (option, current_location) in self.wire_units:
+                            options_current_level.pop(option)
 
                     # If one option
-                    if len(direction_options) == 1:
-                        optimal_direction = direction_options[1]
-                    
+                    if len(options_current_level) == 1:
+                        optimal_direction = options_current_level[0]
+
                     # If multiple options left, calculate best option according to Manhatten distance
-                    elif len(direction_options) > 1:
+                    elif len(options_current_level) > 1:
                         direction_lengths = {}
-                        for option in direction_options:
-                            direction_lengths[option] = distance.cityblock([option[0], option[1]], [b_x, b_y])
-                        optimal_direction = 0
-                        for option in direction_options:
-                            if direction_lengths[option] < optimal_direction:
-                                optimal_direction = option
-                    
-                    # If no options on this level
-                    elif len(direction_options) == 0:
+                        for option in options_current_level:
+                            direction_lengths[option] = distance.cityblock([option[0], option[1]], [b_x, b_y, b_z])
+                        
+                        # Get option with lowest Manhattan distance
+                        shortest_distance = min(direction_lengths, key=direction_lengths.get)
+                        if len(shortest_distance) == 1:
+                            optimal_direction = shortest_distance[0]
+                        else:
+                            optimal_direction = random.choice(shortest_distance)
+
+                    # If no options on current level
+                    elif len(options_current_level) == 0:
                         
                         # Create options for up and down
                         option_u_coords = (x_current, y_current, z_current + 1)
                         option_d_coords = (x_current, y_current, z_current - 1)
 
                         # If down is no option
-                        if z_current == 0 or option_d_coords in wire_units:
+                        if z_current == 0 or (current_location, option_d_coords) in wire_units or (option_d_coords, current_location) in wire_units:
                             
                             # If up is no option; no options left
-                            if option_u_coords in wire_units:
-                                return 'Wire got stuck'
+                            if (current_location, option_u_coords) in wire_units or (option_u_coords, current_location) in wire_units:
+                                return f'Wire got stuck at {current_location}'
                             
                             # Go up
                             optimal_direction = option_u_coords
 
-                            ## Mimoun: wire_path of wire_units? collision of intersection?
 
                     # Generate new wire line
-                    current_coords = (x_current, y_current)
                     x_update = optimal_direction(0)
                     y_update = optimal_direction(1)
-                    step_coords = (x_update, a_y)
+                    z_update = optimal_direction(2)
+                    next_location = (x_update, y_update, z_update)
 
-                    # Only add new wire line if no collision occurs
-                    ## Mimoun: Waarom checken we hier ook nog 'current_coords'? Als het goed is zit die sowieso al in path toch?
-                    #  Syr: is deze niet voor het checken van collisions? Want je checkt (vertrekpunt, aankomstpunt) en dat is een wire-unit-length...
-                    # ...dus eignenlijk houden we hier dan al rekening met de hard constraint van de collisions
-                    ## Mimoun: Maar als current_coords en step_coords in path staan, betekent dat nog niet dat er collision is, toch?
-                #    if (current_coords, step_coords) not in path:
-                #        path.add(step_coords)
-                #        x_current = x_update
+                    # Add new wire path
+                    self.wire_units.add((current_location, next_location))
+                    path.add(next_location)
 
                     if b_x == x_update:
                         print('x = check')
@@ -127,12 +122,11 @@ class Wire():
                     if b_z == z_update:
                         print('z = check')
 
-
-        return total_path 
+        return self.wire_path, self.cost
     
 
     def get_wire_details(self):
-        
+
         all_coordinates = []
         wire_units = []
 
@@ -162,14 +156,28 @@ class Wire():
 
     def count_intersections(self):
         """ Returns the number of intersections."""
+
+        path_coordinates = []
+        intersections = 0
+
+        # Find every coordinate in path
+        for wire_piece in self.wire_path:
+            for coordinates in wire_piece:
+                if coordinates in path_coordinates:
+                    intersections += 1
+                path_coordinates.append(coordinates)
+
+        for coordinate in unique_coordinates:
+            if 
         
+
         # Counts occurences of coordinates
         coordinate_counter = Counter(self.all_coordinates)
         coordinates_sum = sum(coordinate_counter.values())
-        
+
         # Counts uniquely visited coordinates
         unique_coordinates = len(coordinate_counter)
-        
+
         # Subtracts the number of unique coordinates since an intersection 
         # starts when a coordinate is >1 times present
         intersections = coordinates_sum - unique_coordinates
