@@ -73,20 +73,13 @@ class Greedy():
     def run(self):
         """Returns wire path."""
 
-        # for gate in self.connections:
-        #     print(type(gate))
-            # for connection in self.connections[gate]:
-            #     print(type(connection))
-
         # Get a list of gates ordered by ID
         gate_order = self.determine_gate_order()
         # print(gate_order)
 
         # Build wire paths
-        for index, gate in enumerate(gate_order):
+        for gate in gate_order:
             current_gateID, current_gateObject = gate
-            # print("gate")
-            # print(type(current_gateObject))
             # Create path for each connection of the current gate
             for connection in self.connections[current_gateObject]:
                 connected_gateObject = connection
@@ -117,8 +110,6 @@ class Greedy():
 
                 # Create path
                 current_path_coordinates = self.create_path(start_coordinates, relative_dist_x, relative_dist_y, steps_x, steps_y)
-                print(current_path_coordinates)
-                # print(index)
 
                 # Append current path to the total path
                 self.total_path[gate_duo] = current_path_coordinates
