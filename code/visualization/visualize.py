@@ -15,7 +15,8 @@ class Chip_Visualization():
 
 
     def create_3D_chip_outlines(self):
-        # Create 3D plot
+        """ Create 3D plot."""
+        
         fig = plt.figure()  
         ax = fig.add_subplot(111, projection='3d')
         ax.set_xlabel('X')
@@ -89,16 +90,21 @@ class Chip_Visualization():
         self.visualise_layer()
         
         # Aan te passen opmaak raster/ticks
+        
+        # Show no axes at all
         # plt.axis('off')
 
+        # Hide the axes altogether
         # self.ax.axes.xaxis.set_ticks([])
         # self.ax.axes.yaxis.set_ticks([])
         # self.ax.axes.zaxis.set_ticks([])
 
+        # Hide the numbers on the axes
         self.ax.axes.xaxis.set_ticklabels([])
         self.ax.axes.yaxis.set_ticklabels([])
         self.ax.axes.zaxis.set_ticklabels([])
 
+        # Plot grid lines
         plt.grid(True)
 
         # Show the 3D visualisattion of the Chip
