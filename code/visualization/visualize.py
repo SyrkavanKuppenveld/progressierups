@@ -53,8 +53,10 @@ class Chip_Visualization():
             self.ax.plot(x_coords, y_coords, z_coords, color='lightseagreen')
 
             # Store maxima of the x- and y- dimensions for later use
-            x_max_path = max(x_coords)
-            y_max_path = max(x_coords)
+            if x_coords:
+                x_max_path = max(x_coords)
+            if y_coords:
+                y_max_path = max(x_coords)
 
             if x_max_path > self.x_max_chip:
                 self.x_max_chip = x_max_path 
@@ -100,9 +102,9 @@ class Chip_Visualization():
         # self.ax.axes.zaxis.set_ticks([])
 
         # Hide the numbers on the axes
-        self.ax.axes.xaxis.set_ticklabels([])
-        self.ax.axes.yaxis.set_ticklabels([])
-        self.ax.axes.zaxis.set_ticklabels([])
+        # self.ax.axes.xaxis.set_ticklabels([])
+        # self.ax.axes.yaxis.set_ticklabels([])
+        # self.ax.axes.zaxis.set_ticklabels([])
 
         # Plot grid lines
         plt.grid(True)
