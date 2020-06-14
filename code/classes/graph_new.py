@@ -94,8 +94,7 @@ class Graph():
                 # Only add existing neighbors
                 diff_x = abs(x - neighbor[0])
                 diff_y = abs(y - neighbor[1])
-                diff_z = abs(z 
-                 - neighbor[2])
+                diff_z = abs(z - neighbor[2])
                 diff_total = diff_x + diff_y + diff_z
                 if neighbor in self.nodes and diff_total == 1 and diff_x < 2 and diff_y < 2 and diff_z < 2:
                     self.nodes[node].add_neighbor(self.nodes[neighbor])

@@ -47,19 +47,22 @@ class Algorithm():
             if self.wire.check_collision(position, neighbor) and (neighbor.isgate is False or neighbor == goal):
                 dist = self.compute_manhattan_dist(neighbor, goal)
                 mdist.append((neighbor, dist))
-            
-        # Move position to neighbor with minimal Manhattan Distance
-        # Random choice if multiple minimum
-        min_dist = min(mdist, key=lambda x: x[1])
-        minimum = []
-        for dist in mdist:
-            if dist == min_dist:
-                minimum.append(dist[0])
-        
+                  
         # Assign new position
-        position = random.choice(minimum)
+        position = self.get_random_min(mdist)
 
         return position
+
+    def get_random_min(self, lst):
+        """Returns random minimum."""
+        
+        min_value = min(lst, key=lambda x: x[1])
+        minimum = []
+        for dist in lst:
+            if dist == min_value:
+                minimum.append(dist[0])
+
+        return random.choice(minimum)
 
     def make_connection(self, gate_a, gate_b):
         """Returns wire connection between gate_a and gate_b."""
@@ -88,37 +91,150 @@ class Algorithm():
 
             # Append connection
             connection.append((position.xcoord, position.ycoord, position.zcoord))
-
+        
         return tuple(connection)
 
+    # def run(self):
+
+    #     route = {}
+    #     gates = list(self.graph.gates.values())
+    #     completed = set()
+
+    #     # Iterate until all connection are made
+    #     while gates:
+
+    #         # Get random gate object and corresponding connections
+    #         gate = self.get_next_gate(gates)
+    #         connections = list(self.graph.connections[gate])
+            
+    #         # Iterate over the connections randomly
+    #         while connections:
+
+    #             # Get random connection
+    #             connection = self.get_next_connection(connections)
+
+    #             # Check if combination has already been made
+    #             gate_a, gate_b = gate, connection
+    #             combination = tuple(sorted((gate_a.gateID, gate_b.gateID)))
+
+    #             # Check if combination is already completed
+    #             if combination not in completed:
+                 
+    #                 route[combination] = self.make_connection(gate_a, gate_b)
+    #                 completed.add(combination)
+
+    #     return route           
+   
     def run(self):
 
         route = {}
-        gates = list(self.graph.gates.values())
-        completed = set()
+        netlist = list(self.graph.netlist)
 
-        # Iterate until all connection are made
-        while gates:
+        while netlist:
 
-            # Get random gate object and corresponding connections
-            gate = self.get_next_gate(gates)
-            connections = list(self.graph.connections[gate])
-            
-            # Iterate over the connections randomly
-            while connections:
+            # Get random connection 
+            connection = netlist.pop(random.randrange(0, len(netlist)))
 
-                # Get random connection
-                connection = self.get_next_connection(connections)
+            # Get corresponding Gate objects
+            a, b = connection[0], connection[1]
+            gate_a, gate_b = self.graph.gates[a], self.graph.gates[b]
 
-                # Check if combination has already been made
-                gate_a, gate_b = gate, connection
-                combination = tuple(sorted((gate_a.gateID, gate_b.gateID)))
+            # Generate the connection between gate a and b
+            route[(a, b)] = self.make_connection(gate_a, gate_b)
 
-                # Check if combination is already completed
-                if combination not in completed:
-                 
-                    route[combination] = self.make_connection(gate_a, gate_b)
-                    completed.add(combination)
+        return route
 
-        return route           
-   
+
+class LookAHead(Algorithm):
+
+    def next_position(self, position, goal):
+        """Returns the next position."""
+
+        mdist = []
+
+        # Iterate over neighbors current position
+        for neighbor in position.neighbors:
+            dist = 0
+
+            # If move is allowed compute and append Manhattan Distance
+            if self.wire.check_collision(position, neighbor) and (neighbor.isgate is False or neighbor == goal):
+                original = neighbor
+                dist += self.compute_manhattan_dist(neighbor, goal)
+                next_position = neighbor
+
+                # Look a head 1
+                for neighbor in next_position.neighbors:
+                    if neighbor == goal:
+                        mdist.append((original, dist))
+                    elif self.wire.check_collision(position, neighbor) and (neighbor.isgate is False or neighbor == goal):
+                        dist += self.compute_manhattan_dist(neighbor, goal)
+                        next_position = neighbor
+
+                        # Look a head 2
+                        for neighbor in next_position.neighbors:
+                            if neighbor == goal:
+                                mdist.append((original, dist))
+                            elif self.wire.check_collision(position, neighbor) and (neighbor.isgate is False or neighbor == goal):
+                                dist += self.compute_manhattan_dist(neighbor, goal)
+                                next_position = neighbor
+
+                                # Look a head 3
+                                for neighbor in next_position.neighbors:
+                                    if neighbor == goal:
+                                        mdist.append((original, dist))
+                                    elif self.wire.check_collision(position, neighbor) and (neighbor.isgate is False or neighbor == goal):
+                                        dist += self.compute_manhattan_dist(neighbor, goal)  
+                                        next_position = neighbor
+
+                                        # Look a head 4
+                                        for neighbor in next_position.neighbors:
+                                            if neighbor == goal:
+                                                mdist.append((original, dist))
+                                            elif self.wire.check_collision(position, neighbor) and (neighbor.isgate is False or neighbor == goal):
+                                                dist += self.compute_manhattan_dist(neighbor, goal) 
+                                                next_position = neighbor
+                                                if dist > 0:
+                                                    mdist.append((original, dist)) 
+                                                
+
+                                                # Look a head 5
+                                                for neighbor in next_position.neighbors:
+                                                    if neighbor == goal:
+                                                        mdist.append((original, dist))
+                                                    elif self.wire.check_collision(position, neighbor) and (neighbor.isgate is False or neighbor == goal):
+                                                        dist += self.compute_manhattan_dist(neighbor, goal)  
+                                                        next_position = neighbor
+                # if dist > 0:
+                #     mdist.append((original, dist)) 
+
+                                                        # # Look a head 6
+                                                        # for neighbor in next_position.neighbors:
+                                                        #     if neighbor == goal:
+                                                        #         mdist.append((original, dist))
+                                                        #     elif self.wire.check_collision(position, neighbor) and (neighbor.isgate is False or neighbor == goal):
+                                                        #         dist += self.compute_manhattan_dist(neighbor, goal)  
+                                                        #         next_position = neighbor
+
+                                                                # # Look a head 7
+                                                                # for neighbor in next_position.neighbors:
+                                                                #     if neighbor == goal:
+                                                                #         mdist.append((original, dist))
+                                                                #     elif self.wire.check_collision(position, neighbor) and (neighbor.isgate is False or neighbor == goal):
+                                                                #         dist += self.compute_manhattan_dist(neighbor, goal)  
+                                                                #         next_position = neighbor
+
+                                                                #         # Look a head 8
+                                                                #         for neighbor in next_position.neighbors:
+                                                                #             if neighbor == goal:
+                                                                #                 mdist.append((original, dist))
+                                                                #             elif self.wire.check_collision(position, neighbor) and (neighbor.isgate is False or neighbor == goal):
+                                                                #                 dist += self.compute_manhattan_dist(neighbor, goal)  
+                                                                #                 next_position = neighbor
+                # if dist > 0:
+                #     mdist.append((original, dist))
+
+        # Assign new position
+        position = self.get_random_min(mdist)
+
+        return position
+

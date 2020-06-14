@@ -19,7 +19,7 @@ class Node():
     def set_isgate(self):
         self.isgate = True
 
-    def increment_wired_neighbors(self):
+    def update_neighbors(self):
         self.wired_neighbors += 1
 
     def __repr__(self):
