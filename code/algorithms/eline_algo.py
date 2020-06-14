@@ -14,7 +14,13 @@ class Algorithm():
     def get_next_gate(self, gates):
         """Gets random gate and removes it from the list."""
 
-        return gates.pop(random.randrange(0, len(gates)))
+        next_gate = gates.pop(random.randrange(0, len(gates)))
+
+        # Ensure that next_gate has connections
+        while next_gate not in self.graph.connections:
+            next_gate = gates.pop(random.randrange(0, len(gates)))
+
+        return next_gate
 
     def get_next_connection(self, connections):
 
@@ -23,16 +29,19 @@ class Algorithm():
     def compute_manhattan_dist(self, start, finish):
         """Returns the Manhattan Distance between start and finish."""
 
-        x_dist = abs(start[0] - finish[0])
-        y_dist = abs(start[1] - finish[1])
-        z_dist = abs(start[2] - finish[2])
+        x_dist = abs(start.xcoord - finish.xcoord)
+        y_dist = abs(start.ycoord - finish.ycoord)
+        z_dist = abs(start.zcoord - finish.zcoord)
 
         return x_dist + y_dist + z_dist
 
     def check_collision(self, position, step):
         """Returns True if no collision, otherwise False."""
+
+        position_coords = position.xcoord, position.ycoord, position.zcoord
+        step_coords =  step.xcoord, step.ycoord, step.zcoord
         
-        step = tuple(sorted((position, step)))
+        step = tuple(sorted((position_coords, step_coords)))
 
         return step not in self.wire
     
@@ -42,35 +51,29 @@ class Algorithm():
         
         connection = []
 
-        # Get position and goal
-        position = gate_a.xcoord, gate_a.ycoord, gate_a.zcoord
-        goal = gate_b.xcoord, gate_b.ycoord, gate_b.zcoord
-
-        # Generate list with other gates except position and goal
-        other_gates = copy.deepcopy(self.graph.gates_coords)
-        other_gates.remove(position)
-        other_gates.remove(goal)
+        # Get position and goal nodes
+        position = self.graph.nodes[(gate_a.xcoord, gate_a.ycoord, gate_a.zcoord)]
+        goal = self.graph.nodes[(gate_b.xcoord, gate_b.ycoord, gate_b.zcoord)]
 
         # Add position
-        connection.append(position)
+        connection.append((position.xcoord, position.ycoord, position.zcoord))
 
         # Iterate until connection has been made
         while position != goal:
-
-            neighbors = self.graph.nodes[position]
             mdist = []
 
-            for neighbor in neighbors:
-              
-                # Check if collision occurs 
-                if self.check_collision(position, neighbor) and neighbor not in other_gates:
-                    
+            # Iterate over neighbors current position
+            for neighbor in position.neighbors:
+
+                # If move is allowed compute and append Manhattan Distance
+                if self.check_collision(position, neighbor) and (neighbor.isgate is False or neighbor == goal):
                     dist = self.compute_manhattan_dist(neighbor, goal)
                     mdist.append((neighbor, dist))
             
-            # Get location with lowest Manhattan Distance
+            # Get get node with minimal Manhattan Distance
             min_dist = min(mdist, key=lambda x: x[1])
             minimum = []
+            
             # Get random minimum distance if multiple
             for dist in mdist:
                 if dist == min_dist:
@@ -81,12 +84,14 @@ class Algorithm():
             position = random.choice(minimum)
 
             # Add wire to path
-            wire_path = tuple(sorted((tmp, position)))
+            tmp_coords = tmp.xcoord, tmp.ycoord, tmp.zcoord
+            position_coords = position.xcoord, position.ycoord, position.zcoord
+            wire_path = tuple(sorted((tmp_coords, position_coords)))
             self.wire.add(wire_path)
 
             # Append connection
-            connection.append(position)
-      
+            connection.append((position.xcoord, position.ycoord, position.zcoord))
+
         return tuple(connection)
 
     def run(self):
@@ -117,8 +122,8 @@ class Algorithm():
                     route[combination] = self.make_connection(gate_a, gate_b)
                     completed.add(combination)
                     print(f'Combos completed = {len(completed)}')
-                    # visualisation = Chip_Visualization(self.graph.gates, route)
-                    # visualisation.run()
+                    visualisation = Chip_Visualization(self.graph.gates, route)
+                    visualisation.run()
 
         return route
                     

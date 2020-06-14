@@ -99,8 +99,7 @@ class Random():
                     route[combination] = self.make_connection(gate_a, gate_b)
                     completed.add(combination)
                     print(f'Combos completed = {len(completed)}')
-                    # visualisation = Chip_Visualization(self.graph.gates, route)
-                    # visualisation.run()
+
 
         return route
                     

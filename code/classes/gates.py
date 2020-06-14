@@ -11,10 +11,10 @@ class Gate():
         self.ycoord = ycoord
         self.zcoord = 0
 
-    def __repr__(self):
-        """Ensure that the object is printed properly if it is in a list/dict."""
+    # def __repr__(self):
+    #     """Ensure that the object is printed properly if it is in a list/dict."""
 
-        return str(self.gateID)
+    #     return str(self.gateID)
 
     # def __hash__(self):
         
