@@ -8,7 +8,7 @@ class Graph():
         """Initializes a Graph object."""
 
         self.gates = self.load_gates(print_file)
-        self.connections = self.load_connections(netlist_file)
+        self.connections, self.netlist = self.load_connections(netlist_file)
         self.x_max, self.y_max, self.z_max = self.grid_coords(layers)
         self.nodes = self.generate_nodes()
         self.generate_neighbors()
@@ -34,6 +34,7 @@ class Graph():
         """Returns dictionary with gate connections."""
 
         connections = {}
+        netlist = set()
 
         # Parse netlist information
         with open(netlist_file, newline='') as input_file:
@@ -44,6 +45,7 @@ class Graph():
                 
                 # Get corresponding gate objects
                 a, b = int(row['chip_a']), int(row['chip_b'])
+                netlist.add((a, b))
                 gate_a, gate_b = self.gates[a], self.gates[b]
 
                 # Create connections dictionary
@@ -54,7 +56,7 @@ class Graph():
                     else:
                         connections[gates[0]].add(gates[1])
     
-        return connections
+        return connections, netlist
 
     def grid_coords(self, layers):
         """Returns the max coordinates of the grid."""
