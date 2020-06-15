@@ -1,10 +1,8 @@
-import random
-import copy
-from code.classes.node import Node
-from code.classes.wire_new import Wire
+from code.classes import Wire
 from code.visualization.visualize import Chip_Visualization
+import random
 
-class Algorithm():
+class RandomGreedy():
 
     def __init__(self, graph):
         
@@ -51,6 +49,8 @@ class Algorithm():
         # Assign new position
         position = self.get_random_min(mdist)
 
+        print(f'position = {position}')
+
         return position
 
     def get_random_min(self, lst):
@@ -59,8 +59,12 @@ class Algorithm():
         min_value = min(lst, key=lambda x: x[1])
         minimum = []
         for dist in lst:
-            if dist == min_value:
+            if dist[1] == min_value[1]:
                 minimum.append(dist[0])
+
+        # test prints
+        print(f'mdist = {lst}')
+        print(f'min_value = {min_value}')
 
         return random.choice(minimum)
 
@@ -145,7 +149,7 @@ class Algorithm():
         return route
 
 
-class LookAHead(Algorithm):
+class LookAHead(RandomGreedy):
 
     def next_position(self, position, goal):
         """Returns the next position."""
@@ -193,9 +197,6 @@ class LookAHead(Algorithm):
                                             elif self.wire.check_collision(position, neighbor) and (neighbor.isgate is False or neighbor == goal):
                                                 dist += self.compute_manhattan_dist(neighbor, goal) 
                                                 next_position = neighbor
-                                                if dist > 0:
-                                                    mdist.append((original, dist)) 
-                                                
 
                                                 # Look a head 5
                                                 for neighbor in next_position.neighbors:
@@ -204,8 +205,8 @@ class LookAHead(Algorithm):
                                                     elif self.wire.check_collision(position, neighbor) and (neighbor.isgate is False or neighbor == goal):
                                                         dist += self.compute_manhattan_dist(neighbor, goal)  
                                                         next_position = neighbor
-                # if dist > 0:
-                #     mdist.append((original, dist)) 
+                                                        if dist > 0:
+                                                            mdist.append((original, dist))
 
                                                         # # Look a head 6
                                                         # for neighbor in next_position.neighbors:
@@ -238,3 +239,64 @@ class LookAHead(Algorithm):
 
         return position
 
+
+
+class LookAHead(RandomGreedy):
+
+    def next_position(self, position, goal):
+        """Returns the next position."""
+
+        mdist = []
+
+        # Iterate over neighbors current position
+        for neighbor in position.neighbors:
+            original = neighbor
+            steps = []
+
+            # If move is allowed compute and append Manhattan Distance
+            if self.wire.check_collision(position, neighbor) and (neighbor.isgate is False or neighbor == goal):
+                steps.append(neighbor)
+                next_position = neighbor
+
+                # Look a head 1
+                for neighbor in next_position.neighbors:
+                    if neighbor == goal:
+                        
+                        
+
+                    elif self.wire.check_collision(position, neighbor) and (neighbor.isgate is False or neighbor == goal):
+                        steps.append(neighbor)
+                        next_position = neighbor
+
+                        # Look a head 2
+                        for neighbor in next_position.neighbors:
+                            if neighbor == goal:
+                                mdist.append((original, dist))
+                            elif self.wire.check_collision(position, neighbor) and (neighbor.isgate is False or neighbor == goal):
+                                dist += self.compute_manhattan_dist(neighbor, goal)
+                                next_position = neighbor
+
+                                # Look a head 3
+                                for neighbor in next_position.neighbors:
+                                    if neighbor == goal:
+                                        mdist.append((original, dist))
+                                    elif self.wire.check_collision(position, neighbor) and (neighbor.isgate is False or neighbor == goal):
+                                        dist += self.compute_manhattan_dist(neighbor, goal)  
+                                        next_position = neighbor
+
+                                        # Look a head 4
+                                        for neighbor in next_position.neighbors:
+                                            if neighbor == goal:
+                                                mdist.append((original, dist))
+                                            elif self.wire.check_collision(position, neighbor) and (neighbor.isgate is False or neighbor == goal):
+                                                dist += self.compute_manhattan_dist(neighbor, goal) 
+                                                next_position = neighbor
+
+
+    def compute_distance(self, original, steps, goal):
+
+        # Compute and sum distance
+        dist = 0
+        for step in steps:
+            dist +=  self.compute_manhattan_dist(step, goal)
+            

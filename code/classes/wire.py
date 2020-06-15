@@ -1,102 +1,80 @@
-import numpy as numpy
 from collections import Counter
-from scipy.spatial import distance
-from code.algorithms import RandomEline
 
 class Wire():
 
-    def __init__(self, gate, connection):
-        """Initialize Wire object."""
+    def __init__(self):
+        """Initializes a Wire object."""
 
-        self.gates = graph.gates
-        self.connections = graph.connections
-        self.algorithm = RandomEline(connections, gates)
-        self.total_path = self.algorithm.run()
-        self.wire_units, self.all_coordinates = self.get_wire_details()
+        # Keeps track of wire path for check collision and computation costs
+        self.path = set() 
 
+        # Keeps track of coordinates for computation itersections
+        self.coords = []
+
+    def update_path(self, position, step):
+        """Updates the wire path."""
+
+        # Get position and step coordinates
+        position_coords = position.xcoord, position.ycoord, position.zcoord
+        step_coords =  step.xcoord, step.ycoord, step.zcoord
+
+        # Sort and convert to tuple to ensure consistent order
+        path = tuple(sorted((position_coords, step_coords)))
+
+        self.path.add(path)
+
+    def update_coords(self, position):
+        """Updates the wire coordinates.
         
-    def get_wire_details(self):
-        
-        all_coordinates = []
-        wire_units = []
+        Only append nodes who are not a gate, because gates cannot cause
+        intersections.
+        """
 
-        for gate in self.total_path:
-            
-            # Stores a maximum of two coordinates
-            temp_storage = []
+        if position.isgate is False:
+            self.coords.append(position)
 
-            path_coordinates = self.total_path[gate]
+    def check_collision(self, position, step):
+        """Returns True if no collision occurs, otherwise False."""
 
-            for coordinate in path_coordinates:
-                all_coordinates.append(coordinate)
-                temp_storage.append(coordinate)
+        # Get position and step coordinates
+        position_coords = position.xcoord, position.ycoord, position.zcoord
+        step_coords =  step.xcoord, step.ycoord, step.zcoord
 
-                # Get wire-unit coordinates: when two coordinates are present in the storage, create wire length unit
-                if len(temp_storage) == 2:
-                    wire_units.append((temp_storage[0], temp_storage[1]))
-                    
-                    # Discard first coord to make room for next coord of path
-                    temp_storage.pop(0)
-            
-        return wire_units, all_coordinates
+        # Sort and convert to tuple to ensure consistent order
+        step = tuple(sorted((position_coords, step_coords)))
+
+        return step not in self.path
 
     def compute_length(self):
-        """ Returns wire length."""
+        """Returns the length of the wire."""
 
-        return len(self.wire_units)
+        return len(self.path)
 
-    def count_intersections(self):
-        """ Returns the number of intersections."""
+    def compute_intersections(self):
+        """Returns the number of intersection.
+
+        Intersection is indicated when an node, who is not a gate, occurs
+        more than once. The occurance is decremented by 1 to count the 
+        occurance of intersections and not the occurance of a node.
+        """
         
         # Counts occurences of coordinates
-        coordinate_counter = Counter(self.all_coordinates)
-        coordinates_sum = sum(coordinate_counter.values())
-        
-        # Counts uniquely visited coordinates
-        unique_coordinates = len(coordinate_counter)
-        
-        # Subtracts the number of unique coordinates since an intersection 
-        # starts when a coordinate is >1 times present
-        intersections = coordinates_sum - unique_coordinates
+        counter = Counter(self.coords)
+
+        # Compute number of intersections
+        intersections = 0
+        for coordinate in counter:
+            if counter[coordinate] > 1:
+                intersections += counter[coordinate] - 1
 
         return intersections
 
-    def count_collisions(self):
-        """ Returns the number of collisions."""
+    def compute_costs(self):
+        """Returns the costs of the wire."""
 
-        # Sorts wire units  to ensure that a wire unit from
-        # A > B is equal to B > A
-        sorted_wir_units = sorted(self.wire_units)
-        
-        # Counts occurences of wire units
-        collisions_counter = Counter(sorted_wir_units)
-        collisions_sum = sum(collisions_counter.values())
-        
-        # Counts unique visited wire units
-        unique_wire_units = len(collisions_counter)
-        
-        # Subtracts the number of unique wire units since a collision 
-        # starts when a wire unit is >1 times visited
-        collisions = collisions_sum - unique_wire_units
-    
-        print(f'collisions')
-        print(collisions)
-
-        return collisions
-
-    def compute_cost(self):
-        """ Returns the cost of the wire."""
-
-        intersections = self.count_intersections()
         length = self.compute_length()
-        cost = length + (300 * intersections)
-        
-        return cost
+        intersections = self.compute_intersections()
 
+        return length + 300 * intersections
 
     
-
-            
-
-
-'***************************************************************************'

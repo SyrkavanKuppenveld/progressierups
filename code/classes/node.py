@@ -8,6 +8,7 @@ class Node():
         self.zcoord = coords[2]
         self.neighbors = set()
         self.isgate = False
+        self.collision = 0
         self.wired_neighbors = 0
 
     def __hash__(self):
@@ -18,6 +19,9 @@ class Node():
 
     def set_isgate(self):
         self.isgate = True
+
+    def update_collision(self):
+        self.collision += 1
 
     def update_neighbors(self):
         self.wired_neighbors += 1
