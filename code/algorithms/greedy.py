@@ -2,7 +2,8 @@ from code.classes import Wire
 from code.visualization.visualize import Chip_Visualization
 
 class Greedy():
-    """ Provide Object to perform the Greedy algorithm with.
+    """ 
+    Provide Object to perform the Greedy algorithm with.
     
     Net order
     ---------
@@ -17,11 +18,11 @@ class Greedy():
     subsequently along Manhattan distance of the y-dimension of the chip.
     
     w.r.t. = with respect to
-    ********************************************************************************
     """
     
     def __init__(self, graph):
-        """ Retrieves a graph environment for the algorithm to navigate in.
+        """ 
+        Initializes the environment for the algorithm to navigate in.
 
         Parameters
         ----------
@@ -52,7 +53,8 @@ class Greedy():
         return ordered_gates
     
     def compute_steps(self, current_gate_coords, connected_gate_coords):
-        """ Computes the lowest number of steps needed to get to the connected gate.
+        """ 
+        Computes the lowest number of steps needed to get to the connected gate.
         
         Parameters
         ----------
@@ -74,7 +76,8 @@ class Greedy():
         return (steps_x, steps_y)
 
     def compute_rel_Manhattandist(self, current_gate_coords, connected_gate_coords):
-        """ Computes the relative distance between the current gate and the to be 
+        """ 
+        Computes the relative distance between the current gate and the to be 
         connected gate.
         
         Parameters
@@ -97,7 +100,8 @@ class Greedy():
         return (relative_dist_x, relative_dist_y)
     
     def create_path(self, start_coordinates, relative_dist_x, relative_dist_y, connected_gate_coords):
-        """ Builds shortest possible path according to the connected gate.
+        """ 
+        Builds shortest possible path according to the connected gate.
         
         Parameters
         ----------
@@ -172,11 +176,12 @@ class Greedy():
         return path
     
     def run(self):
-        """Runs the Greedy algorithm to build the wire path with.
+        """
+        Runs the Greedy algorithm to build the wire path with.
         
         Return
         ------
-        total_path = Dictionary (key = net) of paths between the gates (value: list of coordinates)
+        total_path = dictionary (key = net) of paths between the gates (value: list of coordinates)
         """
 
         # Get a list of gates sorted by ID
