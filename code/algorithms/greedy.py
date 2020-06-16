@@ -189,7 +189,7 @@ class Greedy():
             connections = list(self.graph.connections[current_gateObject])
             
             # Build paths to each to be connected gate of the current gate
-            for index, connection in enumerate(connections):
+            for connection in connections:
                 connected_gateObject = connection
                 connected_gateID = connected_gateObject.gateID
     
