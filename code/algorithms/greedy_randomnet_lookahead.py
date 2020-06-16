@@ -1,6 +1,6 @@
-from code.algorithms import Random_GreedyNet
+from code.algorithms import Greedy_RandomNet
 
-class Random_GreedyNet_LookAhead(Random_GreedyNet):
+class Greedy_RandomNet_LookAhead(Greedy_RandomNet):
     """ Creates a Wire object that connects the gates according to the netlist and 
     according to the lowest Manhattan Distance with a 4 step look ahead. 
 

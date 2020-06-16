@@ -2,7 +2,7 @@ from code.classes import Wire
 from code.visualization.visualize import Chip_Visualization
 import random
 
-class Random_GreedyNet():
+class Greedy_RandomNet():
     """ Creates a Wire object that connects the gates according to the netlist and 
     according to the lowest Manhattan Distance. 
 
