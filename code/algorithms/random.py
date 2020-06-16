@@ -10,12 +10,7 @@ class Random():
     Random element
     --------------
     * The order of the connections are generated randomly.
-    * If multiple neighbors have the same distance, the next position is generated
-      randomly. 
-    
-    Greedy element
-    --------------
-    The next position will be the neighbor with the lowest Manhattan distance.
+    * The next position is generated randomly.
     """
 
     def __init__(self, graph):

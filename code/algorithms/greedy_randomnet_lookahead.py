@@ -39,7 +39,7 @@ class Greedy_RandomNet_LookAhead(Greedy_RandomNet):
                 The Node object that will be the new position of the wire.
         """
 
-        depth = 4
+        depth = 5
         stack = [[]]
         paths = []
 
