@@ -105,7 +105,10 @@ class RandomGreedy():
     def cost(self):
         """ Returns True if coordinates result in intersection. """
 
-        length = self.wire.
+        length = self.wire.compute_length()
+        intersections = self.wire.compute_intersections()
+
+        cost = length + 300 * intersections
 
         return cost
 
@@ -131,12 +134,10 @@ class RandomGreedy():
             # visualisation = Chip_Visualization(self.graph.gates, self.wire.path)
             # visualisation.run()
 
-        length = self.wire.compute_length()
-        intersections = self.wire.compute_intersections()
+        cost = self.cost
+        print(f'Cost: {cost}')
 
-        cost = length + 300 * intersections
-
-        return cost
+        return route
 
         # # Iterate over connections in netlist
         # for connection in self.connections:
