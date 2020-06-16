@@ -3,36 +3,21 @@ from code.visualization.visualize import Chip_Visualization
 import random
 import copy
 
-class RandomGreedy():
+class Random_GreedyNet():
+    """ Creates a Wire object that connects the gates according to the netlist and 
+    according to the lowest Manhattan Distance. 
+
+    The algorithm is random because the order in which the connections are made is
+    randomly generated. Moreover, if multiple steps have the minimal distance, the
+    next step is randomly generated. The algorithm is greedy, because it will 
+    choose the gate with the lowest Manhattan distance. 
+    """
 
     def __init__(self, graph):
+        """Initializes the Random Greedy Net algorithm."""
         
         self.graph = graph
         self.wire = Wire()   
-
-    def get_next_gate(self, gates):
-        """Gets random gate and removes it from the list."""
-
-        next_gate = gates.pop(random.randrange(0, len(gates)))
-
-        # Ensure that next_gate has connections
-        while next_gate not in self.graph.connections:
-            next_gate = gates.pop(random.randrange(0, len(gates)))
-
-        return next_gate
-
-    def get_next_connection(self, connections):
-
-        return connections.pop(random.randrange(0, len(connections)))
-
-    def compute_manhattan_dist(self, start, finish):
-        """Returns the Manhattan Distance between start and finish."""
-
-        x_dist = abs(start.xcoord - finish.xcoord)
-        y_dist = abs(start.ycoord - finish.ycoord)
-        z_dist = abs(start.zcoord - finish.zcoord)
-
-        return x_dist + y_dist + z_dist
 
     def next_position(self, position, goal):
         """Returns the next position."""
@@ -50,12 +35,22 @@ class RandomGreedy():
         # Assign new position
         position = self.get_random_min(mdist)
 
-        # print(f'position = {position}')
 
         return position
 
+    def compute_manhattan_dist(self, start, finish):
+        """Returns the Manhattan Distance between start and finish."""
+
+        x_dist = abs(start.xcoord - finish.xcoord)
+        y_dist = abs(start.ycoord - finish.ycoord)
+        z_dist = abs(start.zcoord - finish.zcoord)
+
+        return x_dist + y_dist + z_dist
+
     def get_random_min(self, lst):
-        """Returns random minimum."""
+        """Returns step with lowest Manhattan Distance, if multiple it returns
+        one randomly.
+        """
         
         min_value = min(lst, key=lambda x: x[1])
         minimum = []
@@ -115,7 +110,7 @@ class RandomGreedy():
         return route
 
 
-class LookAhead(RandomGreedy):
+class Random_GreedyNet_LookAhead(Random_GreedyNet):
 
     def next_position(self, position, goal):
         """Returns next position occuring to x steps look ahead."""
@@ -241,37 +236,4 @@ class LookAhead(RandomGreedy):
             mdist.append((path[1], total_dist))
 
         return mdist
-
-
-
-    # def run(self):
-
-    #     route = {}
-    #     gates = list(self.graph.gates.values())
-    #     completed = set()
-
-    #     # Iterate until all connection are made
-    #     while gates:
-
-    #         # Get random gate object and corresponding connections
-    #         gate = self.get_next_gate(gates)
-    #         connections = list(self.graph.connections[gate])
-            
-    #         # Iterate over the connections randomly
-    #         while connections:
-
-    #             # Get random connection
-    #             connection = self.get_next_connection(connections)
-
-    #             # Check if combination has already been made
-    #             gate_a, gate_b = gate, connection
-    #             combination = tuple(sorted((gate_a.gateID, gate_b.gateID)))
-
-    #             # Check if combination is already completed
-    #             if combination not in completed:
-                 
-    #                 route[combination] = self.make_connection(gate_a, gate_b)
-    #                 completed.add(combination)
-
-    #     return route         
 
