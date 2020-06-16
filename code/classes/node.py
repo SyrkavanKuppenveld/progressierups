@@ -26,10 +26,23 @@ class Node():
     def update_neighbors(self):
         self.wired_neighbors += 1
 
+    def copy(self):
+        copy = Node((self.xcoord, self.ycoord, self.zcoord))
+        copy.neighbors = self.neighbors
+        copy.isgate = self.isgate
+        copy.intersection = self.intersection
+        copy.wired_neighbors = self.wired_neighbors
+        
+        return copy
+
     def __repr__(self):
         """Ensure that the object is printed properly if it is in a list/dict."""
 
         return str((self.xcoord, self.ycoord, self.zcoord))
+
+    
+
+    
 
     
 

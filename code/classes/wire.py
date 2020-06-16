@@ -60,6 +60,7 @@ class Wire():
         
         # Counts occurences of coordinates
         counter = Counter(self.coords)
+        print(counter)
 
         # Compute number of intersections
         intersections = 0
