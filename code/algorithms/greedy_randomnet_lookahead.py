@@ -88,7 +88,7 @@ class Greedy_RandomNet_LookAhead(Greedy_RandomNet):
                         child = self.copy_nodes(state)
 
                         # Only append if i is valid
-                        if self.path_check(child, neighbor, position_next) and self.valid_check(child, neighbor):
+                        if self.path_check(child, position_next, neighbor) and self.valid_check(child, neighbor):
                             child.append(neighbor)
                             stack.append(child)
 

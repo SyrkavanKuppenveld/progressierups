@@ -38,8 +38,7 @@ class Greedy_RandomNet_NoIntersect_LookAhead(Greedy_RandomNet_NoIntersect):
         Node object
                 The Node object that will be the new position of the wire.
         """
-
-        depth = 4
+        depth = 5
         stack = [[]]
         paths = []
 
@@ -81,14 +80,14 @@ class Greedy_RandomNet_NoIntersect_LookAhead(Greedy_RandomNet_NoIntersect):
                             position = self.graph.nodes[(neighbor.xcoord, neighbor.ycoord, neighbor.zcoord)]
                             return position
 
-                        # Only append path if no collission occurs
-                        elif self.wire.check_collision(position_next, neighbor):
+                        # Only append neighbor if no collission or intersection occurs
+                        elif self.wire.check_collision(position_next, neighbor) and neighbor.intersection == 0:
                             stack.append(child)
                     else:
                         child = self.copy_nodes(state)
 
-                        # Only append if i is valid
-                        if self.path_check(child, neighbor, position_next) and self.valid_check(child, neighbor):
+                        # Only append if neighbor is valid
+                        if self.path_check(child, position_next, neighbor) and self.valid_check(child, neighbor):
                             child.append(neighbor)
                             stack.append(child)
 
@@ -157,7 +156,7 @@ class Greedy_RandomNet_NoIntersect_LookAhead(Greedy_RandomNet_NoIntersect):
             return False
         
         # Return False if intersection will occur if neighbor is appended to path
-        if neighbor.intersections > 0:
+        if neighbor.intersection != 0:
             return False
         
         # Returns False if i is in child
@@ -165,6 +164,8 @@ class Greedy_RandomNet_NoIntersect_LookAhead(Greedy_RandomNet_NoIntersect):
         neighbor_node = self.graph.nodes[neighbor_coords]
         if neighbor_node in child:
             return False
+
+        return True
 
     def valid_check(self, child, neighbor):
         """
