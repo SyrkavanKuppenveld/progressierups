@@ -4,10 +4,10 @@ import random
 import copy
 
 from code.classes import Node
-from code.classes.wire_new import Wire
+from code.classes.wire import Wire
 from code.visualization.visualize import Chip_Visualization
 
-class RandomGreedy():
+class Greedy_RandomPath():
 
     def __init__(self, graph):
         """Initialize Wire object."""
