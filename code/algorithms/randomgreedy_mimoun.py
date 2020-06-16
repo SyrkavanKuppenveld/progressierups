@@ -2,8 +2,9 @@ import numpy as numpy
 from collections import Counter
 import random
 import copy
-from code.classes.node import Node
-from code.classes import Wire
+
+from code.classes import Node
+from code.classes.wire_new import Wire
 from code.visualization.visualize import Chip_Visualization
 
 class RandomGreedy():
@@ -18,6 +19,10 @@ class RandomGreedy():
         """Gets next gate and removes it from the list."""
 
         next_gate = gates.pop(0)
+
+        # Ensure that next_gate has connections
+        while next_gate not in self.graph.connections:
+            next_gate = gates.pop(0)
 
         return next_gate
 
@@ -49,7 +54,10 @@ class RandomGreedy():
                 mdist.append((neighbor, dist))
                     
         # Assign new position
-        position = self.get_random_min(mdist)
+        try:
+            position = self.get_random_min(mdist)
+        except ValueError:
+            return 'Stuck; no solution found'
 
         return position
 
@@ -94,6 +102,13 @@ class RandomGreedy():
         
         return tuple(connection)
 
+    def cost(self):
+        """ Returns True if coordinates result in intersection. """
+
+        length = self.wire.
+
+        return cost
+
     def run(self):
         """Returns generated wire path."""
 
@@ -112,7 +127,16 @@ class RandomGreedy():
             # Generate the connection between gate a and b
             route[(a, b)] = self.make_connection(gate_a, gate_b)
 
-        return route
+            # Visulalize chip on each path of the algorithm
+            # visualisation = Chip_Visualization(self.graph.gates, self.wire.path)
+            # visualisation.run()
+
+        length = self.wire.compute_length()
+        intersections = self.wire.compute_intersections()
+
+        cost = length + 300 * intersections
+
+        return cost
 
         # # Iterate over connections in netlist
         # for connection in self.connections:
