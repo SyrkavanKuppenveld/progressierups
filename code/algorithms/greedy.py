@@ -1,3 +1,4 @@
+from code.classes import Wire
 from code.visualization.visualize import Chip_Visualization
 
 class Greedy():
@@ -28,6 +29,7 @@ class Greedy():
         """
         
         self.graph = graph
+        self.wire = Wire()
         
         # Storage of already connected gate-net-duo's
         self.completed_connections = set()
@@ -111,30 +113,61 @@ class Greedy():
         
         path = []
         path.append(start_coordinates)
-        x_coord, y_coord, z_coord = start_coordinates[0], start_coordinates[1], start_coordinates[2]
-
+        
         current_coords = start_coordinates
         goal_coords = connected_gate_coords
 
-        # Walk along the x-axis
+        x_coord, y_coord, z_coord = current_coords[0], current_coords[1], current_coords[2]
+
+        # Change x-coordinate
         if relative_dist_x != 0:
+            # Walk along the x-axis until the x-coord equals the x-coord of the connected gate
             while current_coords[0] != goal_coords[0]:
+
+                # Get coordinate-node of position A
+                old_position = self.graph.nodes[(current_coords)]
+                
+                #  Determine direction
                 if relative_dist_x > 0:
                     x_coord += 1
                 else:
                     x_coord -= 1
+                
+                # Update path
                 current_coords = (x_coord, y_coord, z_coord)
                 path.append(current_coords)
+                
+                # Get coordinate-node of position B
+                new_position = self.graph.nodes[(current_coords)]
 
-        # Walk along the y-axis
+                # Update wire
+                self.wire.update_path(old_position, new_position)
+                self.wire.update_coords(new_position)                
+
+        # Change y-coordinate
         if relative_dist_y != 0:
+            # Walk along the y-axis until the x-coord equals the y-coord of the connected gate
             while current_coords[1] != goal_coords[1]:
+
+                # Get coordinate-node of position A
+                old_position = self.graph.nodes[(current_coords)]
+                
+                #  Determine direction
                 if relative_dist_y > 0:
                     y_coord += 1
                 else:
                     y_coord -= 1
+                
+                # Update path
                 current_coords = (x_coord, y_coord, z_coord)
                 path.append(current_coords)
+                
+                # Get coordinate-node of position B
+                new_position = self.graph.nodes[(current_coords)]
+
+                # Update wire
+                self.wire.update_path(old_position, new_position)
+                self.wire.update_coords(new_position) 
 
         return path
     
@@ -171,7 +204,7 @@ class Greedy():
                     # Get coordinates (= tuple: (x, y, z))
                     current_gate_coords = (current_gateObject.xcoord, current_gateObject.ycoord, current_gateObject.zcoord)
                     connected_gate_coords = (connected_gateObject.xcoord, connected_gateObject.ycoord, connected_gateObject.zcoord)
-                    
+
                     # Compute relative Manhattan distances
                     relative_dist_x, relative_dist_y = self.compute_rel_Manhattandist(current_gate_coords, connected_gate_coords)
                     
