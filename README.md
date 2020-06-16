@@ -1,6 +1,6 @@
 # Chips & Circuits
 
-<img allign="left" src="https://thebossmagazine.com/wp-content/uploads/2017/08/microchip-stylized-header-image.jpg" width="251" height="167" />
+<img src="https://thebossmagazine.com/wp-content/uploads/2017/08/microchip-stylized-header-image.jpg" width="251" height="167" />
 
 Chips (or: integrated circuits) are found in various places in our everyday life including our PC, MacBook, Android Phone and microwave oven.
 
