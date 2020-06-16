@@ -8,6 +8,7 @@ class_eline.py
 test_eline.py
 mimoun.py
 syrka.py
+syrka.ipynb
 
 # Ignore non-informative files
 __pycache__/
