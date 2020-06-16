@@ -1,7 +1,9 @@
+from code.classes import Wire
 from code.visualization.visualize import Chip_Visualization
 
 class Greedy():
-    """ Provide Object to perform the Greedy algorithm with.
+    """ 
+    Provide Object to perform the Greedy algorithm with.
     
     Net order
     ---------
@@ -16,11 +18,11 @@ class Greedy():
     subsequently along Manhattan distance of the y-dimension of the chip.
     
     w.r.t. = with respect to
-    ********************************************************************************
     """
     
     def __init__(self, graph):
-        """ Retrieves a graph environment for the algorithm to navigate in.
+        """ 
+        Initializes the environment for the algorithm to navigate in.
 
         Parameters
         ----------
@@ -28,6 +30,7 @@ class Greedy():
         """
         
         self.graph = graph
+        self.wire = Wire()
         
         # Storage of already connected gate-net-duo's
         self.completed_connections = set()
@@ -50,7 +53,8 @@ class Greedy():
         return ordered_gates
     
     def compute_steps(self, current_gate_coords, connected_gate_coords):
-        """ Computes the lowest number of steps needed to get to the connected gate.
+        """ 
+        Computes the lowest number of steps needed to get to the connected gate.
         
         Parameters
         ----------
@@ -72,7 +76,8 @@ class Greedy():
         return (steps_x, steps_y)
 
     def compute_rel_Manhattandist(self, current_gate_coords, connected_gate_coords):
-        """ Computes the relative distance between the current gate and the to be 
+        """ 
+        Computes the relative distance between the current gate and the to be 
         connected gate.
         
         Parameters
@@ -95,7 +100,8 @@ class Greedy():
         return (relative_dist_x, relative_dist_y)
     
     def create_path(self, start_coordinates, relative_dist_x, relative_dist_y, connected_gate_coords):
-        """ Builds shortest possible path according to the connected gate.
+        """ 
+        Builds shortest possible path according to the connected gate.
         
         Parameters
         ----------
@@ -111,39 +117,71 @@ class Greedy():
         
         path = []
         path.append(start_coordinates)
-        x_coord, y_coord, z_coord = start_coordinates[0], start_coordinates[1], start_coordinates[2]
-
+        
         current_coords = start_coordinates
         goal_coords = connected_gate_coords
 
-        # Walk along the x-axis
+        x_coord, y_coord, z_coord = current_coords[0], current_coords[1], current_coords[2]
+
+        # Change x-coordinate
         if relative_dist_x != 0:
+            # Walk along the x-axis until the x-coord equals the x-coord of the connected gate
             while current_coords[0] != goal_coords[0]:
+
+                # Get coordinate-node of position A
+                old_position = self.graph.nodes[(current_coords)]
+                
+                #  Determine direction
                 if relative_dist_x > 0:
                     x_coord += 1
                 else:
                     x_coord -= 1
+                
+                # Update path
                 current_coords = (x_coord, y_coord, z_coord)
                 path.append(current_coords)
+                
+                # Get coordinate-node of position B
+                new_position = self.graph.nodes[(current_coords)]
 
-        # Walk along the y-axis
+                # Update wire
+                self.wire.update_path(old_position, new_position)
+                self.wire.update_coords(new_position)                
+
+        # Change y-coordinate
         if relative_dist_y != 0:
+            # Walk along the y-axis until the x-coord equals the y-coord of the connected gate
             while current_coords[1] != goal_coords[1]:
+
+                # Get coordinate-node of position A
+                old_position = self.graph.nodes[(current_coords)]
+                
+                #  Determine direction
                 if relative_dist_y > 0:
                     y_coord += 1
                 else:
                     y_coord -= 1
+                
+                # Update path
                 current_coords = (x_coord, y_coord, z_coord)
                 path.append(current_coords)
+                
+                # Get coordinate-node of position B
+                new_position = self.graph.nodes[(current_coords)]
+
+                # Update wire
+                self.wire.update_path(old_position, new_position)
+                self.wire.update_coords(new_position) 
 
         return path
     
     def run(self):
-        """Runs the Greedy algorithm to build the wire path with.
+        """
+        Runs the Greedy algorithm to build the wire path with.
         
         Return
         ------
-        total_path = Dictionary (key = net) of paths between the gates (value: list of coordinates)
+        total_path = dictionary (key = net) of paths between the gates (value: list of coordinates)
         """
 
         # Get a list of gates sorted by ID
@@ -156,7 +194,7 @@ class Greedy():
             connections = list(self.graph.connections[current_gateObject])
             
             # Build paths to each to be connected gate of the current gate
-            for index, connection in enumerate(connections):
+            for connection in connections:
                 connected_gateObject = connection
                 connected_gateID = connected_gateObject.gateID
     
@@ -171,7 +209,7 @@ class Greedy():
                     # Get coordinates (= tuple: (x, y, z))
                     current_gate_coords = (current_gateObject.xcoord, current_gateObject.ycoord, current_gateObject.zcoord)
                     connected_gate_coords = (connected_gateObject.xcoord, connected_gateObject.ycoord, connected_gateObject.zcoord)
-                    
+
                     # Compute relative Manhattan distances
                     relative_dist_x, relative_dist_y = self.compute_rel_Manhattandist(current_gate_coords, connected_gate_coords)
                     

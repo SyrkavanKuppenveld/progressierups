@@ -1,5 +1,7 @@
 # Chips & Circuits
 
+<img src="https://thebossmagazine.com/wp-content/uploads/2017/08/microchip-stylized-header-image.jpg" width="251" height="167" />
+
 Chips (or: integrated circuits) are found in various places in our everyday life including our PC, MacBook, Android Phone and microwave oven.
 
 A chip is made up of a small plate of silicon, an is usually designed logically and subsequentially transformed to a list of connectable gates (= netlist). This netlist, is finally transformed into a 2-dimensional design on a silicon base. The last step of connecting the gates, is highly volatile. Good arrangements with short nets lead to faster circuits, whereas poor arrangements with long nets lead to slower circuits. Besides, shorter nets are cheaper than long nets. So, a good arrangement of logical gates and short nets between them is of vital importance, both economically and performancewise.
@@ -20,9 +22,8 @@ or
 
 This will install the correct versions of:
 
-- matplotlib (...<versie>)    
-- scipy (...<versie>)    
-- numpy (...<versie>)    
+- numpy (1.18.4)      
+- matplotlib (3.2.1)    
 ....    
 
 ### Usage
@@ -32,10 +33,13 @@ This will install the correct versions of:
 The following list describes the most important files in the project and where to find them:
 
 - /code: contains all of the codebase of this project.
-    - /code/algorithms: contains code to run the algorithms.
+    - /code/algorithms: contains code to run the algorithms with.
         - (...<evt nog specifieke algorithm-files weergeven>)
     - /code/classes: contains four classes necessary for the project.
-        - (...<evt nog specifieke classes-files weergeven>)
+        - /code/algorithms/gates.py: contains the Gate Class
+        - /code/algorithms/graph.py: contains the Graph Class
+        - /code/algorithms/node.py: contains the Node Class
+        - /code/algorithms/wire.py: contains the Wire Class
     - /code/visualization: contains code that generates a visualisation of the designed chip(s).
 - /gates&netlists: contains multiple datafiles necessary for initialising the chip and graph.
 
