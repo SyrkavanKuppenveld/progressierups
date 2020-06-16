@@ -1,7 +1,7 @@
 import csv
 
 class Gate():
-    """"""
+    """Represents a gate on the grid."""
 
     def __init__(self, gateID, xcoord, ycoord):
         """Initialize Gate object."""
@@ -16,5 +16,3 @@ class Gate():
 
         return str(self.gateID)
 
-    # def __hash__(self):
-    #     return hash(self.gateID)

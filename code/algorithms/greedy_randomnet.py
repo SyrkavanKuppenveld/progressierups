@@ -5,7 +5,7 @@ import random
 class Greedy_RandomNet():
     """ Creates a Wire object that connects the gates according to the netlist and 
     according to the lowest Manhattan Distance. 
-
+    
     The algorithm is random because the order in which the connections are made is
     randomly generated. Moreover, if multiple steps have the minimal distance, the
     next step is randomly generated. The algorithm is greedy, because it will 
@@ -38,7 +38,6 @@ class Greedy_RandomNet():
                   
         # Assign new position
         position = self.get_random_min(mdist)
-
 
         return position
 

@@ -1,6 +1,7 @@
 from collections import Counter
 
 class Wire():
+    """Represents a wire on the chip grid."""
 
     def __init__(self):
         """Initializes a Wire object."""

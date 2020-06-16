@@ -4,6 +4,10 @@ from code.classes import Gate
 from code.classes.node import Node
 
 class Graph():
+    """Creates a Graph object that represents the chip grid and has the gates and 
+    the netlists as attributes.
+    ********************************************************************************
+    """
 
     def __init__(self, print_file, netlist_file, layers=7):
         """Initializes a Graph object."""
