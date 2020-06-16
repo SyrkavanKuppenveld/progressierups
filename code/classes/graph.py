@@ -1,6 +1,6 @@
 import csv
 import itertools 
-from code.classes import Gate
+from code.classes.gates import Gate
 from code.classes.node import Node
 
 class Graph():
