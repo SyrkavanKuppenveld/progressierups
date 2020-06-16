@@ -3,28 +3,67 @@ from code.visualization.visualize import Chip_Visualization
 import random
 
 class Greedy_RandomNet():
-    """ Creates a Wire object that connects the gates according to the netlist and 
+    """ 
+    Creates a Wire object that connects the gates according to the netlist and 
     according to the lowest Manhattan Distance. 
+
+    Random element
+    --------------
+    * The order of the connections are generated randomly.
+    * If multiple neighbors have the same distance, the next position is generated
+      randomly. 
     
-    The algorithm is random because the order in which the connections are made is
-    randomly generated. Moreover, if multiple steps have the minimal distance, the
-    next step is randomly generated. The algorithm is greedy, because it will 
-    choose the gate with the lowest Manhattan distance. 
+    Greedy element
+    --------------
+    The next position will be the neighbor with the lowest Manhattan distance.
     """
 
     def __init__(self, graph):
-        """Initializes the Random Greedy Net algorithm."""
+        """
+        Initializes the Random Greedy Net algorithm.
+        
+        Parameters
+        ----------
+        graph: a Graph object
+                A Graph object representing the chip grid.
+        """
         
         self.graph = graph
         self.wire = Wire()   
 
     def get_next_connection(self, connections):
-        """Randomly returns a connection."""
+        """Randomly returns a connection.
+        
+        Parameters
+        ----------
+        connections: a list
+                A list containin the connections from the netlist file.
+
+        Returns
+        -------
+        tuple
+                Randomly generated tuple containing two gates that need to be connected.
+        """
 
         return connections.pop(random.randrange(0, len(connections)))
 
     def next_position(self, position, goal):
-        """Returns the next position, according to the lowest Manhattan Distance."""
+        """
+        Returns the next position, according to the lowest Manhattan Distance.
+                
+        Parameters
+        ----------
+        position: a Node object
+                A Node object representing the current position of the wire.
+
+        goal: a Node object
+                A Node object representing the goal position.
+        
+        Returns
+        -------
+        Node object
+                The Node object that will be the new position of the wire.
+        """
 
         mdist = []
 
@@ -41,18 +80,46 @@ class Greedy_RandomNet():
 
         return position
 
-    def compute_manhattan_dist(self, start, finish):
-        """Returns the Manhattan Distance between start and finish."""
+    def compute_manhattan_dist(self, position, goal):
+        """
+        Returns the Manhattan Distance between start and finish.
+        
+        Parameters
+        ----------
+        position: a Node object
+                A Node object representing the current position of the wire.
 
-        x_dist = abs(start.xcoord - finish.xcoord)
-        y_dist = abs(start.ycoord - finish.ycoord)
-        z_dist = abs(start.zcoord - finish.zcoord)
+        goal: a Node object
+                A node object representing the goal position of the wire.
+
+        Returns
+        -------
+        int 
+                The Manhattan Distance.
+        """
+
+        x_dist = abs(position.xcoord - goal.xcoord)
+        y_dist = abs(position.ycoord - goal.ycoord)
+        z_dist = abs(position.zcoord - goal.zcoord)
 
         return x_dist + y_dist + z_dist
 
     def get_random_min(self, lst):
-        """Returns step with lowest Manhattan Distance, if multiple it returns one 
+        """
+        Returns step with lowest Manhattan Distance, if multiple it returns one 
         randomly.
+
+        Parameters
+        ----------
+        lst: a list
+                A list with tuples. First element of tuple is the neighbor and the 
+                second element is the Manhattan distance. 
+
+        Returns
+        -------
+        Node object
+                The Node object with the minimal Manhattan Distance, if multiple with the
+                Node object is randomly choosen.
         """
         
         # Get minimum Manhattan Distance of steps
@@ -67,7 +134,23 @@ class Greedy_RandomNet():
         return random.choice(minimum)
 
     def make_connection(self, gate_a, gate_b):
-        """Returns set with wire path between gate_a and gate_b."""
+        """
+        Returns set with wire path between gate_a and gate_b.
+        
+        Parameters
+        ----------
+        gate_a: int
+                A integer representing the gateID of gate_a.
+
+        gate_a: int
+                A integer representing the gateID of gate_b.
+
+
+        Returns
+        -------
+        tuple
+                A tuple containing the wire path to connect gate_a and gate_b.
+        """
         
         wire_path = []
 
@@ -97,8 +180,13 @@ class Greedy_RandomNet():
         return tuple(wire_path)
    
     def run(self):
-        """Returns dict with the wire route to connect all gates according 
-        to netlist.
+        """
+        Returns dict with the wire route to connect all gates according to netlist.
+
+        Returns
+        -------
+        dict 
+                A dictionary containing the route of the wire per connection.
         """
 
         route = {}

@@ -1,10 +1,14 @@
 from collections import Counter
 
 class Wire():
-    """Represents a wire on the chip grid."""
+    """
+    Represents a wire on the chip grid.
+    """
 
     def __init__(self):
-        """Initializes a Wire object."""
+        """
+        Initializes a Wire object.
+        """
 
         # Keeps track of wire path for check collision and computation costs
         self.path = set() 
@@ -13,7 +17,17 @@ class Wire():
         self.coords = []
 
     def update_path(self, position, step):
-        """Updates the wire path."""
+        """
+        Updates the wire path.
+
+        Parameters
+        ---------
+        position: a Node object
+                A node object representing the current position of the wire in the grid.
+
+        step: a Node object
+                A node object representing the next position of the wire in the grid.
+        """
 
         # Get position and step coordinates
         position_coords = position.xcoord, position.ycoord, position.zcoord
@@ -25,17 +39,38 @@ class Wire():
         self.path.add(path)
 
     def update_coords(self, position):
-        """Updates the wire coordinates.
+        """
+        Updates the wire coordinates.
         
-        Only append nodes who are not a gate, because gates cannot cause
-        intersections.
+        Only append nodes who are not a gate, because gates cannot cause intersections.
+        
+        Parameters
+        ----------
+        position: a Node object
+                A node object representing the current position of the wire in the grid.
         """
 
         if position.isgate is False:
             self.coords.append(position)
 
     def check_collision(self, position, step):
-        """Returns True if no collision occurs, otherwise False."""
+        """
+        Returns True if no collision occurs, otherwise False.
+        
+        Parameters
+        ----------
+        position: a Node object
+                A node object representing the current position of the wire in the grid.
+
+        step: a Node object
+                A node object representing the next position of the wire in the grid.
+
+        Returns
+        -------
+        bool
+                True if successful, otherwise False.
+    
+        """
 
         # Get position and step coordinates
         position_coords = position.xcoord, position.ycoord, position.zcoord
@@ -47,16 +82,29 @@ class Wire():
         return step not in self.path
 
     def compute_length(self):
-        """Returns the length of the wire."""
+        """
+        Returns the length of the wire.
+
+        Returns
+        -------
+        int
+                The length of the wire.
+        """
 
         return len(self.path)
 
     def compute_intersections(self):
-        """Returns the number of intersection.
+        """
+        Returns the number of intersection.
+        
+        Intersection is indicated when an node, who is not a gate, occurs more than 
+        once. The occurance is decremented by 1 to count the occurance of intersections 
+        and not the occurance of a node.
 
-        Intersection is indicated when an node, who is not a gate, occurs
-        more than once. The occurance is decremented by 1 to count the 
-        occurance of intersections and not the occurance of a node.
+        Returns
+        -------
+        int 
+                Number of intersections of the wire.
         """
         
         # Counts occurences of coordinates
@@ -72,7 +120,14 @@ class Wire():
         return intersections
 
     def compute_costs(self):
-        """Returns the costs of the wire."""
+        """
+        Returns the costs of the wire.
+
+        Returns
+        -------
+        int
+                The total costs of the wire. 
+        """
 
         length = self.compute_length()
         intersections = self.compute_intersections()

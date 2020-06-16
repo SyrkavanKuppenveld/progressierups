@@ -4,13 +4,26 @@ from code.classes import Gate
 from code.classes.node import Node
 
 class Graph():
-    """Creates a Graph object that represents the chip grid and has the gates and 
-    the netlists as attributes.
-    ********************************************************************************
+    """
+    Creates a Graph object that represents the chip grid and has the gates and the 
+    netlists as attributes.
     """
 
     def __init__(self, print_file, netlist_file, layers=7):
-        """Initializes a Graph object."""
+        """
+        Initializes a Graph object.
+        
+        parameters
+        ----------
+        print_file: a csv file
+                A csv file containing the gates and their coordinates.
+        
+        netlist_file: a csv file
+                A csv file containing a netlist.
+
+        layers: int
+                The number of layers of the chip.
+        """
 
         self.gates = self.load_gates(print_file)
         self.connections, self.netlist = self.load_connections(netlist_file)
@@ -19,13 +32,26 @@ class Graph():
         self.generate_neighbors()
         self.set_gate_status()
 
-    def load_gates(self, source_file):
-        """Returns dictionary with all gate objects."""
+    def load_gates(self, print_file):
+        """
+        Returns dictionary with all gate objects.
+
+        parameters
+        ----------
+        print_file: a csv file
+                A csv file containing the gates and their coordinates.
+        
+        returns
+        -------
+        dict
+                A dictionary with gate coordinates as key and the corresponding Gate 
+                object als value.
+        """
 
         gates = {}
 
         # Open and read input_file
-        with open(source_file, newline='') as input_file:
+        with open(print_file, newline='') as input_file:
             reader = csv.DictReader(input_file)
 
             # Instanciate Gate objects and add to dictionary with chip as key
@@ -36,7 +62,20 @@ class Graph():
         return gates
 
     def load_connections(self, netlist_file):
-        """Returns dictionary with gate connections."""
+        """
+        Returns dictionary with gate connections.
+
+        parameters
+        ----------
+        netlist_file: a csv file
+                A csv file containing a netlist.
+
+        returns
+        -------
+        dict
+                A dictionary containing the Gate object as key and set containing the 
+                Gate objects to which it needs te be connected.
+        """
 
         connections = {}
         netlist = set()
@@ -64,7 +103,15 @@ class Graph():
         return connections, netlist
 
     def grid_coords(self, layers):
-        """Returns the max coordinates of the grid."""
+        """
+        Returns the max coordinates of the grid.
+        
+        Paramaters
+        ----------
+        layers: int
+                The number of layers of the chip.
+
+        """
 
         gates = list(self.gates.values())
         x_max = max(gate.xcoord for gate in gates) + 1
@@ -74,7 +121,15 @@ class Graph():
         return x_max, y_max, z_max
 
     def generate_nodes(self):
-        """Returns dict with all nodes in grid."""
+        """
+        Returns dict with all nodes in grid.
+
+        Returns
+        -------
+        dict
+                A dictionary containing the coordinates of the grid as keys and the Node 
+                objects as values.
+        """
         
         nodes = {}
 
@@ -86,7 +141,9 @@ class Graph():
         return nodes
 
     def generate_neighbors(self):
-        """Generates and adds all possible neighbors to nodes."""
+        """
+        Generates and adds all possible neighbors to nodes.
+        """
 
         # Iterate over all nodes
         for node in self.nodes:
@@ -105,7 +162,9 @@ class Graph():
                     self.nodes[node].add_neighbor(self.nodes[neighbor])
                 
     def set_gate_status(self):
-        """Sets isgate to True for all nodes containing a gate."""
+        """
+        Sets isgate to True for all nodes containing a gate.
+        """
 
         for gate in self.gates:
             coords = self.gates[gate].xcoord, self.gates[gate].ycoord, self.gates[gate].zcoord 
