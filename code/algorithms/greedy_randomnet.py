@@ -172,6 +172,10 @@ class Greedy_RandomNet():
             # Update wire path and coordinates
             self.wire.update_path(tmp, position)
             self.wire.update_coords(position)
+            
+            # Increment position.intersection if position is not a gate
+            if position.isgate is False:
+                position.increment_intersection()
 
             # Append step to wire path
             wire_path.append((position.xcoord, position.ycoord, position.zcoord))

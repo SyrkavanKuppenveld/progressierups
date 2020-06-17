@@ -42,9 +42,9 @@ class Greedy_RandomNet_Astar(Greedy_RandomNet):
             self.wire.update_path(tmp, position)
             self.wire.update_coords(position)
 
-            # Update position intersection if position is not a gate
+            # Increment position.intersection if position is not a gate
             if position.isgate is False:
-                position.update_intersection()
+                position.increment_intersection()
 
             # Append step to wire path
             wire_path.append((position.xcoord, position.ycoord, position.zcoord))

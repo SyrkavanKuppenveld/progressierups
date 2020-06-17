@@ -38,12 +38,19 @@ class Node():
 
         self.isgate = True
 
-    def update_intersection(self):
+    def increment_intersection(self):
         """
-        Increments self.intersections with 1.
+        Increments self.intersection with 1.
         """
 
         self.intersection += 1
+
+    def decrement_intersection(self):
+        """
+        Decrements self.intersection with 1.
+        """
+
+        self.intersection -= 1
 
     def update_neighbors(self):
         """
