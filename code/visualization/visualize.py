@@ -125,10 +125,6 @@ class Chip_Visualization():
         # Plot grid lines
         plt.grid(True)
 
-        # Adjust axes according to the gate coordinates
-        self.ax.set_xlim(0, self.x_max_chip)
-        self.ax.set_xlim(0, self.y_max_chip)
-
         # Show the 3D visualisattion of the Chip
         plt.show()
 
