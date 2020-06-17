@@ -220,5 +220,51 @@ class Graph():
         
 
 def compute_density(self, radius=4):
-    pass
+    
+    gate_density = []
+
+    for gate in self.gates:
+
+        # Get corresponding node
+        coords = self.gates[gate].xcoord, self.gates[gate].ycoord, self.gates[gate].zcoord
+        node = self.nodes[coords]
+
+        density = set()
+
+        for neighbor in node.neighbors:
+            if neighbor.isgate:
+                density.add(neighbor)
+
+            for neighbor_1 in neighbor.neighbors:
+                if neighbor_1.isgate:
+                    density.add(neighbor_1)
+            
+                for neighbor_2 in neighbor_1.neighbors:
+                    if neighbor_2.isgate:
+                        density.add(neighbor_2)
+
+                    for neighbor_3 in neighbor_2.neighbors:
+                        if neighbor_3.isgate:
+                            density.add(neighbor_3)
+
+                        for neighbor_4 in neighbor_3.neighbors:
+                            if neighbor_4.isgate:
+                                density.add(neighbor_4)
+
+                            for neighbor_5 in neighbor_4.neighbors:
+                                if neighbor_5.isgate:
+                                    density.add(neighbor_5)
+
+                                for neighbor_6 in neighbor_5.neighbors:
+                                    if neighbor_6.isgate:
+                                        density.add(neighbor_6)
+
+                                        for neighbor_7 in neighbor_6.neighbors:
+                                            if neighbor_7.isgate:
+                                                density.add(neighbor_7)
+
+    # Sort gates from max to min density
+    sorted_density = sorted(gate_density, key=lambda x:x[1], reverse=True)
+
+    return sorted_density
 
