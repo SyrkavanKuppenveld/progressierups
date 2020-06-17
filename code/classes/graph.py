@@ -13,7 +13,7 @@ class Graph():
         """
         Initializes a Graph object.
         
-        parameters
+        Parameters
         ----------
         print_file: a csv file
                 A csv file containing the gates and their coordinates.
@@ -36,12 +36,12 @@ class Graph():
         """
         Returns dictionary with all gate objects.
 
-        parameters
+        Parameters
         ----------
         print_file: a csv file
                 A csv file containing the gates and their coordinates.
         
-        returns
+        Returns
         -------
         dict
                 A dictionary with gate coordinates as key and the corresponding Gate 
@@ -54,7 +54,7 @@ class Graph():
         with open(print_file, newline='') as input_file:
             reader = csv.DictReader(input_file)
 
-            # Instanciate Gate objects and add to dictionary with chip as key
+            # Instantiate Gate objects and add them to dictionary with chip as key
             for row in reader:
                 gate = Gate(int(row['chip']), int(row['x']), int(row['y']))
                 gates[int(row['chip'])] = gate
@@ -65,12 +65,12 @@ class Graph():
         """
         Returns dictionary with gate connections.
 
-        parameters
+        Parameters
         ----------
         netlist_file: a csv file
                 A csv file containing a netlist.
 
-        returns
+        Returns
         -------
         dict
                 A dictionary containing the Gate object as key and set containing the 
@@ -122,7 +122,7 @@ class Graph():
 
     def generate_nodes(self):
         """
-        Returns dict with all nodes in grid.
+        Returns dict with all nodes present in the 3D grid.
 
         Returns
         -------

@@ -1,5 +1,5 @@
 class Node():
-    """Creates a Node object that represents a coordinate on the grid."""
+    """Creates a Node object which represents a coordinate on the grid."""
 
     def __init__(self, coords):
         """

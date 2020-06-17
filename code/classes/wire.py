@@ -2,7 +2,7 @@ from collections import Counter
 
 class Wire():
     """
-    Represents a wire on the chip grid.
+    Represents wire of the chip.
     """
 
     def __init__(self):
@@ -10,10 +10,10 @@ class Wire():
         Initializes a Wire object.
         """
 
-        # Keeps track of wire path for check collision and computation costs
+        # Keeps track of wire path for checking on collisions and computing costs
         self.path = set() 
 
-        # Keeps track of coordinates for computation itersections
+        # Keeps track of coordinates for counting itersections
         self.coords = []
 
     def update_path(self, position, step):
@@ -42,7 +42,8 @@ class Wire():
         """
         Updates the wire coordinates.
         
-        Only append nodes who are not a gate, because gates cannot cause intersections.
+        Only append nodes that are not a gate, since intersetions cannot occur on a
+        gate Node.
         
         Parameters
         ----------
@@ -95,11 +96,12 @@ class Wire():
 
     def compute_intersections(self):
         """
-        Returns the number of intersection.
+        Returns the number of intersections.
         
-        Intersection is indicated when an node, who is not a gate, occurs more than 
-        once. The occurance is decremented by 1 to count the occurance of intersections 
-        and not the occurance of a node.
+        An intersection occurs when a node, that is not a gate, occurs more than 
+        once in the wire. The occurance is decremented by 1, to account for the fact
+        that an intersetion only occurs when a coordinate is visitid by the wire more
+        than once.
 
         Returns
         -------
@@ -110,7 +112,7 @@ class Wire():
         # Counts occurences of coordinates
         counter = Counter(self.coords)
 
-        # Compute number of intersections
+        # Count number of intersections
         intersections = 0
         for coordinate in counter:
             if counter[coordinate] > 1:
