@@ -26,7 +26,8 @@ class Greedy():
 
         Parameters
         ----------
-        graph : Graph object of the used chip and one of its netlists
+        graph : a Graph Object
+                A Graph object of the used chip and one of its netlists.
         """
         
         self.graph = graph
@@ -39,7 +40,13 @@ class Greedy():
         self.total_path = {}
 
     def determine_net_order(self):
-        """ Returns order in which the nets will be build (list)."""
+        """ Returns order in which the nets will be build.
+        
+        Returns
+        -------
+        list
+                A list contining the Gate Object and the Gate ID as tuples.
+        """
         
         gates = []
         
@@ -58,16 +65,16 @@ class Greedy():
         
         Parameters
         ----------
-        current_gate_coords : Coordinates (x, y, z) of the current gate
-        connected_gate_coords : Coordinates (x, y, z) of the to be connected gate
+        current_gate_coords : a tuple of ints
+                Coordinates (x, y, z) of the current gate.
+        connected_gate_coords : a tuple of ints
+                Coordinates (x, y, z) of the to be connected gate.
 
         Return
         ------
-        steps_x : The lowest number of steps needed to get to the connected gate
-        w.r.t. the x-axes
-        steps_y : The lowest number of steps needed to get to the connected gate
-        w.r.t. the y-axes
-        
+        tuple of ints
+                The lowest number of steps needed to get to the connected gate.
+                w.r.t. the x-axes and the y-axis.
         """
         
         steps_x = abs(current_gate_coords[0] - connected_gate_coords[0])
@@ -82,16 +89,16 @@ class Greedy():
         
         Parameters
         ----------
-        current_gate_coords : Coordinates (x, y, z) of the current gate
-        connected_gate_coords : Coordinates (x, y, z) of the to be connected gate
+        current_gate_coords : a tuple of ints
+                Coordinates (x, y, z) of the current gate.
+        connected_gate_coords : a tuple of ints
+                Coordinates (x, y, z) of the to be connected gate.
 
         Return
         ------
-        relative_dist_x : Relative number of lengt-units between the current gate 
-        and the to be connected gate w.r.t. the x-axes
-        relative_dist_y : Relative number of lengt-units between the current gate 
-        and the to be connected gate w.r.t. the x-axes
-        
+        tuple of ints
+                Relative number of lengt-units between the current gate 
+                and the to be connected gate w.r.t. the x-axes and y-axes.
         """
         
         relative_dist_x = connected_gate_coords[0] - current_gate_coords[0]
@@ -101,18 +108,23 @@ class Greedy():
     
     def create_path(self, start_coordinates, relative_dist_x, relative_dist_y, connected_gate_coords):
         """ 
-        Builds shortest possible path according to the connected gate.
+        Builds shortest possible path to the connected gate.
         
         Parameters
         ----------
-        start_coordinates : Coordinates (x, y, z) of the start of the path (= current gate)
-        relative_dist_x : Relative Manhattan distance between the gates w.r.t. the x-axis 
-        reltive_dist_y : Relative Manhattan distance between the gates w.r.t. the y-axis
-        connected_gate_coords : Coordinates (x, y, z) of the endpoint of the path (= connected gate)
+        start_coordinates : a tuple of ints
+                Coordinates (x, y, z) of the start of the path (= current gate).
+        relative_dist_x : int
+                Relative Manhattan distance between the gates w.r.t. the x-axis. 
+        reltive_dist_y : int
+                Relative Manhattan distance between the gates w.r.t. the y-axis.
+        connected_gate_coords : a tuple of ints
+                Coordinates (x, y, z) of the endpoint of the path (= connected gate).
         
         Return
         ------
-        path : Coordinates of the created path (list)
+        list
+                A list of coordinates of the created path.
         """
         
         path = []
@@ -181,7 +193,8 @@ class Greedy():
         
         Return
         ------
-        total_path = dictionary (key = net) of paths between the gates (value: list of coordinates)
+        dict
+                A dictionary (key = net) of paths between the gates (value: list of coordinates).
         """
 
         # Get a list of gates sorted by ID

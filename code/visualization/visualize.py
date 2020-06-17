@@ -3,7 +3,7 @@ from mpl_toolkits.mplot3d import Axes3D
 import numpy as np
 
 class Chip_Visualization():
-    """ Visualises the chip Object in 3D."""
+    """ Provides a visualisation of the Chip Object in 3D."""
     
     def __init__(self, gates, wire_path):
         """
@@ -11,8 +11,10 @@ class Chip_Visualization():
 
         Parameters
         ----------
-        gates : list of gate coordinates (x, y, z)
-        wire_path : dictionary (key = net) of paths between the gates (value: list of coordinates)
+        gates : a list
+            A list of gate coordinates (x, y, z)
+        wire_path : a dict 
+                A dictionary (key = net) of paths between the gates (value: list of coordinates)
         """
 
         self.gates = gates
@@ -24,7 +26,7 @@ class Chip_Visualization():
 
 
     def create_3D_chip_outlines(self):
-        """ Create 3D plot."""
+        """ Creates a 3D figure."""
         
         fig = plt.figure()  
         ax = fig.add_subplot(111, projection='3d')
@@ -37,7 +39,7 @@ class Chip_Visualization():
         self.ax = ax
 
     def plot_gates(self):
-        """ Add gates to the 3D plot."""
+        """ Adds gates to the 3D plot."""
 
         # Get coordinates of the gates
         for gate in self.gates:
@@ -49,7 +51,7 @@ class Chip_Visualization():
             self.ax.scatter(xs, ys, zs, color='firebrick')
 
     def plot_wire(self):
-        """ Add wire paths to the 3D plot."""
+        """ Adds wire paths to the 3D plot."""
         
         # Get path coords for each net in total_path
         for path in self.total_path:
@@ -72,14 +74,14 @@ class Chip_Visualization():
                 x_max_path = max(x_coords)
             if y_coords:
                 y_max_path = max(x_coords)
-                
+
             if x_max_path > self.x_max_chip:
                 self.x_max_chip = x_max_path 
             if y_max_path > self.y_max_chip:
                 self.y_max_chip = y_max_path 
 
     def visualise_layer(self):
-        """ Add chip layers to the 3D plot."""
+        """ Adds chip layers to the 3D plot."""
 
         x_layer = np.linspace(0, self.x_max_chip, num=50)
         y_layer = np.linspace(0, self.y_max_chip, num=50)
