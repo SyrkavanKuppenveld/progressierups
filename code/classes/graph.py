@@ -169,3 +169,56 @@ class Graph():
         for gate in self.gates:
             coords = self.gates[gate].xcoord, self.gates[gate].ycoord, self.gates[gate].zcoord 
             self.nodes[coords].set_isgate()
+
+    def compute_densities(self, radius):
+        """
+        Returns a orded list with Gate objects sorted form max to min density.
+
+        Parameters
+        ----------
+        radius: int
+                The radius for which the density should be computed.
+
+        Returns
+        -------
+        list 
+                A list with Gate objects sorted from max to min density.
+        """
+
+        gate_density = []
+
+        # Compute the density for all gates
+        for gate in self.gates:
+
+            # Get x and y coordinates gate
+            x, y = self.gates[gate].xcoord, self.gates[gate].ycoord 
+
+            neighbors = set()
+
+            # Generate all posible neighbors and add to set
+            for i, j in itertools.product(range(-radius, radius + 1), range(-radius, radius + 1)):
+                x_neighbor = x + i
+                y_neighbor = y + j
+                z_neighbor = 0
+                neighbor_coords = x_neighbor, y_neighbor, z_neighbor
+                if neighbor_coords in self.nodes:
+                    neighbors.add(self.nodes[neighbor_coords])
+
+            # Compute number of nodes that contain a gate
+            density = 0
+            for neighbor in neighbors:
+                if neighbor.isgate:
+                    density += 1
+            
+            # Append gate and density to list
+            gate_density.append((gate, density))
+        
+        # Sort gates from max to min density
+        sorted_density = sorted(gate_density, key=lambda x:x[1], reverse=True)
+
+        return sorted_density
+        
+
+def compute_density(self, radius=4):
+    pass
+
