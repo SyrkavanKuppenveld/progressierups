@@ -237,8 +237,8 @@ class Greedy():
                     self.completed_connections.add(net)
 
                     # Visulalize chip on each path of the algorithm
-                    # visualisation = Chip_Visualization(self.graph.gates, self.total_path)
-                    # visualisation.run()
+                    visualisation = Chip_Visualization(self.graph.gates, self.total_path)
+                    visualisation.run()
         
         return self.total_path
 
