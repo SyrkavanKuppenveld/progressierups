@@ -8,15 +8,48 @@ from code.classes.wire import Wire
 from code.visualization.visualize import Chip_Visualization
 
 class Greedy_RandomPath():
+    """ 
+    Creates a Wire object that connects the gates according to the netlist and 
+    according to the lowest Manhattan Distance. 
+
+    Random element
+    --------------
+    * If multiple neighbors have the same distance, the next position is selected
+      randomly among those.
+    
+    Greedy element
+    --------------
+    The next position will be the neighbor with the lowest Manhattan distance from the target.
+    """
 
     def __init__(self, graph):
-        """Initialize Wire object."""
+        """
+        Initializes the Random Greedy Path algorithm.
+        
+        Parameters
+        ----------
+        graph: a Graph object
+                A Graph object representing the chip grid.
+        """
+        
 
         self.graph = graph
         self.wire = Wire()
 
     def get_next_gate(self, gates):
-        """Gets next gate and removes it from the list."""
+        """Gets next gate and removes it from the list.
+        
+        Parameters
+        ----------
+        gates: a list
+                A list containing all gates for current netlist.
+        
+        Returns
+        -------
+        Gate obkect
+                Returns next gate object.
+        
+        """
 
         next_gate = gates.pop(0)
 
@@ -27,12 +60,38 @@ class Greedy_RandomPath():
         return next_gate
 
     def get_next_connection(self, connections):
-        """ Gets next connection and removes it from the list."""
+        """Randomly returns a connection.
+        
+        Parameters
+        ----------
+        connections: a list
+                A list containin the connections from the netlist file.
+
+        Returns
+        -------
+        tuple
+                Returns tuple containing the next two gates that need to be connected.
+        """
         
         return connections.pop(0)
 
     def compute_manhattan_dist(self, start, finish):
-        """Returns the Manhattan Distance between start and finish."""
+        """
+        Returns the Manhattan Distance between start and finish.
+        
+        Parameters
+        ----------
+        position: a Node object
+                A Node object representing the current position of the wire.
+
+        goal: a Node object
+                A Node object repesenting the goal position on the grid.
+
+        Returns
+        -------
+        int 
+                The Manhattan Distance.
+        """
 
         x_dist = abs(start.xcoord - finish.xcoord)
         y_dist = abs(start.ycoord - finish.ycoord)
@@ -41,7 +100,24 @@ class Greedy_RandomPath():
         return x_dist + y_dist + z_dist
 
     def next_position(self, position, goal):
-        """Returns the next position."""
+        """
+        Returns next position.
+
+        Parameters
+        ----------
+        position: a Node object
+                A Node object representing the current position of the wire.
+
+        goal: a Node object
+                A Node object representing the goal position on the grid.
+        
+        Returns
+        -------
+        Node object
+                The Node object that will be the new position of the wire.
+        String
+                Returns 'Stuck; no solution found' if no next step could be found.
+        """
 
         mdist = []
 
@@ -62,7 +138,22 @@ class Greedy_RandomPath():
         return position
 
     def get_random_min(self, lst):
-        """Returns random minimum."""
+        """
+        Returns step with lowest Manhattan Distance, if multiple it returns one 
+        randomly.
+
+        Parameters
+        ----------
+        lst: a list
+                A list with tuples. First element of tuple is the neighbor and the 
+                second element is the Manhattan distance. 
+
+        Returns
+        -------
+        Node object
+                The Node object with the minimal Manhattan Distance from the goal gate. 
+                If multiple, Node object is chosen randomly among those.
+        """
 
         min_value = min(lst, key=lambda x: x[1])
         minimum = []
@@ -73,7 +164,22 @@ class Greedy_RandomPath():
         return random.choice(minimum)
 
     def make_connection(self, gate_a, gate_b):
-        """Returns wire connection between gate_a and gate_b."""
+        """
+        Returns set with wire path between gate_a and gate_b.
+        
+        Parameters
+        ----------
+        gate_a: int
+                An integer representing the gateID of gate_a.
+
+        gate_a: int
+                An integer representing the gateID of gate_b.
+
+        Returns
+        -------
+        tuple
+                A tuple containing the wire path to connect gate_a and gate_b.
+        """
 
         connection = []
 
@@ -103,7 +209,13 @@ class Greedy_RandomPath():
         return tuple(connection)
 
     def cost(self):
-        """ Returns True if coordinates result in intersection. """
+        """ Returns current wire cost according to objective function. 
+        
+        Returns
+        -------
+        int
+                An integer containing the current wire cost.
+        """"
 
         length = self.wire.compute_length()
         intersections = self.wire.compute_intersections()
@@ -113,139 +225,43 @@ class Greedy_RandomPath():
         return cost
 
     def run(self):
-        """Returns generated wire path."""
+        """
+        Returns dict with the wire route to connect all gates according to netlist.
+
+        Returns
+        -------
+        dict 
+                A dictionary containing the route of the wire per connection.
+        """
 
         route = {}
+        gates = list(self.graph.gates.values())
         netlist = list(self.graph.netlist)
+        completed = set()
 
-        while netlist:
 
-            # Get random connection 
-            connection = netlist.pop(0)
+        while gates:
 
-            # Get corresponding Gate objects
-            a, b = connection[0], connection[1]
-            gate_a, gate_b = self.graph.gates[a], self.graph.gates[b]
+            gate = self.get_next_gate(gates)
+            connections = list(self.graph.connections[gate])
 
-            # Generate the connection between gate a and b
-            route[(a, b)] = self.make_connection(gate_a, gate_b)
+            while connections:
 
-            # Visulalize chip on each path of the algorithm
-            # visualisation = Chip_Visualization(self.graph.gates, self.wire.path)
-            # visualisation.run()
+                # Get random connection 
+                connection = self.get_next_connection(connections)
 
+                # Get corresponding Gate objects
+                gate_a, gate_b = gate, connection
+                combination = tuple(sorted((gate_a.gateID, gate_b.gateID)))
+
+                if combination not in completed:
+                    route[combination] = self.make_connection(gate_a, gate_b)
+                    completed.add(combination)
+               
         cost = self.cost
         print(f'Cost: {cost}')
 
         return route
-
-        # # Iterate over connections in netlist
-        # for connection in self.connections:
-
-        #     for i in range(self.connections[connection]):
-
-        #         path = set()
-
-        #         # Get gateID's
-        #         a, b = connection, self.connections[connection][i]
-
-        #         # Get gate coordinates
-        #         a_x, a_y, a_z = self.gates[a].xcoord, self.gates[a].ycoord, 0
-        #         b_x, b_y, b_z = self.gates[b].xcoord, self.gates[b].ycoord, 0
-
-        #         # Initialize wire coordinates
-        #         x_current = a_x
-        #         y_current = a_y
-        #         z_current = 0
-        #         current_location = [x_current, y_current, z_current]
-
-        #         x_update = a_x
-        #         y_update = a_y
-        #         z_update = 0
-
-
-        #         # While Gate b not yet reached
-        #         while x_current != b_x and y_current != b_y and z_current != 0:
-
-        #             # Add current wire unit to path
-        #             current_location = [x_current, y_current, z_current]
-        #             self.wire_path.append(current_location)
-
-        #             # Try current level first
-        #             # Create options going east, west, north, south
-        #             option_e_coords = (x_current + 1, y_current, z_current)
-        #             option_w_coords = (x_current - 1, y_current, z_current)
-        #             option_n_coords = (x_current, y_current + 1, z_current)
-        #             option_s_coords = (x_current, y_current - 1, z_current)
-
-        #             options_current_level = [option_e_coords, option_w_coords, option_n_coords, option_s_coords]
-
-        #             # Calculate possible collisions
-        #             for option in options_current_level:
-        #                 if self.check_collision(current_location, option):
-        #                     options_current_level.pop(option)
-
-        #             # Calculate intersections
-        #             for option in options_current_level:
-        #                 if 
-
-        #             # If one option
-        #             if len(options_current_level) == 1:
-        #                 optimal_direction = options_current_level[0]
-
-        #             # If multiple options left, calculate best option according to Manhatten distance
-        #             elif len(options_current_level) > 1:
-        #                 direction_lengths = {}
-        #                 for option in options_current_level:
-        #                     direction_lengths[option] = distance.cityblock([option[0], option[1]], [b_x, b_y, b_z])
-
-        #                 # Get option with lowest Manhattan distance
-        #                 shortest_distance = min(direction_lengths, key=direction_lengths.get)
-        #                 if len(shortest_distance) == 1:
-        #                     optimal_direction = shortest_distance[0]
-        #                 else:
-        #                     optimal_direction = random.choice(shortest_distance)
-
-
-        #             # If no options on current level
-        #             elif len(options_current_level) == 0:
-                        
-        #                 # Create options for up and down
-        #                 option_u_coords = (x_current, y_current, z_current + 1)
-        #                 option_d_coords = (x_current, y_current, z_current - 1)
-
-        #                 # If down is no option
-        #                 if z_current == 0 or (current_location, option_d_coords) in wire_units or (option_d_coords, current_location) in wire_units:
-                            
-        #                     # If up is no option; no options left
-        #                     if (current_location, option_u_coords) in wire_units or (option_u_coords, current_location) in wire_units:
-        #                         return f'Wire got stuck at {current_location}'
-                            
-        #                     # Go up
-        #                     optimal_direction = option_u_coords
-
-
-        #             # Generate new wire line
-        #             x_update = optimal_direction(0)
-        #             y_update = optimal_direction(1)
-        #             z_update = optimal_direction(2)
-        #             next_location = (x_update, y_update, z_update)
-
-        #             # Add new wire path
-        #             self.wire_units.add((current_location, next_location))
-        #             path.add(next_location)
-
-        #             if b_x == x_update:
-        #                 print('x = check')
-        #                         # Update and append step coordinates
-        #             if b_y == y_update:
-        #                 print('y = check')
-
-        #             if b_z == z_update:
-        #                 print('z = check')
-
-        # return self.wire_path
-
 
     def check_collision(self, current_location, coordinates):
         """ Returns True if coordinates result in collision. """
@@ -265,3 +281,4 @@ class Greedy_RandomPath():
 
 
 '***************************************************************************'
+
