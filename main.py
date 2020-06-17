@@ -60,6 +60,18 @@ if __name__ == "__main__":
     #             print("restart algorithm")
     #             break    
 
+    # -------------------- RANDOM GREEDY PATH --------------------
+
+    # # Graph
+    # graph = Graph(print_file, netlist_file)
+
+    # # Algorithms
+    # algorithm = Greedy_RandomPath(graph)
+    # wire_path = algorithm.run()
+
+    # # Visualization
+    # visualization = Chip_Visualization(graph.gates, wire_path)
+    # visualization.run()
 
     # -------------------- RANDOM GREEDY NET --------------------
     
@@ -210,5 +222,3 @@ if __name__ == "__main__":
     #             time.sleep(1)
     #             print("restart algorithm")
     #             break
-
-
