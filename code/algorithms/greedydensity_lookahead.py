@@ -20,23 +20,26 @@ class GreedyDensity_LookAhead(Greedy_RandomNet_LookAhead):
         while gates_density:
 
             # Get random connection 
-            gate = gates_density.pop(0)[0]
+            gateID = gates_density.pop(0)[0]
+            gate = self.graph.gates[gateID]
 
-            # Iterate over the connections of the gate
-            for connection in self.graph.connection[gate]:
+            if gate in self.graph.connections:
 
-                # Check if connection is not already completed
-                combination = tuple(sorted(gate.gateID, connection.gateID))
-                if combination not in completed:
+                # Iterate over the connections of the gate
+                for connection in self.graph.connections[gate]:
 
-                    # Get corresponding Gate objects             
-                    gate_a, gate_b = gate, connection
+                    # Check if connection is not already completed
+                    combination = tuple(sorted([gate.gateID, connection.gateID]))
+                    if combination not in completed:
 
-                    # Generate the connection between gate a and b
-                    route[combination] = self.make_connection(gate_a, gate_b)
+                        # Get corresponding Gate objects             
+                        gate_a, gate_b = gate, connection
 
-                #     # Visualize wire per connection
-                #     visualization = Chip_Visualization(self.graph.gates, route)
-                #     visualization.run()
+                        # Generate the connection between gate a and b
+                        route[combination] = self.make_connection(gate_a, gate_b)
+
+                    #     # Visualize wire per connection
+                    #     visualization = Chip_Visualization(self.graph.gates, route)
+                    #     visualization.run()
 
         return route
