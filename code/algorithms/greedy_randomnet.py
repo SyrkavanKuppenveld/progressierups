@@ -111,7 +111,7 @@ class Greedy_RandomNet():
 
         Parameters
         ----------
-        lst: a list
+        list: a list
                 A list with tuples. First element of tuple is the neighbor and the 
                 second element is the Manhattan distance. 
 
@@ -180,7 +180,7 @@ class Greedy_RandomNet():
    
     def run(self):
         """
-        Returns dict with the wire route to connect all gates according to netlist.
+        Returns a dictionary with the wire route to connect all gates according to netlist.
 
         Returns
         -------

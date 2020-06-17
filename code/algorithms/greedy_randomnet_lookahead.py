@@ -23,7 +23,7 @@ class Greedy_RandomNet_LookAhead(Greedy_RandomNet):
 
     def next_position(self, position, goal):
         """
-        Returns next position occuring to 4 steps look ahead.
+        Returns next position according to 4 steps look ahead.
 
         Parameters
         ----------
@@ -39,7 +39,7 @@ class Greedy_RandomNet_LookAhead(Greedy_RandomNet):
                 The Node object that will be the new position of the wire.
         """
 
-        depth = 5
+        depth = 4
         stack = [[]]
         paths = []
 
@@ -51,14 +51,14 @@ class Greedy_RandomNet_LookAhead(Greedy_RandomNet):
             state = stack.pop()
 
             # Append the state to path if first iteration is false and it reached the goal 
-            # gate or state length equals the depth
+            # gate or if state length equals the depth
             length = len(state)
             if first is False and (length == depth + 1 or state[length - 1] == goal):
                 paths.append(state)
 
             # Only continue if len state does not exceed the depth
             # depth + 1 >> because the current position is also added to the state in the
-            # first iteration, however, this this should not be included as a depth level
+            # first iteration, however, this should not be included as a depth level
             elif len(state) < depth + 1:
                 
                 # Assign next position according to first
@@ -67,7 +67,7 @@ class Greedy_RandomNet_LookAhead(Greedy_RandomNet):
                 else:
                     position_next = state[len(state) - 1]
 
-                # Iterate over neighbors current position
+                # Iterate over neighbors of the current position
                 for neighbor in position_next.neighbors:
      
                     # Different approach for first iteration
@@ -101,7 +101,7 @@ class Greedy_RandomNet_LookAhead(Greedy_RandomNet):
         # Get next position 
         position = self.get_random_min(mdist)
 
-        # Get corresponding position form orginal graph nodes
+        # Get corresponding position from orginal graph nodes
         position = self.graph.nodes[(position.xcoord, position.ycoord, position.zcoord)]
 
         return position
@@ -190,7 +190,7 @@ class Greedy_RandomNet_LookAhead(Greedy_RandomNet):
         last = len(child) - 1
         child_x, child_y, child_z = child[last].xcoord, child[last].ycoord, child[last].zcoord
 
-        # Compute absolute difference between 
+        # Compute absolute difference between child and neighbor
         x_diff = abs(child_x - neighbor_x)
         y_diff = abs(child_y - neighbor_y)
         z_diff = abs(child_z - neighbor_z)
@@ -210,8 +210,9 @@ class Greedy_RandomNet_LookAhead(Greedy_RandomNet):
         goal: a Node object
                 A Node object repesenting the goal position on the grid.
 
-        Feturns 
+        Returns 
         -------
+        list        
                 A list with tuples. First element of tuple is the neighbor and the 
                 second element is the Manhattan distance. 
 

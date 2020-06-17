@@ -58,7 +58,7 @@ class Greedy_RandomNet_NoIntersect_LookAhead(Greedy_RandomNet_NoIntersect):
 
             # Only continue if len state does not exceed the depth
             # depth + 1 >> because the current position is also added to the state in the
-            # first iteration, however, this this should not be included as a depth level
+            # first iteration, however, this should not be included as a depth level
             elif len(state) < depth + 1:
                 
                 # Assign next position according to first
@@ -194,7 +194,7 @@ class Greedy_RandomNet_NoIntersect_LookAhead(Greedy_RandomNet_NoIntersect):
         last = len(child) - 1
         child_x, child_y, child_z = child[last].xcoord, child[last].ycoord, child[last].zcoord
 
-        # Compute absolute difference between 
+        # Compute absolute difference between child and neighbour
         x_diff = abs(child_x - neighbor_x)
         y_diff = abs(child_y - neighbor_y)
         z_diff = abs(child_z - neighbor_z)
