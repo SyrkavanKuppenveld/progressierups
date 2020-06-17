@@ -1,6 +1,7 @@
 from code.classes import Graph
-from code.algorithms import Greedy_RandomNet, Greedy_RandomNet_LookAhead, Random
+from code.algorithms import Greedy_RandomNet, Greedy_RandomNet_LookAhead, Random, Greedy_RandomNet_NoIntersect, Greedy_RandomNet_NoIntersect_LookAhead
 from code.visualization import Chip_Visualization
+import time
 
 if __name__ == "__main__":
 
@@ -111,7 +112,7 @@ if __name__ == "__main__":
     # not_found = True
     # while not_found:
     #     while True:
-    #
+    
     #         # Restart algorithm if error occurs
     #         try:
     #             # Run algorithm
@@ -130,6 +131,83 @@ if __name__ == "__main__":
     #             not_found = False
     #             break
     #         except:
+    #             print("restart algorithm")
+    #             break
+
+# --------------- RANDOM GREEDY NET NO INTERSECT ---------------
+
+    # # Perform algorithm once print costs and visualise
+    # algo = Greedy_RandomNet_NoIntersect(graph)
+    # wire_path = algo.run()
+    # costs = algo.wire.compute_costs()
+    # print(f'wire costs = {costs}')
+    # visualisation = Chip_Visualization(graph.gates, wire_path)
+    # visualisation.run()
+
+    # Repeat algorithm until solution is found
+    # not_found = True
+    # while not_found:
+    #     while True:
+    
+    #         # Restart algorithm if error occurs
+    #         try:
+    #             # Run algorithm
+    #             algo = Greedy_RandomNet_NoIntersect(graph)
+    #             wire_path = algo.run()
+
+    #             # Compute and print wire costs
+    #             costs = algo.wire.compute_costs()
+    #             print(f'wire costs = {costs}')
+
+    #             # Visualise algorithm 
+    #             # visualisation = Chip_Visualization(graph.gates, wire_path)
+    #             # visualisation.run()
+
+    #             # Set found to True and break out of loop
+    #             not_found = False
+    #             break
+    #         except:
+    #             print(algo.wire.path)
+    #             print("restart algorithm")
+    #             time.sleep(1)
+    #             break
+
+
+# ---------- RANDOM GREEDY NET NO INTERSECT LOOK AHEAD ----------
+
+    # # Perform algorithm once print costs and visualise
+    # algo = Greedy_RandomNet_NoIntersect_LookAhead(graph)
+    # wire_path = algo.run()
+    # costs = algo.wire.compute_costs()
+    # print(f'wire costs = {costs}')
+    # visualisation = Chip_Visualization(graph.gates, wire_path)
+    # visualisation.run()
+
+    # # Repeat algorithm until solution is found
+    # not_found = True
+    # while not_found:
+    #     while True:
+    
+    #         # Restart algorithm if error occurs
+    #         try:
+    #             # Run algorithm
+    #             algo = Greedy_RandomNet_NoIntersect_LookAhead(graph)
+    #             wire_path = algo.run()
+
+    #             # Compute and print wire costs
+    #             costs = algo.wire.compute_costs()
+    #             print(f'wire costs = {costs}')
+
+    #             # Visualise algorithm 
+    #             visualisation = Chip_Visualization(graph.gates, wire_path)
+    #             visualisation.run()
+
+    #             # Set found to True and break out of loop
+    #             not_found = False
+    #             break
+    #         except:
+    #             print(algo.wire.path)
+    #             time.sleep(1)
     #             print("restart algorithm")
     #             break
 
