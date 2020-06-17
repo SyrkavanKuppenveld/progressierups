@@ -40,6 +40,8 @@ class HillClimber(Greedy_RandomNet_LookAhead):
         gate_a, gate_b = net
         
         new_path = self.make_connection(gate_a, gate_b)
+        
+        # Update wire_path
         self.wire_path[net] = new_path
 
 
@@ -60,7 +62,7 @@ class HillClimber(Greedy_RandomNet_LookAhead):
             # Get random net
             net = self.get_random_net()
 
-            # Remove old net form wire
+            # Remove old net form wire object
             self.remove_net(net)
 
             # Apply random adjustment on net

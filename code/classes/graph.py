@@ -268,3 +268,40 @@ def compute_density(self, radius=4):
 
     return sorted_density
 
+
+
+
+
+
+
+
+def get_recurs_neighbours(self, density, node, count, base):
+    density_set = density
+    if count < base:
+        for neighbour in node.neighbours:
+            if not neighbour.isgate():
+                density_set.add(neighbour)
+                count += 1
+                return density
+            
+            node = neighbour
+            self.get_recurs_neighbours(density_set, node, count, base)
+
+
+def recursive_density(self, radius=4):
+    
+    gate_density = []
+
+    for gate in self.gates:
+
+        # Get corresponding node
+        coords = self.gates[gate].xcoord, self.gates[gate].ycoord, self.gates[gate].zcoord
+        node = self.nodes[coords]
+
+        density = set()
+
+        count = 0
+        base = 7
+        density = self.get_recurs_neighbours(density, node, count, base)
+        
+
