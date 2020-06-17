@@ -145,7 +145,6 @@ class Greedy_RandomNet():
         gate_a: int
                 A integer representing the gateID of gate_b.
 
-
         Returns
         -------
         tuple
