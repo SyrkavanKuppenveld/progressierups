@@ -13,7 +13,7 @@ class GreedyDensity_LookAhead(Greedy_RandomNet_LookAhead):
         """
 
         route = {}
-        gates_density = self.graph.compute_densities(2)
+        gates_density = self.graph.compute_densities(3)
         completed = set()
 
         # Iterate until netlist is empyt

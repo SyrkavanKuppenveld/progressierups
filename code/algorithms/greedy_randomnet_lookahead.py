@@ -156,7 +156,7 @@ class Greedy_RandomNet_LookAhead(Greedy_RandomNet):
         if self.wire.check_collision(position, neighbor) is False:
             return False
         
-        # Returns False if i is in child
+        # Returns False if neighbor is in child
         neighbor_coords = neighbor.xcoord, neighbor.ycoord, neighbor.zcoord
         neighbor_node = self.graph.nodes[neighbor_coords]
         if neighbor_node in child:
