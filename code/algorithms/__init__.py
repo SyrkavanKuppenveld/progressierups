@@ -10,6 +10,7 @@ Also see:
         pydoc algorithms.greedy_randomnet_nointersect
         pydoc algorithms.greedy_randomnet_nointersect_lookahead
         pydoc algorithms.greedy_randompath
+        pydoc algorithms.hillclimber
 """
 
 
@@ -20,3 +21,4 @@ from code.algorithms.greedy_randomnet_lookahead import Greedy_RandomNet_LookAhea
 from code.algorithms.greedy_randomnet_nointersect import Greedy_RandomNet_NoIntersect
 from code.algorithms.greedy_randomnet_nointersect_lookahead import Greedy_RandomNet_NoIntersect_LookAhead
 from code.algorithms.greedy_randompath import Greedy_RandomPath
+from code.algorithms.hillclimber import HillClimber
