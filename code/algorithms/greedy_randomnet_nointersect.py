@@ -27,7 +27,7 @@ class Greedy_RandomNet_NoIntersect(Greedy_RandomNet):
                 A Node object representing the current position of the wire.
 
         goal: a Node object
-                A Node object representing the goal position.
+                A Node object repesenting the goal position on the grid.
         
         Returns
         -------

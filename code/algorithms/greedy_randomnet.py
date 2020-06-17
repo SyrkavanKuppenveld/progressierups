@@ -57,7 +57,7 @@ class Greedy_RandomNet():
                 A Node object representing the current position of the wire.
 
         goal: a Node object
-                A Node object representing the goal position.
+                A Node object repesenting the goal position on the grid.
         
         Returns
         -------
@@ -90,7 +90,7 @@ class Greedy_RandomNet():
                 A Node object representing the current position of the wire.
 
         goal: a Node object
-                A node object representing the goal position of the wire.
+                A Node object repesenting the goal position on the grid.
 
         Returns
         -------

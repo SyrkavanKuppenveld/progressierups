@@ -207,8 +207,8 @@ class Greedy_RandomNet_LookAhead(Greedy_RandomNet):
         path: a list
                 A list containing all valid paths for a for step look ahead.
 
-        Goal: a Node object
-                A Node object repesenting the goal gate.
+        goal: a Node object
+                A Node object repesenting the goal position on the grid.
 
         Feturns 
         -------
@@ -234,8 +234,8 @@ class Greedy_RandomNet_LookAhead(Greedy_RandomNet):
         path: a list
                 A list of Nodes representing a wire path.
 
-        Goal: a Node object
-                A Node object repesenting the goal gate. 
+        goal: a Node object
+                A Node object repesenting the goal position on the grid.
 
         Returns 
         -------

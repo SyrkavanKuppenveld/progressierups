@@ -31,7 +31,7 @@ class Greedy_RandomNet_NoIntersect_LookAhead(Greedy_RandomNet_NoIntersect):
                 A Node object representing the current position of the wire.
 
         goal: a Node object
-                A Node object representing the goal position.
+                A Node object representing the goal position on the grid.
         
         Returns
         -------
@@ -212,7 +212,7 @@ class Greedy_RandomNet_NoIntersect_LookAhead(Greedy_RandomNet_NoIntersect):
                 A list containing all valid paths for a for step look ahead.
 
         Goal: a Node object
-                A Node object repesenting the goal gate.
+                A Node object repesenting the goal position on the grid.
 
         Feturns 
         -------
@@ -239,7 +239,7 @@ class Greedy_RandomNet_NoIntersect_LookAhead(Greedy_RandomNet_NoIntersect):
                 A list of Nodes representing a wire path.
 
         Goal: a Node object
-                A Node object repesenting the goal gate. 
+                A Node object repesenting the goal position on the grid. 
 
         Returns 
         -------
