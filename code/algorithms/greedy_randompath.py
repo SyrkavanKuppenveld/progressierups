@@ -215,7 +215,7 @@ class Greedy_RandomPath():
         -------
         int
                 An integer containing the current wire cost.
-        """"
+        """
 
         length = self.wire.compute_length()
         intersections = self.wire.compute_intersections()
