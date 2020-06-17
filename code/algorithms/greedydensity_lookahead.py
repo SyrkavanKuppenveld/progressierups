@@ -19,7 +19,7 @@ class GreedyDensity_LookAhead(Greedy_RandomNet_LookAhead):
         # Iterate until netlist is empyt
         while gates_density:
 
-            # Get random connection 
+            # Get gates based on density
             gateID = gates_density.pop(0)[0]
             gate = self.graph.gates[gateID]
 

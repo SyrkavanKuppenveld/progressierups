@@ -120,7 +120,6 @@ class Greedy_RandomNet_LookAhead(Greedy_RandomNet):
         -------
         list
                 A list containing 'deep' copy of the nodes in the original list.
-        
         """
 
         copy = []
@@ -149,7 +148,6 @@ class Greedy_RandomNet_LookAhead(Greedy_RandomNet):
         -------
         bool
                 True if successfull, otherwise False.
-        
         """
 
         # Returns False if collision occurs
@@ -180,7 +178,6 @@ class Greedy_RandomNet_LookAhead(Greedy_RandomNet):
         -------
         bool
                 True if successfull, otherwise False.
-        
         """
 
         # Get coordinates of neighbor
@@ -200,7 +197,7 @@ class Greedy_RandomNet_LookAhead(Greedy_RandomNet):
 
     def all_distances(self, paths, goal):
         """
-        Returns the list with all distances and their corresponding total distance.
+        Returns the list with all distances and their corresponding total costs.
         
         Parameters
         ----------
@@ -214,17 +211,16 @@ class Greedy_RandomNet_LookAhead(Greedy_RandomNet):
         -------
         list        
                 A list with tuples. First element of tuple is the neighbor and the 
-                second element is the Manhattan distance. 
-
+                second element is the path's costs. 
         """
 
-        mdist = []
+        costs = []
 
         for path in paths:
             total_dist = self.path_distance(path, goal)
-            mdist.append((path[1], total_dist))
+            costs.append((path[1], total_dist))
 
-        return mdist
+        return costs
 
     def path_distance(self, path, goal):
         """
@@ -242,7 +238,6 @@ class Greedy_RandomNet_LookAhead(Greedy_RandomNet):
         -------
         int
                 The Manhattan Distance of the total path.
-        
         """
         
         dist = 0

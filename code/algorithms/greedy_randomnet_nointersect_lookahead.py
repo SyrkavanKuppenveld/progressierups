@@ -1,4 +1,12 @@
+"""
+Greedy Random Netlist Without Intersections Look Ahead Algorithm.
+
+This module contains the code for a Greedy Random Netlist Without 
+Intersections Look Ahead Algorithm.
+"""
+
 from code.algorithms.greedy_randomnet_nointersect import Greedy_RandomNet_NoIntersect
+
 
 class Greedy_RandomNet_NoIntersect_LookAhead(Greedy_RandomNet_NoIntersect):
     """ 
@@ -39,7 +47,7 @@ class Greedy_RandomNet_NoIntersect_LookAhead(Greedy_RandomNet_NoIntersect):
                 The Node object that will be the new position of the wire.
         """
 
-        depth = 5
+        depth = 6
         stack = [[]]
         paths = []
 
@@ -140,7 +148,7 @@ class Greedy_RandomNet_NoIntersect_LookAhead(Greedy_RandomNet_NoIntersect):
                 A list containing Node objects representing a wire path.
 
         position: a Node object
-                 A node object representing the current position of the wire in the grid.
+                A node object representing the current position of the wire in the grid.
 
         neighbor: a Node object 
                 A Node object representing the neighbor of the current position of the wire.
