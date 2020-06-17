@@ -42,7 +42,6 @@ class Greedy_RandomNet_NoIntersect(Greedy_RandomNet):
 
             # If move is allowed compute and append Manhattan Distance
             if self.wire.check_collision(position, neighbor) and neighbor.intersection == 0 and (neighbor.isgate is False or neighbor == goal):
-                print(neighbor)
                 dist = self.compute_manhattan_dist(neighbor, goal)
                 mdist.append((neighbor, dist))
                   

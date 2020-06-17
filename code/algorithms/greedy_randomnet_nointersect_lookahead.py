@@ -18,7 +18,7 @@ class Greedy_RandomNet_NoIntersect_LookAhead(Greedy_RandomNet_NoIntersect):
 
     Look ahead
     ----------
-    Depth of 4.
+    Depth of 5.
     """
 
     def next_position(self, position, goal):
@@ -38,6 +38,7 @@ class Greedy_RandomNet_NoIntersect_LookAhead(Greedy_RandomNet_NoIntersect):
         Node object
                 The Node object that will be the new position of the wire.
         """
+
         depth = 5
         stack = [[]]
         paths = []
@@ -159,7 +160,7 @@ class Greedy_RandomNet_NoIntersect_LookAhead(Greedy_RandomNet_NoIntersect):
         if neighbor.intersection != 0:
             return False
         
-        # Returns False if i is in child
+        # Returns False if neighbor is in child
         neighbor_coords = neighbor.xcoord, neighbor.ycoord, neighbor.zcoord
         neighbor_node = self.graph.nodes[neighbor_coords]
         if neighbor_node in child:

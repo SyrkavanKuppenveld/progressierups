@@ -205,5 +205,9 @@ class Greedy_RandomNet():
             # Generate the connection between gate a and b
             route[(a, b)] = self.make_connection(gate_a, gate_b)
 
+        #     # Visualize wire per connection
+        #     visualization = Chip_Visualization(self.graph.gates, route)
+        #     visualization.run()
+
         return route
 
