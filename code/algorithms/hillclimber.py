@@ -85,18 +85,21 @@ class HillClimber(Greedy_RandomNet_LookAhead):
                     self.wire.path.remove(length_unit)
                     coord_storage.pop(0)
 
-
     def apply_random_adjustment(self, net, gates):
         gate_a, gate_b = gates
+        valid_path = False
+        new_path = None
+
         new_path = self.make_connection(gate_a, gate_b)
-        
+
+        # try:
+        #     new_path = self.make_connection(gate_a, gate_b)
+        # except Exception as e:
+        #     print("Hillclimber did not find a valid path, new path will be build")
+    
         # Update wire_path
         self.wire_path[net] = new_path
 
-
-    
-    
-    
     def run(self):
 
         # 2. Repeat until cost does not improve after N iterations:
