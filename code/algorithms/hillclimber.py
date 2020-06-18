@@ -1,10 +1,10 @@
 from code.classes import Graph
-from code.algorithms import Greedy_RandomNet_LookAhead, Greedy_RandomNet
+from code.algorithms import Greedy_RandomNet_LookAhead, Greedy_RandomNet, Random
 from code.visualization import Chip_Visualization
 import random
 import matplotlib.pyplot as plt
 
-class HillClimber(Greedy_RandomNet_LookAhead):
+class HillClimber(Random):
     """
     <INFORMATIE>
     """
