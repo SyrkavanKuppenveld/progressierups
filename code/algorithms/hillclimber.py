@@ -2,13 +2,14 @@ from code.classes import Graph
 from code.algorithms import Greedy_RandomNet_LookAhead, Greedy_RandomNet
 from code.visualization import Chip_Visualization
 import random
+import matplotlib.pyplot as plt
 
 class HillClimber(Greedy_RandomNet_LookAhead):
     """
     <INFORMATIE>
     """
 
-    def __init__(self, graph, random_startState, start_wire_path, start_cost):
+    def __init__(self, graph, random_startWireObject, start_wire_path_dict, start_cost):
         """ 
         Initializes the start state of the algorithm.
         """
@@ -16,24 +17,28 @@ class HillClimber(Greedy_RandomNet_LookAhead):
         # 1. Initialize a random start state
         # Keeps track of current state
         self.graph = graph
-        self.wire = random_startState
-        self.wire_path = start_wire_path
+        self.wire = random_startWireObject
+        self.wire_path_dict = start_wire_path_dict
         self.cost = start_cost
 
         # Keeps track of best state
         self.best_graph = graph
-        self.best_wire = random_startState
-        self.best_wire_path = start_wire_path
+        self.best_wire = random_startWireObject
+        self.best_wire_path_dict = start_wire_path_dict
         self.best_cost = start_cost
 
         # Used to check on conversion
         self.improvements = []
         self.conversion = False
 
+        # Keep track of the HillClimbers' cost
+        self.climbers_costs = []
+        self.iteration = []
+
     def get_random_net(self):
         
         # Randomly choose a net that is to be re-build
-        nets = list(self.wire_path.keys())
+        nets = list(self.wire_path_dict.keys())
         net = random.choice(nets)
         
         gate_a = self.graph.gates[net[0]]
@@ -45,7 +50,7 @@ class HillClimber(Greedy_RandomNet_LookAhead):
     
     def remove_net(self, net, gates):
         
-        net_path = self.wire_path[net]
+        net_path = self.wire_path_dict[net]
         
         # coord_storage = []
         for coordinates in net_path:    
@@ -71,18 +76,25 @@ class HillClimber(Greedy_RandomNet_LookAhead):
         new_path = self.make_connection(gate_a, gate_b)
 
         # Update wire_path
-        self.wire_path[net] = new_path
+        self.wire_path_dict[net] = new_path
 
     def run(self):
         ITERATIONS = 100
-        count = 0
+        iteration = 0
 
-        # --------------------- Visualise Chip ---------------------
-        visualisation = Chip_Visualization(self.graph.gates, self.wire_path)
+        # # --------------------- Visualise Chip ---------------------
+        visualisation = Chip_Visualization(self.graph.gates, self.wire_path_dict)
         visualisation.run()
         
         # 2. Repeat until cost does not improve after N iterations:
         while not self.conversion:
+
+            # # Keep track of the HillClimbers' cost
+            self.climbers_costs.append(self.best_cost)
+            self.iteration.append(iteration)
+            print(f"Iteration: {iteration}")
+            iteration += 1
+            print(f"Best cost: {self.best_cost}")
             
             # 3. Apply random adjustment
             # Get random net
@@ -103,25 +115,31 @@ class HillClimber(Greedy_RandomNet_LookAhead):
                 self.best_cost = cost
                 self.best_graph = self.graph
                 self.best_wire = self.wire
-                self.best_wire_path = self.wire_path
+                self.best_wire_path_dict = self.wire_path_dict
                 self.improvements.append(True)
             else:
                 self.improvements.append(False)
-
-            count += 1
 
             # Check if conversion has occured over the past 20 iterations
             if len(self.improvements) == ITERATIONS:
                 # If no improvement occured, quit the HillClimber algorithm
                 if True not in self.improvements:
-                    break
+                    self.conversion = True
 
                 # Make room for next iteration
                 self.improvements.pop(0)
         
-            # --------------------- Visualise Chip ---------------------
-            visualisation = Chip_Visualization(self.graph.gates, self.wire_path)
-            visualisation.run()
+        # --------------------- Visualise Chip ---------------------
+        visualisation = Chip_Visualization(self.graph.gates, self.wire_path_dict)
+        visualisation.run()
+
+        # # --------------------- Visualise Climbers cost -------------------
+        plt.plot(self.iteration, self.climbers_costs)
+        plt.show()
+
+
+
+
 
             
 

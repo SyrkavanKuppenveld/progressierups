@@ -187,7 +187,7 @@ class Greedy_RandomNet():
             # Append step to wire path
             wire_path.append((position.xcoord, position.ycoord, position.zcoord))
         
-        print(wire_path)
+        # print(wire_path)
         
         return wire_path
 
