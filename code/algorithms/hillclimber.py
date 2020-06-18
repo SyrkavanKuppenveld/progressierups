@@ -52,22 +52,22 @@ class HillClimber(Greedy_RandomNet_LookAhead):
     
     def remove_net(self, net, gates):
         
-        print(f"Net: {net}")
+        # print(f"Net: {net}")
         
         net_path = self.wire_path[net]
-        print(f"Net path: {net_path}")
+        # print(f"Net path: {net_path}")
         
         coord_storage = []
         for coordinates in net_path:    
             # Remove old path coordinates from the coordinate storage of the Wire Object
             # Gates can never be an intersection and thus will not be taken into account
             node = self.graph.nodes[coordinates]
-            print(f"Node = {node}")
-            print(f"Type = {type(node)}")
+            # print(f"Node = {node}")
+            # print(f"Type = {type(node)}")
             if not node.isgate:
-                print(f"coordinates: {coordinates}")
-                print(f"wire coords: {self.wire.coords}")
-                print(f"test")
+                # print(f"coordinates: {coordinates}")
+                # print(f"wire coords: {self.wire.coords}")
+                # print(f"test")
                 
                 # Remove node form coordinate storage
                 self.wire.coords.remove(node)
@@ -87,8 +87,8 @@ class HillClimber(Greedy_RandomNet_LookAhead):
 
     def apply_random_adjustment(self, net, gates):
         gate_a, gate_b = gates
-        valid_path = False
-        new_path = None
+        # valid_path = False
+        # new_path = None
 
         new_path = self.make_connection(gate_a, gate_b)
 
@@ -105,15 +105,19 @@ class HillClimber(Greedy_RandomNet_LookAhead):
         # 2. Repeat until cost does not improve after N iterations:
         while not self.conversion:
 
+            # try:
             # 3. Apply random adjustment
             # Get random net
             net, gates = self.get_random_net()
 
-            # Remove old net form wire object
+            # Remove old net path form wire object
             self.remove_net(net, gates)
 
             # Apply random adjustment on net
             self.apply_random_adjustment(net, gates)
+            
+            # except:
+                # print("Hillclimber could not find valid path")
 
             # # --------------------- Visualise Chip ---------------------
             visualisation = Chip_Visualization(self.graph.gates, self.wire_path)
@@ -133,8 +137,8 @@ class HillClimber(Greedy_RandomNet_LookAhead):
             else:
                 self.improvements.append(False)
 
-            # Check if conversion has occured over the past 1000 iterations
-            if len(self.improvements) == 1000:
+            # Check if conversion has occured over the past 20 iterations
+            if len(self.improvements) == 20:
                 # If no improvement occured, quit the HillClimber algorithm
                 if True not in self.improvements:
                     break

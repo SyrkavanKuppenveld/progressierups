@@ -87,14 +87,14 @@ class Chip_Visualization():
     def visualise_layer(self):
         """ Adds chip layers to the 3D plot."""
 
-        x_layer = np.linspace(0, self.x_max_chip, num=50)
-        y_layer = np.linspace(0, self.y_max_chip, num=50)
+        x_layer = np.linspace(0, self.x_max_chip, num=5)
+        y_layer = np.linspace(0, self.y_max_chip, num=5)
         X, Y = np.meshgrid(x_layer, y_layer)
 
         # Create 3D plane to represent each layer
         for i in range(7):   
             Z = np.power(X, 0) * (i + 1)
-            self.ax.plot_surface(X, Y, Z, color='lightcyan', alpha=0.5)
+            self.ax.plot_surface(X, Y, Z, color='lightcyan', alpha=0.3)
 
     def run(self):
         """ Creates and displays the 3D visualisation of the chip."""
