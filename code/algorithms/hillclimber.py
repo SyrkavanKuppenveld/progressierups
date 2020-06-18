@@ -29,13 +29,6 @@ class HillClimber(Greedy_RandomNet_LookAhead):
         # Used to check on conversion
         self.improvements = []
         self.conversion = False
-        
-    def get_random_startState(self):
-        pass
-        
-        # self.wire_path = wire_path
-        # self.cost = costs
-        # self.wire = algo.wire
 
     def get_random_net(self):
         
@@ -52,60 +45,45 @@ class HillClimber(Greedy_RandomNet_LookAhead):
     
     def remove_net(self, net, gates):
         
-        # print(f"Net: {net}")
-        
         net_path = self.wire_path[net]
-        # print(f"Net path: {net_path}")
         
-        coord_storage = []
+        # coord_storage = []
         for coordinates in net_path:    
             # Remove old path coordinates from the coordinate storage of the Wire Object
             # Gates can never be an intersection and thus will not be taken into account
             node = self.graph.nodes[coordinates]
-            # print(f"Node = {node}")
-            # print(f"Type = {type(node)}")
             if not node.isgate:
-                # print(f"coordinates: {coordinates}")
-                # print(f"wire coords: {self.wire.coords}")
-                # print(f"test")
-                
                 # Remove node form coordinate storage
                 self.wire.coords.remove(node)
 
                 # Correct intersection-count of the Node object of the current coordinate
                 node.decrement_intersection()
-                
-                # Keep track of wire-units in old path
-                coord_storage.append(coordinates)
-                
-                # Create wire unit
-                if len(coord_storage) == 2:
-                    # Remove old wire units from the path storage of the Wire Object
-                    length_unit = tuple(sorted((coord_storage[0], coord_storage[1])))
-                    self.wire.path.remove(length_unit)
-                    coord_storage.pop(0)
+        
+        # Remove old wire units from the path storage of the Wire Object
+        for i, coordinate in enumerate(net_path):
+            if i > 0:
+                combination = tuple(sorted((net_path[i - 1], net_path[i])))
+                self.wire.path.remove(combination)
 
     def apply_random_adjustment(self, net, gates):
+        
         gate_a, gate_b = gates
-        # valid_path = False
-        # new_path = None
-
         new_path = self.make_connection(gate_a, gate_b)
 
-        # try:
-        #     new_path = self.make_connection(gate_a, gate_b)
-        # except Exception as e:
-        #     print("Hillclimber did not find a valid path, new path will be build")
-    
         # Update wire_path
         self.wire_path[net] = new_path
 
     def run(self):
+        ITERATIONS = 100
+        count = 0
 
+        # --------------------- Visualise Chip ---------------------
+        visualisation = Chip_Visualization(self.graph.gates, self.wire_path)
+        visualisation.run()
+        
         # 2. Repeat until cost does not improve after N iterations:
         while not self.conversion:
-
-            # try:
+            
             # 3. Apply random adjustment
             # Get random net
             net, gates = self.get_random_net()
@@ -115,13 +93,6 @@ class HillClimber(Greedy_RandomNet_LookAhead):
 
             # Apply random adjustment on net
             self.apply_random_adjustment(net, gates)
-            
-            # except:
-                # print("Hillclimber could not find valid path")
-
-            # # --------------------- Visualise Chip ---------------------
-            visualisation = Chip_Visualization(self.graph.gates, self.wire_path)
-            visualisation.run()
 
             # Compute cost of adjusted state
             cost = self.wire.compute_costs()
@@ -137,14 +108,20 @@ class HillClimber(Greedy_RandomNet_LookAhead):
             else:
                 self.improvements.append(False)
 
+            count += 1
+
             # Check if conversion has occured over the past 20 iterations
-            if len(self.improvements) == 20:
+            if len(self.improvements) == ITERATIONS:
                 # If no improvement occured, quit the HillClimber algorithm
                 if True not in self.improvements:
                     break
 
                 # Make room for next iteration
                 self.improvements.pop(0)
+        
+            # --------------------- Visualise Chip ---------------------
+            visualisation = Chip_Visualization(self.graph.gates, self.wire_path)
+            visualisation.run()
 
             
 

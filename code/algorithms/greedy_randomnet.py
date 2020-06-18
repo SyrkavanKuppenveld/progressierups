@@ -128,7 +128,7 @@ class Greedy_RandomNet():
         """
         
         # Get minimum Manhattan Distance of steps
-        print(f"list: {lst}")
+        # print(f"list: {lst}")
         # print(f"min_value: {lst[1]}")
         min_value = min(lst, key=lambda x: x[1])
 
