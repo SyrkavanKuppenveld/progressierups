@@ -2,6 +2,8 @@ from code.classes import Wire
 from code.visualization.visualize import Chip_Visualization
 import random
 
+
+
 class Greedy_RandomNet():
     """ 
     Creates a Wire object that connects the gates according to the netlist and 
@@ -27,7 +29,7 @@ class Greedy_RandomNet():
         graph: a Graph object
                 A Graph object representing the chip grid.
         """
-        
+        self.count = 1
         self.graph = graph
         self.wire = Wire()   
 
@@ -75,13 +77,8 @@ class Greedy_RandomNet():
                 dist = self.compute_manhattan_dist(neighbor, goal)
                 mdist.append((neighbor, dist))
 
-        # tmp = position
-
         # Assign new position
         position = self.get_random_min(mdist)
-        # print(tmp, position)
-        # print(tmp.neighbors)
-        # print(position in tmp.neighbors)
 
         return position
 
@@ -128,7 +125,7 @@ class Greedy_RandomNet():
         """
         
         # Get minimum Manhattan Distance of steps
-        print(f"list: {lst}")
+        # print(f"list: {lst}")
         # print(f"min_value: {lst[1]}")
         min_value = min(lst, key=lambda x: x[1])
 
@@ -185,7 +182,7 @@ class Greedy_RandomNet():
                 position.increment_intersection()
 
             # Append step to wire path
-        wire_path.append((position.xcoord, position.ycoord, position.zcoord))
+            wire_path.append((position.xcoord, position.ycoord, position.zcoord))
         
         return wire_path
 

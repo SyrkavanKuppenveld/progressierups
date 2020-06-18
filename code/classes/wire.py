@@ -35,7 +35,9 @@ class Wire():
 
         # Sort and convert to tuple to ensure consistent order
         path = tuple(sorted((position_coords, step_coords)))
-
+        if path in self.path:
+            print(f'already in path = {path}')
+            print(f'collision check = {self.check_collision(position, step)}')
         self.path.add(path)
 
     def update_coords(self, position):
@@ -75,7 +77,7 @@ class Wire():
 
         # Get position and step coordinates
         position_coords = position.xcoord, position.ycoord, position.zcoord
-        step_coords =  step.xcoord, step.ycoord, step.zcoord
+        step_coords = step.xcoord, step.ycoord, step.zcoord
 
         # Sort and convert to tuple to ensure consistent order
         step = tuple(sorted((position_coords, step_coords)))

@@ -30,7 +30,6 @@ def save_csv(netlist_file, outfile, wire_path):
 
     # Generate chip and netlist number 
     plain = re.sub("[^0-9]", "", netlist_file)
-    print(plain)
     chip = plain[0]
     net = plain[1]
 
@@ -40,18 +39,21 @@ def save_csv(netlist_file, outfile, wire_path):
     # Write headers
     writer.writerow(['net', 'wires'])
 
-    layout = ""
+    # Write rows for connection and wire path in correct format for check50
     for connection in wire_path:
-        for i, element in enumerate(wire_path[connection]):
+        layout = ""
+        for i, coordinate in enumerate(wire_path[connection]):
             if i == 0:
-                layout += (f'([{element[0]},{element[1]},{element[2]}),')
+                layout += (f'([{coordinate[0]},{coordinate[1]},{coordinate[2]}),')
             elif i == len(wire_path[connection]) - 1:
-                layout += (f'({element[0]},{element[1]},{element[2]})]')
+                layout += (f'({coordinate[0]},{coordinate[1]},{coordinate[2]})]')
             else:
-                layout += (f'({element[0]},{element[1]},{element[2]}),')
+                layout += (f'({coordinate[0]},{coordinate[1]},{coordinate[2]}),')
 
+        # Write row for connection and corresponding wire path
         writer.writerow([f"({connection[0]},{connection[1]})", f"{layout}"])
 
+    # Write row with chip and netlist information
     writer.writerow([f'chip_{chip}_net_{net}', costs])
 
     print("output.csv DONE")
@@ -85,21 +87,26 @@ if __name__ == "__main__":
             # Restart algorithm if error occurs
             try:
                 # Run algorithm
-                algo = Greedy_RandomNet(graph)
+                algo = Greedy_RandomNet_LookAhead(graph)
                 wire_path = algo.run()
 
                 # Compute and print wire costs
                 costs = algo.wire.compute_costs()
                 print(f'wire costs = {costs}')
 
+                # Print wire path per connection
+                print(algo.wire.path)
+                print()
+                print(wire_path)
+
                 # Visualise algorithm 
-                # visualisation = Chip_Visualization(graph.gates, wire_path)
-                # visualisation.run()
+                visualisation = Chip_Visualization(graph.gates, wire_path)
+                visualisation.run()
 
                 # Set not_found to True and break out of loop
                 not_found = False
                 break
-            except:
+            except ValueError:
                 print("restart algorithm")
                 break
 
