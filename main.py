@@ -20,7 +20,7 @@ def save_csv(outfile, wire_path):
     writer.writerow(['net', 'wires'])
 
     for connection in wire_path:
-        writer.writerow([f"{connection}", f"{sorted(wire_path[connection])}"])
+        writer.writerow([f"{connection}", f"{wire_path[connection]}"])
 
     writer.writerow([f'chip_{chip}_net_{net}', costs])
 
