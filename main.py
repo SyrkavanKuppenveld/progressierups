@@ -32,6 +32,9 @@ if __name__ == "__main__":
     chosen_algorithm = input(f'\nWhich of the following algorithms do you want to use?\n\n 1 for Random \n 2 for Greedy Random Path \n 3 for Greedy Random Net \n 4 for Greedy Random Lookahead \n 5 for Greedy Random Net without Intersections \n 6 for Greedy Random Net Lookahead without Intersections \n\n')
 
     ## If not in working_algorithms, print 'Not yet working.'?
+    # if (chosen_algorithm, chosen_netlist) not in working_algorithms:
+    #     print('Unfortunately, netlist ' + chosen_netlist + ' cannot be solved with ' + chosen_algorithm + ' , yet.')
+    #     sys.exit()
 
     # Activate chosen netlist
     netlist_file = "gates&netlists/chip_" + chosen_chip + "/netlist_" + chosen_netlist + ".csv"
