@@ -6,6 +6,7 @@ gates&netlists/
 eline.py
 class_eline.py
 test_eline.py
+eline/
 mimoun.py
 syrka.py
 syrka.ipynb
