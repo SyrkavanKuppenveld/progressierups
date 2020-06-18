@@ -12,12 +12,23 @@ class HillClimber(Greedy_RandomNet_LookAhead):
         """ 
         Initializes the start state of the algorithm.
         """
-    
+
+        # 1. Initialize a random start state
+        # Keeps track of current state
         self.graph = graph
         self.wire = random_startState
         self.wire_path = start_wire_path
         self.cost = start_cost
-        self.no_improvement_count = 0
+
+        # Keeps track of best state
+        self.best_graph = graph
+        self.best_wire = random_startState
+        self.best_wire_path = start_wire_path
+        self.best_cost = start_cost
+
+        # Used to check on conversion
+        self.improvements = []
+        self.conversion = False
         
     def get_random_startState(self):
         pass
@@ -70,7 +81,8 @@ class HillClimber(Greedy_RandomNet_LookAhead):
                 # Create wire unit
                 if len(coord_storage) == 2:
                     # Remove old wire units from the path storage of the Wire Object
-                    self.wire.path.remove((coord_storage[0], coord_storage[1]))
+                    length_unit = tuple(sorted((coord_storage[0], coord_storage[1])))
+                    self.wire.path.remove(length_unit)
                     coord_storage.pop(0)
 
 
@@ -82,18 +94,13 @@ class HillClimber(Greedy_RandomNet_LookAhead):
         self.wire_path[net] = new_path
 
 
-
-
     
     
     
     def run(self):
-        
-        # 1. Initialize a random start state
-        # self.get_random_startState()
 
         # 2. Repeat until cost does not improve after N iterations:
-        while self.no_improvement_count < 1000:
+        while not self.conversion:
 
             # 3. Apply random adjustment
             # Get random net
@@ -104,12 +111,35 @@ class HillClimber(Greedy_RandomNet_LookAhead):
 
             # Apply random adjustment on net
             self.apply_random_adjustment(net, gates)
+
+            # # --------------------- Visualise Chip ---------------------
+            visualisation = Chip_Visualization(self.graph.gates, self.wire_path)
+            visualisation.run()
+
+            # Compute cost of adjusted state
+            cost = self.wire.compute_costs()
+
+            # 4. If state improved (cost decreased):
+            if cost < self.best_cost:
+                # 5. Confirm adjustment
+                self.best_cost = cost
+                self.best_graph = self.graph
+                self.best_wire = self.wire
+                self.best_wire_path = self.wire_path
+                self.improvements.append(True)
+            else:
+                self.improvements.append(False)
+
+            # Check if conversion has occured over the past 1000 iterations
+            if len(self.improvements) == 1000:
+                # If no improvement occured, quit the HillClimber algorithm
+                if True not in self.improvements:
+                    break
+
+                # Make room for next iteration
+                self.improvements.pop(0)
+
             
-            break
-            # pass
 
-            # 4. If state worsened (cost increased):
-
-                # 5. Undo adjustment
 
         
