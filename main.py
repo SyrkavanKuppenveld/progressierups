@@ -87,7 +87,7 @@ if __name__ == "__main__":
             # Restart algorithm if error occurs
             try:
                 # Run algorithm
-                algo = Greedy_RandomNet_LookAhead(graph)
+                algo = Greedy_RandomNet_NoIntersect_LookAhead(graph)
                 wire_path = algo.run()
 
                 # Compute and print wire costs

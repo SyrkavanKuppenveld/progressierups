@@ -74,7 +74,7 @@ class Greedy_RandomNet_LookAhead(Greedy_RandomNet):
                     if first:
                         child = [position_next.copy(), neighbor.copy()]
 
-                        # Return position if goal gate is reached
+                        # Return position if goal gate is reached and no collision is caused
                         if (neighbor.xcoord, neighbor.ycoord, neighbor.zcoord) == (goal.xcoord, goal.ycoord, goal.zcoord) and self.wire.check_collision(position_next, neighbor):
 
                             # Get corresponding position from original graph nodes

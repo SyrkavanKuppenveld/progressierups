@@ -51,13 +51,17 @@ class Greedy_RandomNet_LookAhead_Costs(Greedy_RandomNet_LookAhead):
 
         # Only add extra costs if step is not goal
         if step_coords != goal_coords:
+
             # Increment the cost with 5 if the step with cause intersection
             if step.zcoord < 2:
                 cost += 8
             elif step.zcoord >= 2 and step.zcoord < 5:
                 cost += 4
+
+            # 
             if step.intersection > 0:
                 cost += 10
+
             # Increment the costs with 2 per neighbor of the step who is alread wired
             for neighbor in step.neighbors:
                 if neighbor.intersection > 0:

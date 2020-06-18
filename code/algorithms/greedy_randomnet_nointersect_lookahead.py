@@ -47,7 +47,7 @@ class Greedy_RandomNet_NoIntersect_LookAhead(Greedy_RandomNet_NoIntersect):
                 The Node object that will be the new position of the wire.
         """
 
-        depth = 6
+        depth = 4
         stack = [[]]
         paths = []
 
@@ -82,8 +82,8 @@ class Greedy_RandomNet_NoIntersect_LookAhead(Greedy_RandomNet_NoIntersect):
                     if first:
                         child = [position_next.copy(), neighbor.copy()]
 
-                        # Return position if goal gate is reached
-                        if (neighbor.xcoord, neighbor.ycoord, neighbor.zcoord) == (goal.xcoord, goal.ycoord, goal.zcoord):
+                        # Return position if goal gate is reached and no collision is caused
+                        if (neighbor.xcoord, neighbor.ycoord, neighbor.zcoord) == (goal.xcoord, goal.ycoord, goal.zcoord) and self.wire.check_collision(position_next, neighbor):
 
                             # Get corresponding position from original graph nodes
                             position = self.graph.nodes[(neighbor.xcoord, neighbor.ycoord, neighbor.zcoord)]
