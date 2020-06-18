@@ -1,9 +1,31 @@
 from code.algorithms import Greedy_RandomNet_LookAhead
 
 class Greedy_RandomNet_LookAhead_Costs(Greedy_RandomNet_LookAhead):
+    """ 
+    Creates a Wire object that connects the gates according to the netlist and 
+    according to the lowest Manhattan Distance. 
 
+    Random element
+    --------------
+    * The order of the connections are generated randomly.
+    * If multiple neighbors have the same distance, the next position is generated
+      randomly. 
+    
+    Greedy element
+    --------------
+    The next position will be the neighbor with the lowest Manhattan distance.
 
-    def compute_wire_costs(self, step):
+    Look ahead
+    ----------
+    Depth of 4.
+
+    Costs
+    -----
+    The cost assigned to the step are higher if the step and its neighbors already 
+    are wired. In order to avoid this places on the grid. 
+    """
+
+    def compute_wire_costs(self, step, goal):
         """
         Returns the increase in wire costs of the step.
 
@@ -11,6 +33,9 @@ class Greedy_RandomNet_LookAhead_Costs(Greedy_RandomNet_LookAhead):
         ----------
         step: a Node object
                 A Node object representing the next position of the wire.
+
+        goal: a Node object
+                A Node object representing the goal position on the grid.
             
         Returns
         -------
@@ -18,13 +43,26 @@ class Greedy_RandomNet_LookAhead_Costs(Greedy_RandomNet_LookAhead):
                 The wire costs of the step.
         """
         
-        cost = 1
-        if step.intersection > 0:
-            cost += 5
+        # Get the coordinates of step and goal
+        step_coords = step.xcoord, step.ycoord, step.zcoord
+        goal_coords = goal.xcoord, step.ycoord, step.zcoord
+
+        cost = 0
+
+        # Only add extra costs if step is not goal
+        if step_coords != goal_coords:
+            # Increment the cost with 5 if the step with cause intersection
+            if step.intersection > 0:
+                cost += 5
+
+            # Increment the costs with 2 per neighbor of the step who is alread wired
+            for neighbor in step.neighbors:
+                if neighbor.intersection > 0:
+                    cost += 2
 
         return cost
 
-    def compute_total_costs(self, position, step, goal):
+    def compute_total_costs(self, step, goal):
         """
         Returns the costs of the step according to the Manhattan Distance and the 
         wire costs.
@@ -47,10 +85,10 @@ class Greedy_RandomNet_LookAhead_Costs(Greedy_RandomNet_LookAhead):
         """
 
         # Compute Manhattan Distance between position and goal
-        mdist = self.compute_manhattan_dist(position, goal)
+        mdist = self.compute_manhattan_dist(step, goal)
         
         # Compute wire costs
-        wire_cost = self.compute_wire_costs(step)
+        wire_cost = self.compute_wire_costs(step, goal)
 
         return mdist + wire_cost
 
@@ -76,7 +114,7 @@ class Greedy_RandomNet_LookAhead_Costs(Greedy_RandomNet_LookAhead):
         dist = 0
         for i, step in enumerate(path):
             if i > 0:
-                dist += self.compute_total_costs(path[0], step, goal)
+                dist += self.compute_total_costs(step, goal)
 
         return dist
 

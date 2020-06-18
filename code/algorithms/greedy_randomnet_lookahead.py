@@ -146,7 +146,7 @@ class Greedy_RandomNet_LookAhead(Greedy_RandomNet):
 
         Returns 
         -------
-        bool
+        boolchec
                 True if successfull, otherwise False.
         """
 

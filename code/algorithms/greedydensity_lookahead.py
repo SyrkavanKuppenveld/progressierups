@@ -1,6 +1,26 @@
 from code.algorithms.greedy_randomnet_lookahead import Greedy_RandomNet_LookAhead
 
 class GreedyDensity_LookAhead(Greedy_RandomNet_LookAhead):
+    """ 
+    Creates a Wire object that connects the gates according to the netlist and 
+    according to the lowest Manhattan Distance. 
+
+    Random element
+    --------------
+    * If multiple neighbors have the same distance, the next position is generated
+      randomly. 
+    
+    Greedy element
+    --------------
+    The next position will be the neighbor with the lowest Manhattan distance. The
+    order of the gate is from max to min density. Density refers to the amount of
+    other gates which lie within a specified radius of the gate. The radius differs
+    per chip. 
+
+    Look ahead
+    ----------
+    Depth of 4.
+    """
 
     def run(self):
         """

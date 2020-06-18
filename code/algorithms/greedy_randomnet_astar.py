@@ -1,4 +1,5 @@
 from code.algorithms.greedy_randomnet import Greedy_RandomNet
+# DEZE IS NOG NIET AF!
 
 class Greedy_RandomNet_Astar(Greedy_RandomNet):
 
