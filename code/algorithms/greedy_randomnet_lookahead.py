@@ -75,7 +75,7 @@ class Greedy_RandomNet_LookAhead(Greedy_RandomNet):
                         child = [position_next.copy(), neighbor.copy()]
 
                         # Return position if goal gate is reached
-                        if (neighbor.xcoord, neighbor.ycoord, neighbor.zcoord) == (goal.xcoord, goal.ycoord, goal.zcoord):
+                        if (neighbor.xcoord, neighbor.ycoord, neighbor.zcoord) == (goal.xcoord, goal.ycoord, goal.zcoord) and self.wire.check_collision(position_next, neighbor):
 
                             # Get corresponding position from original graph nodes
                             position = self.graph.nodes[(neighbor.xcoord, neighbor.ycoord, neighbor.zcoord)]
@@ -105,7 +105,6 @@ class Greedy_RandomNet_LookAhead(Greedy_RandomNet):
         position = self.graph.nodes[(position.xcoord, position.ycoord, position.zcoord)]
 
         return position
-
 
     def copy_nodes(self, state):
         """

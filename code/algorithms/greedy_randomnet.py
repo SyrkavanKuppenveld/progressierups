@@ -2,6 +2,8 @@ from code.classes import Wire
 from code.visualization.visualize import Chip_Visualization
 import random
 
+
+
 class Greedy_RandomNet():
     """ 
     Creates a Wire object that connects the gates according to the netlist and 
@@ -27,7 +29,7 @@ class Greedy_RandomNet():
         graph: a Graph object
                 A Graph object representing the chip grid.
         """
-        
+        self.count = 1
         self.graph = graph
         self.wire = Wire()   
 
@@ -75,13 +77,8 @@ class Greedy_RandomNet():
                 dist = self.compute_manhattan_dist(neighbor, goal)
                 mdist.append((neighbor, dist))
 
-        # tmp = position
-
         # Assign new position
         position = self.get_random_min(mdist)
-        # print(tmp, position)
-        # print(tmp.neighbors)
-        # print(position in tmp.neighbors)
 
         return position
 
@@ -187,8 +184,11 @@ class Greedy_RandomNet():
             # Append step to wire path
             wire_path.append((position.xcoord, position.ycoord, position.zcoord))
         
+<<<<<<< HEAD
         # print(wire_path)
         
+=======
+>>>>>>> 1ccebb01dae6b753edd6f57d55f42fbd1b946bf7
         return wire_path
 
     def run(self):
