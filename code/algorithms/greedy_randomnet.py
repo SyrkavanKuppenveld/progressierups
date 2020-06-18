@@ -74,9 +74,14 @@ class Greedy_RandomNet():
             if self.wire.check_collision(position, neighbor) and (neighbor.isgate is False or neighbor == goal):
                 dist = self.compute_manhattan_dist(neighbor, goal)
                 mdist.append((neighbor, dist))
-                  
+
+        # tmp = position
+
         # Assign new position
         position = self.get_random_min(mdist)
+        # print(tmp, position)
+        # print(tmp.neighbors)
+        # print(position in tmp.neighbors)
 
         return position
 
@@ -180,8 +185,10 @@ class Greedy_RandomNet():
             # Append step to wire path
             wire_path.append((position.xcoord, position.ycoord, position.zcoord))
         
-        return tuple(wire_path)
-   
+        print(wire_path)
+        
+        return wire_path
+
     def run(self):
         """
         Returns a dictionary with the wire route to connect all gates according to netlist.
