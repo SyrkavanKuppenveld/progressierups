@@ -46,8 +46,8 @@ class Greedy_RandomPath():
         
         Returns
         -------
-        Gate obkect
-                Returns next gate object.
+        Gate object
+                Returns next gate.
         
         """
 
@@ -236,18 +236,19 @@ class Greedy_RandomPath():
 
         route = {}
         gates = list(self.graph.gates.values())
-        netlist = list(self.graph.netlist)
+        # netlist = list(self.graph.netlist)
         completed = set()
-
 
         while gates:
 
-            gate = self.get_next_gate(gates)
+            # Get next gate object
+            gateID = self.get_next_gate(gates)
+            gate = self.graph.gates[gateID]
+
+            # Get connection
             connections = list(self.graph.connections[gate])
 
-            while connections:
-
-                # Get random connection 
+            for connection in connections:
                 connection = self.get_next_connection(connections)
 
                 # Get corresponding Gate objects
@@ -255,30 +256,15 @@ class Greedy_RandomPath():
                 combination = tuple(sorted((gate_a.gateID, gate_b.gateID)))
 
                 if combination not in completed:
-                    route[combination] = self.make_connection(gate_a, gate_b)
-                    completed.add(combination)
-               
-        cost = self.cost
-        print(f'Cost: {cost}')
+                    while connections:
+
+                        route[combination] = self.make_connection(gate_a, gate_b)
+                        completed.add(combination)
+
+        # Calculate wire cost
+        cost = self.wire.compute_costs()
+        print(f'Cost = {cost}')
 
         return route
 
-    def check_collision(self, current_location, coordinates):
-        """ Returns True if coordinates result in collision. """
-
-        if (current_location, coordinates) in self.wire_units or (coordinates, current_location) in self.wire_units:
-            return True
-
-        return False
-
-    def check_intersection(self, coordinates):
-        """ Returns True if coordinates result in intersection. """
-
-        if coordinates in self.wire_path:
-            return True
-
-        return False
-
-
 '***************************************************************************'
-
