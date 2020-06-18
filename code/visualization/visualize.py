@@ -41,14 +41,29 @@ class Chip_Visualization():
     def plot_gates(self):
         """ Adds gates to the 3D plot."""
 
+        x_coord_gates = []
+        y_coord_gates = []
+
         # Get coordinates of the gates
         for gate in self.gates:
-            xs = self.gates[gate].xcoord
-            ys = self.gates[gate].ycoord
-            zs = self.gates[gate].zcoord
+            x = self.gates[gate].xcoord
+            y = self.gates[gate].ycoord
+            z = self.gates[gate].zcoord
             
             # Plot gate
-            self.ax.scatter(xs, ys, zs, color='firebrick')
+            self.ax.scatter(x, y, z, color='firebrick')
+
+            # Store the x- and y- coordinates of the gates
+            x_coord_gates.append(x)
+            y_coord_gates.append(y)
+
+        # Retrieve maximum x- and y- coordinates of the gates
+        x_max_gate = max(x_coord_gates)
+        y_max_gate = max(y_coord_gates)
+
+        # Adjust chip oulines
+        self.x_max_chip = x_max_gate + 1
+        self.y_max_chip = y_max_gate + 1
 
     def plot_wire(self):
         """ Adds wire paths to the 3D plot."""
@@ -68,17 +83,6 @@ class Chip_Visualization():
 
             # Plot net-path
             self.ax.plot(x_coords, y_coords, z_coords, color='lightseagreen')
-
-            # Store maxima of the x- and y- dimensions for later use
-            if x_coords:
-                x_max_path = max(x_coords)
-            if y_coords:
-                y_max_path = max(x_coords)
-
-            if x_max_path > self.x_max_chip:
-                self.x_max_chip = x_max_path 
-            if y_max_path > self.y_max_chip:
-                self.y_max_chip = y_max_path 
 
     def visualise_layer(self):
         """ Adds chip layers to the 3D plot."""
@@ -107,21 +111,6 @@ class Chip_Visualization():
         # Visualise the layers of the chip
         self.visualise_layer()
         
-        # Aan te passen opmaak raster/ticks
-        
-        # Show no axes at all
-        # plt.axis('off')
-
-        # Hide the axes altogether
-        # self.ax.axes.xaxis.set_ticks([])
-        # self.ax.axes.yaxis.set_ticks([])
-        # self.ax.axes.zaxis.set_ticks([])
-
-        # Hide the numbers on the axes
-        # self.ax.axes.xaxis.set_ticklabels([])
-        # self.ax.axes.yaxis.set_ticklabels([])
-        # self.ax.axes.zaxis.set_ticklabels([])
-
         # Plot grid lines
         plt.grid(True)
 
