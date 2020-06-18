@@ -73,7 +73,18 @@ class HillClimber(Random):
     def apply_random_adjustment(self, net, gates):
         
         gate_a, gate_b = gates
-        new_path = self.make_connection(gate_a, gate_b)
+
+        not_found = True
+        while not_found:
+            while True:
+
+                # Restart algorithm if error occurs
+                try:
+                    new_path = self.make_connection(gate_a, gate_b)
+                    not_found = False
+                    break
+                except ValueError:
+                    break
 
         # Update wire_path
         self.wire_path_dict[net] = new_path

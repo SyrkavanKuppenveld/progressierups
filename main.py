@@ -1,5 +1,5 @@
 from code.classes import Graph
-from code.algorithms import Greedy_RandomNet, Greedy_RandomPath, Greedy_RandomNet_LookAhead, Random, Greedy_RandomNet_NoIntersect, Greedy_RandomNet_NoIntersect_LookAhead
+from code.algorithms import Greedy_RandomNet, Greedy_RandomPath, Greedy_RandomNet_LookAhead, Random, Greedy_RandomNet_NoIntersect, Greedy_RandomNet_NoIntersect_LookAhead, Greedy_RandomNet_LookAhead_Costs
 from code.visualization import Chip_Visualization
 import time
 import sys
@@ -66,8 +66,8 @@ if __name__ == "__main__":
     netlist_file = "gates&netlists/chip_0/netlist_2.csv"
     netlist_file = "gates&netlists/chip_0/netlist_3.csv"
 
-    # print_file = "gates&netlists/chip_1/print_1.csv"
-    # netlist_file = "gates&netlists/chip_1/netlist_4.csv"
+    print_file = "gates&netlists/chip_1/print_1.csv"
+    netlist_file = "gates&netlists/chip_1/netlist_4.csv"
     # netlist_file = "gates&netlists/chip_1/netlist_5.csv"
     # netlist_file = "gates&netlists/chip_1/netlist_6.csv"
 
@@ -87,7 +87,7 @@ if __name__ == "__main__":
             # Restart algorithm if error occurs
             try:
                 # Run algorithm
-                algo = Greedy_RandomNet_NoIntersect_LookAhead(graph)
+                algo = Greedy_RandomNet_LookAhead_Costs(graph)
                 wire_path = algo.run()
 
                 # Compute and print wire costs
