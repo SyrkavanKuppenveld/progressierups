@@ -4,25 +4,51 @@ from code.visualization import Chip_Visualization
 import time
 import sys
 import csv
+import re
 
-def save_csv(outfile, wire_path):
+def save_csv(netlist_file, outfile, wire_path):
     """
     Output a CSV file containing the wire path per connection.
 
+    Parameters 
+    ----------     
+    netlist_file: a csv file
+            Name of the csv file containing a netlist.
+
+    outfile: a csv file
+            A plain csv file for the output.
+
     wire_path: dict
             A dictionary containing the wire path per connection. 
-    """
-    chip = 0
-    net = 3
 
+    Output
+    ------
+    csv file
+            A csv file containing the connections and the wire_path. 
+            In the correct format for the check50.
+    """
+
+    # Generate chip and netlist number 
+    plain = re.sub("[^0-9]", "", netlist_file)
+    print(plain)
+    chip = plain[0]
+    net = plain[1]
+
+    # Initialize csv write object
     writer = csv.writer(outfile)
 
+    # Write headers
     writer.writerow(['net', 'wires'])
 
+    layout = ""
     for connection in wire_path:
-        layout = []
-        for element in wire_path[connection]:
-            layout.append(f'({element[0]},{element[1]},{element[2]})')
+        for i, element in enumerate(wire_path[connection]):
+            if i == 0:
+                layout += (f'([{element[0]},{element[1]},{element[2]}),')
+            elif i == len(wire_path[connection]) - 1:
+                layout += (f'({element[0]},{element[1]},{element[2]})]')
+            else:
+                layout += (f'({element[0]},{element[1]},{element[2]}),')
 
         writer.writerow([f"({connection[0]},{connection[1]})", f"{layout}"])
 
@@ -78,7 +104,7 @@ if __name__ == "__main__":
                 break
 
     with open("output.csv", 'w', newline='') as output_file:
-        save_csv(output_file, wire_path)
+        save_csv(netlist_file, output_file, wire_path)
 
     
 

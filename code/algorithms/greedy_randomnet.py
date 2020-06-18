@@ -185,9 +185,7 @@ class Greedy_RandomNet():
                 position.increment_intersection()
 
             # Append step to wire path
-            wire_path.append((position.xcoord, position.ycoord, position.zcoord))
-        
-        print(wire_path)
+        wire_path.append((position.xcoord, position.ycoord, position.zcoord))
         
         return wire_path
 
