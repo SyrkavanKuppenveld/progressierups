@@ -1,9 +1,5 @@
-import numpy as numpy
-from collections import Counter
 import random
-import copy
 
-from code.classes import Node
 from code.classes.wire import Wire
 from code.visualization.visualize import Chip_Visualization
 
@@ -61,7 +57,7 @@ class Greedy_RandomPath():
 
     def get_next_connection(self, connections):
         """Randomly returns a connection.
-        
+
         Parameters
         ----------
         connections: a list
@@ -73,7 +69,7 @@ class Greedy_RandomPath():
                 Returns tuple containing the next two gates that need to be connected.
         """
         
-        return connections.pop(0)
+        return connections.pop()
 
     def compute_manhattan_dist(self, start, finish):
         """
@@ -101,7 +97,7 @@ class Greedy_RandomPath():
 
     def next_position(self, position, goal):
         """
-        Returns next position.
+        Returns next position, preferring those without intersection.
 
         Parameters
         ----------
@@ -119,7 +115,9 @@ class Greedy_RandomPath():
                 Returns 'Stuck; no solution found' if no next step could be found.
         """
 
+        # Store neighbors that do and don't result in intersections
         mdist = []
+        mdist_intersection = []
 
         # Iterate over neighbors current position
         for neighbor in position.neighbors:
@@ -127,7 +125,13 @@ class Greedy_RandomPath():
             # If move is allowed compute and append Manhattan Distance
             if self.wire.check_collision(position, neighbor) and (neighbor.isgate is False or neighbor == goal):
                 dist = self.compute_manhattan_dist(neighbor, goal)
-                mdist.append((neighbor, dist))
+                if neighbor.intersection == 0:
+                    mdist.append((neighbor, dist))
+                else:
+                    mdist_intersection.append((neighbor, dist))
+
+        if len(mdist) == 0:
+            mdist = mdist_intersection
                     
         # Assign new position
         try:
@@ -166,7 +170,7 @@ class Greedy_RandomPath():
     def make_connection(self, gate_a, gate_b):
         """
         Returns set with wire path between gate_a and gate_b.
-        
+
         Parameters
         ----------
         gate_a: int
@@ -192,7 +196,7 @@ class Greedy_RandomPath():
 
         # Iterate until connection has been made
         while position != goal:
-            
+
             # Store current position in temporary value
             tmp = position
 
@@ -205,7 +209,7 @@ class Greedy_RandomPath():
 
             # Append connection
             connection.append((position.xcoord, position.ycoord, position.zcoord))
-        
+
         return tuple(connection)
 
     def cost(self):
@@ -239,27 +243,34 @@ class Greedy_RandomPath():
         # netlist = list(self.graph.netlist)
         completed = set()
 
+        # Iterate over gates
         while gates:
 
             # Get next gate object
-            gateID = self.get_next_gate(gates)
-            gate = self.graph.gates[gateID]
+            gate = self.get_next_gate(gates)
+            
+            if gate in self.graph.connections:
 
-            # Get connection
-            connections = list(self.graph.connections[gate])
+                for connection in self.graph.connections[gate]:
 
-            for connection in connections:
-                connection = self.get_next_connection(connections)
+                    combination = tuple(sorted([gate.gateID, connection.gateID]))
+                    if combination not in completed:
 
-                # Get corresponding Gate objects
-                gate_a, gate_b = gate, connection
-                combination = tuple(sorted((gate_a.gateID, gate_b.gateID)))
+                        # Get connection
+                        connections = self.graph.connections[gate]
 
-                if combination not in completed:
-                    while connections:
+                        for connection in connections:
+                            connection = self.get_next_connection(connections)
 
-                        route[combination] = self.make_connection(gate_a, gate_b)
-                        completed.add(combination)
+                            # Get corresponding Gate objects
+                            gate_a, gate_b = gate, connection
+                            combination = tuple(sorted((gate_a.gateID, gate_b.gateID)))
+
+                            while connections:
+                                
+                                a, b = gate, connection
+                                route[combination] = self.make_connection(a, b)
+                                completed.add(combination)
 
         # Calculate wire cost
         cost = self.wire.compute_costs()
@@ -268,3 +279,4 @@ class Greedy_RandomPath():
         return route
 
 '***************************************************************************'
+
