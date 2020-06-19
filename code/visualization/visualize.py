@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
+import matplotlib.ticker as mtick
 import numpy as np
 
 class Chip_Visualization():
@@ -34,6 +35,7 @@ class Chip_Visualization():
         ax.set_ylabel('Y')
         ax.set_zlabel('Z')
         ax.set_zlim(0,7)
+        ax.yaxis.set_major_formatter(mtick.FormatStrFormatter('%.0f'))
 
         self.fig = fig
         self.ax = ax
@@ -62,8 +64,8 @@ class Chip_Visualization():
         y_max_gate = max(y_coord_gates)
 
         # Adjust chip oulines
-        self.x_max_chip = x_max_gate + 1
-        self.y_max_chip = y_max_gate + 1
+        self.ax.set_xlim(0,x_max_gate + 1)
+        self.ax.set_ylim(0,y_max_gate + 1)
 
     def plot_wire(self):
         """ Adds wire paths to the 3D plot."""
