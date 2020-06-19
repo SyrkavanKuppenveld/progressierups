@@ -1,7 +1,3 @@
-# Ignore static given case-information
-example/
-gates&netlists/
-
 # Ignore personal test files
 eline.py
 class_eline.py
