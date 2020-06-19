@@ -58,6 +58,30 @@ def save_csv(netlist_file, outfile, wire_path):
 
     print("output.csv DONE")
 
+    # WAT ER NET MET QUINTEN BESPROKEN IS
+
+    # # Repeat algorithm until solution is found
+    # not_found = True
+    # while not_found:
+    #     try:
+    #         # Run algorithm
+    #         graph = Graph(print_file, netlist_file)
+    #         algo = Random(graph)
+    #         wire_path = algo.run()
+
+    #         # Compute and print wire costs
+    #         costs = algo.wire.compute_costs()
+    #         print(f'wire costs = {costs}')
+
+    #         # Visualise algorithm 
+    #         visualisation = Chip_Visualization(graph.gates, wire_path)
+    #         visualisation.run()
+
+    #         # Set found to True and break out of loop
+    #         not_found = False
+    #     except:
+    #         print("restart algorithm")
+
 
 if __name__ == "__main__":
 
