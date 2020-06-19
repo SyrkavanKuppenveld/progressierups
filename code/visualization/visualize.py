@@ -68,8 +68,12 @@ class Chip_Visualization():
     def plot_wire(self):
         """ Adds wire paths to the 3D plot."""
         
+        colors = ['lightseagreen', 'darkgray', 'lightcoral', 'gold', 'mediumaquamarine', 'salmon', 'dimgray', 'turquoise', 'coral', 'powderblue', 'navajowhite', 'teal', 'mediumseagreen', 'crimson', 'goldenrod', 'steelblue', 'pink', 'palegreen', 'paleturquoise', 'plum', 'skyblue']
+        
+
+
         # Get path coords for each net in total_path
-        for path in self.total_path:
+        for i, path in enumerate(self.total_path):
             current_path = self.total_path[path]
             x_coords = []
             y_coords = []
@@ -82,7 +86,7 @@ class Chip_Visualization():
                 z_coords.append(coord[2])
 
             # Plot net-path
-            self.ax.plot(x_coords, y_coords, z_coords, color='lightseagreen')
+            self.ax.plot(x_coords, y_coords, z_coords, color=colors[i % 21])
 
     def visualise_layer(self):
         """ Adds chip layers to the 3D plot."""
@@ -102,11 +106,11 @@ class Chip_Visualization():
         # Initialize 3D plot
         self.create_3D_chip_outlines()
         
-        # Add gates to plot
-        self.plot_gates()
-
         # Add wire to plot
         self.plot_wire()
+
+        # Add gates to plot
+        self.plot_gates()
 
         # Visualise the layers of the chip
         self.visualise_layer()

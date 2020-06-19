@@ -1,10 +1,10 @@
 from code.classes import Graph
-from code.algorithms import Greedy_RandomNet_LookAhead, Greedy_RandomNet, Random
+from code.algorithms import Greedy_RandomNet_LookAhead, Greedy_RandomNet_LookAhead_Costs, Greedy_RandomNet, Random
 from code.visualization import Chip_Visualization
 import random
 import matplotlib.pyplot as plt
 
-class HillClimber(Random):
+class HillClimber(Greedy_RandomNet_LookAhead_Costs):
     """
     <INFORMATIE>
     """
@@ -73,7 +73,7 @@ class HillClimber(Random):
     def apply_random_adjustment(self, net, gates):
         
         gate_a, gate_b = gates
-
+        # new_path = self.make_connection(gate_a, gate_b)
         not_found = True
         while not_found:
             while True:
