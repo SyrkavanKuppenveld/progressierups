@@ -68,7 +68,7 @@ if __name__ == "__main__":
 
     print_file = "gates&netlists/chip_1/print_1.csv"
     netlist_file = "gates&netlists/chip_1/netlist_4.csv"
-    # netlist_file = "gates&netlists/chip_1/netlist_5.csv"
+    netlist_file = "gates&netlists/chip_1/netlist_5.csv"
     # netlist_file = "gates&netlists/chip_1/netlist_6.csv"
 
     # print_file = "gates&netlists/chip_2/print_2.csv"
