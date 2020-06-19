@@ -70,10 +70,12 @@ class Chip_Visualization():
     def plot_wire(self):
         """ Adds wire paths to the 3D plot."""
         
-        colors = ['lightseagreen', 'darkgray', 'lightcoral', 'gold', 'mediumaquamarine', 'salmon', 'dimgray', 'turquoise', 'coral', 'powderblue', 'navajowhite', 'teal', 'mediumseagreen', 'crimson', 'goldenrod', 'steelblue', 'pink', 'palegreen', 'paleturquoise', 'plum', 'skyblue']
-        
-
-
+        colors = ['lightseagreen', 'darkgray', 'lightcoral', 'gold'
+                    , 'mediumaquamarine', 'salmon', 'dimgray', 'turquoise'
+                    , 'coral', 'powderblue', 'navajowhite', 'teal', 'mediumseagreen'
+                    , 'crimson', 'goldenrod', 'steelblue', 'pink', 'palegreen'
+                    , 'paleturquoise', 'plum', 'skyblue']
+                    
         # Get path coords for each net in total_path
         for i, path in enumerate(self.total_path):
             current_path = self.total_path[path]
