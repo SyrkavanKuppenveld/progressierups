@@ -17,7 +17,7 @@ class Node():
         self.neighbors = set()
         self.isgate = False
         self.intersection = 0
-        # self.wired_neighbors = 0
+        self.wired_neighbors = 0
 
     def add_neighbor(self, neighbor):
         """
@@ -52,12 +52,12 @@ class Node():
 
         self.intersection -= 1
 
-    # def update_neighbors(self):
-    #     """
-    #     Increments self.neighbors with 1.
-    #     """
+    def update_neighbors(self):
+        """
+        Increments self.neighbors with 1.
+        """
 
-    #     self.wired_neighbors += 1
+        self.wired_neighbors += 1
 
     def copy(self):
         """
@@ -80,6 +80,29 @@ class Node():
         
         return copy
 
+    
+    def getWireDensity(self, wirePath):
+        
+        # print(f"WirePath: {wirePath}")
+
+        surroundingWires = 0
+        selfCoords = (self.xcoord, self.ycoord, self.zcoord)
+
+        # print(f"Self: {self.xcoord, self.ycoord, self.zcoord}")
+        for neighbor in self.neighbors:
+            neighborCoords = (neighbor.xcoord, neighbor.ycoord, neighbor.zcoord)
+            wireToNeighbor = tuple(sorted((selfCoords, neighborCoords))) 
+            # print(f"Neighbor: {neighbor}") 
+            # print(f"wireToNeighbor: {wireToNeighbor}")  
+            if wireToNeighbor in wirePath:
+                # print(f"Counted neighbor wire: {neighbor}")
+                surroundingWires += 1
+
+        return surroundingWires
+
+    
+    
+    
     def __repr__(self):
         """Ensure that the object is printed properly if it is in a list/dict.
         

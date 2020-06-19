@@ -201,9 +201,7 @@ class Graph():
             # Check if neighbours are gates, if True append them to the density set
             for neighbor in node.neighbors:
                 if neighbor.isgate:
-                    # print("test")
                     densitySet.add(neighbor)
-                    # print(f"count: {count}")
                     return densitySet
                 
                 # Update the node to enable to look one step further away
@@ -241,12 +239,7 @@ class Graph():
 
             # Get gate-density of the current gate and append it to the gateDensities dictionary
             density = self.getGateNeighbours(density, node, count, radius)
-            # print(f"density: {density}")
-            # Correct for gates own status as gate
             gateDensities[gate] = len(density) - 1
-            # gateDensities[gate] = density
-
-        # print(f"Gate densities dict: {gateDensities}")
         
         return gateDensities
 
