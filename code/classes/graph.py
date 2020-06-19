@@ -134,7 +134,7 @@ class Graph():
         nodes = {}
 
         # Generate all possible coordinates and create dict entry with coord as key
-        for x, y, z in itertools.product(range(self.x_max + 1), range(self.y_max + 1), range(self.z_max)):
+        for x, y, z in itertools.product(range(self.x_max + 1), range(self.y_max + 1), range(self.z_max + 1)):
             coords = x, y, z
             nodes[coords] = Node(coords)
 
@@ -249,6 +249,7 @@ class Graph():
         # print(f"Gate densities dict: {gateDensities}")
         
         return gateDensities
+
 
         
 
