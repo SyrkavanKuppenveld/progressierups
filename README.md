@@ -36,10 +36,10 @@ The following list describes the most important files in the project and where t
     - /code/algorithms: contains code to run the algorithms with.
         - (...<evt nog specifieke algorithm-files weergeven>)
     - /code/classes: contains four classes necessary for the project.
-        - /code/algorithms/gates.py: contains the Gate Class
-        - /code/algorithms/graph.py: contains the Graph Class
-        - /code/algorithms/node.py: contains the Node Class
-        - /code/algorithms/wire.py: contains the Wire Class
+        - /code/classes/gates.py: contains the Gate Class
+        - /code/classes/graph.py: contains the Graph Class
+        - /code/classes/node.py: contains the Node Class
+        - /code/classes/wire.py: contains the Wire Class
     - /code/visualization: contains code that generates a visualisation of the designed chip(s).
 - /gates&netlists: contains multiple datafiles necessary for initialising the chip and graph.
 
