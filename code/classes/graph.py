@@ -5,7 +5,7 @@ from code.classes.node import Node
 
 class Graph():
     """
-    Creates a Graph object that represents the chip grid and has the gates and the 
+    Creates a Graph object that represents the chip grid and has the gates and 
     netlists as attributes.
     """
 
@@ -170,112 +170,11 @@ class Graph():
             coords = self.gates[gate].xcoord, self.gates[gate].ycoord, self.gates[gate].zcoord 
             self.nodes[coords].set_isgate()
 
-    def compute_densities(self, radius):
+    def getGateNeighbours(self, density, node, count, radius):
         """
-        Returns a orded list with Gate objects sorted form max to min density.
-
-        Parameters
-        ----------
-        radius: int
-                The radius for which the density should be computed.
-
-        Returns
-        -------
-        list 
-                A list with Gate objects sorted from max to min density.
-        """
-
-        gate_density = []
-
-        # Compute the density for all gates
-        for gate in self.gates:
-
-            # Get x and y coordinates gate
-            x, y = self.gates[gate].xcoord, self.gates[gate].ycoord 
-
-            neighbors = set()
-
-            # Generate all posible neighbors and add to set
-            for i, j in itertools.product(range(-radius, radius + 1), range(-radius, radius + 1)):
-                x_neighbor = x + i
-                y_neighbor = y + j
-                z_neighbor = 0
-                neighbor_coords = x_neighbor, y_neighbor, z_neighbor
-                if neighbor_coords in self.nodes:
-                    neighbors.add(self.nodes[neighbor_coords])
-
-            # Compute number of nodes that contain a gate
-            density = 0
-            for neighbor in neighbors:
-                if neighbor.isgate:
-                    density += 1
-            
-            # Append gate and density to list
-            gate_density.append((gate, density))
-        
-        # Sort gates from max to min density
-        sorted_density = sorted(gate_density, key=lambda x:x[1], reverse=True)
-
-        return sorted_density
-        
-
-    def compute_density(self, radius=4):
-        
-        gate_density = []
-
-        for gate in self.gates:
-
-            # Get corresponding node
-            coords = self.gates[gate].xcoord, self.gates[gate].ycoord, self.gates[gate].zcoord
-            node = self.nodes[coords]
-
-            density = set()
-
-            for neighbor in node.neighbors:
-                if neighbor.isgate:
-                    density.add(neighbor)
-
-                for neighbor_1 in neighbor.neighbors:
-                    if neighbor_1.isgate:
-                        density.add(neighbor_1)
-                
-                    for neighbor_2 in neighbor_1.neighbors:
-                        if neighbor_2.isgate:
-                            density.add(neighbor_2)
-
-                        for neighbor_3 in neighbor_2.neighbors:
-                            if neighbor_3.isgate:
-                                density.add(neighbor_3)
-
-                            for neighbor_4 in neighbor_3.neighbors:
-                                if neighbor_4.isgate:
-                                    density.add(neighbor_4)
-
-                                for neighbor_5 in neighbor_4.neighbors:
-                                    if neighbor_5.isgate:
-                                        density.add(neighbor_5)
-
-                                    for neighbor_6 in neighbor_5.neighbors:
-                                        if neighbor_6.isgate:
-                                            density.add(neighbor_6)
-
-                                            for neighbor_7 in neighbor_6.neighbors:
-                                                if neighbor_7.isgate:
-                                                    density.add(neighbor_7)
-
-        # Sort gates from max to min density
-        sorted_density = sorted(gate_density, key=lambda x:x[1], reverse=True)
-
-        return sorted_density
-
-
-    # -------------------------Recursive neighboring gate retrieval-------------------------
-    # Syrka: laat het even weten als de docstrings en de comments niet duidelijk zijn!
-    def get_recurs_neighbors(self, density, node, count, base):
-        """
-        Recursively looks at all neighbors within a radius of lentgth "base" of the current 
-        gate (="node"), and returns a set of neighbors that are a gate.
-
+        Recursively looks at all neighbors within a given radius of the respective gate 
+        gate (="node"), and returns theneighbors that are a gate in a set.
+    
         Parameters
         ----------
         density : set
@@ -284,37 +183,37 @@ class Graph():
                 A Node Object of the gate-coordinate whose neighboring gates are to be retrieved.
         count : int
                 An integers that keeps track of the recursion depth.
-        base : int
+        radius : int
                 An integer that specifies the depth of the recursion.
 
         Returns
         -------
         set
-            A set of neighboring gates that lie within a radius of "base" length.
+            A set of neighboring gates that lie within the given radius.
 
         """
         
-        density_set = density
+        densitySet = density
 
-        # Get neighboring gates in a radius of "base"-length
-        if count < base:
+        # Get neighboring gates within radius
+        if count < radius:
             count += 1
             # Check if neighbours are gates, if True append them to the density set
             for neighbor in node.neighbors:
                 if neighbor.isgate:
                     print("test")
-                    density_set.add(neighbor)
+                    densitySet.add(neighbor)
                     print(f"count: {count}")
-                    return density_set
+                    return densitySet
                 
                 # Update the node to enable to look one step further away
                 node = neighbor
-                self.get_recurs_neighbors(density_set, node, count, base)
+                self.getGateNeighbours(densitySet, node, count, radius)
         
-        return density_set
+        return densitySet
 
 
-    def recursive_density(self):
+    def getGateDensities(self, radius):
         """
         Retrieves and returns a dictionary of gates with their "gate-density" (=number of gates
         in a pre-specified radius).
@@ -325,7 +224,7 @@ class Graph():
                 A dictionary of gates (=key) and their gate-density (=value)
         """
 
-        gate_densities = {}
+        gateDensities = {}
 
         for gate in self.gates:
 
@@ -336,18 +235,18 @@ class Graph():
             # Store gates that are within the pre-specified radius of the current gate
             density = set()
 
-            # Keep track of recursion depth
+            # Determine radius (recursion depth)
             count = 0
-            base = 3
+            radius = 3
 
-            # Get gate-density of the current gate and append it to the gate_densities dictionary
-            density = self.get_recurs_neighbors(density, node, count, base)
-            print(f"density: {density}")
-            gate_densities[gate] = len(density)
+            # Get gate-density of the current gate and append it to the gateDensities dictionary
+            density = self.getGateNeighbours(density, node, count, radius)
+            # print(f"density: {density}")
+            gateDensities[gate] = len(density)
 
-        print(f"Gate densities dict: {gate_densities}")
+        # print(f"Gate densities dict: {gateDensities}")
         
-        return gate_densities
+        return gateDensities
 
         
 
