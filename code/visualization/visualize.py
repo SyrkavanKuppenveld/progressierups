@@ -3,6 +3,10 @@ from mpl_toolkits.mplot3d import Axes3D
 import matplotlib.ticker as mtick
 import numpy as np
 
+import pandas as pd
+from pandas import DataFrame
+
+
 class Chip_Visualization():
     """ Provides a visualisation of the Chip Object in 3D."""
     
@@ -125,3 +129,53 @@ class Chip_Visualization():
         # Show the 3D visualisattion of the Chip
         plt.show()
 
+
+class wireHeatmap(Chip_Visualization):
+    """ Visualise 3D wire density of the given solution."""    
+
+    def __init__(self, nodes, wireObject):
+        """
+        Initializes components of the heatmap
+
+        Parameters
+        ----------
+        nodes : dict
+                A dictionary containting all the Nodes (coordinates) of the Graph (Chip)
+        wireObject : a Wire Object
+                A Wire Object which is a solution of an algorithm
+        """
+
+        self.nodes = nodes
+        self.wire = wireObject
+        self.fig = None
+        self.ax = None
+    
+    def getDataFrame(self):
+
+        wireDensitiesList = []
+
+        for coordinates in self.nodes:
+            node = self.nodes[coordinates]
+            wireDensity = node.getWireDensity(self.wire.path)
+            wireDensitiesList.append([node.xcoord, node.ycoord, node.zcoord, wireDensity])
+
+        return pd.DataFrame(wireDensitiesList, columns=['x','y','z', 'wire density'])    
+        
+    def plotHeat(self, DataFrame):
+
+        self.ax.scatter(DataFrame[['x']], DataFrame[['y']], DataFrame[['z']], marker='s', s=140, c=DataFrame[['wire density']], cmap='Reds', alpha=0.5)
+
+    def run(self):
+        """ Creates and displays the 3D wire density of the solution."""
+
+        # Initialize 3D plot
+        self.create_3D_chip_outlines()
+
+        # Create DataFrame of data that is to be used
+        dfNodeWireDensities = self.getDataFrame()
+
+        # Plot wire density per node
+        self.plotHeat(dfNodeWireDensities)
+
+        # Show the 3D visualisattion of the wire density
+        plt.show()
