@@ -75,7 +75,7 @@ class Chip_Visualization():
         """ Adds wire paths to the 3D plot."""
         
         colors = ['lightseagreen', 'darkgray', 'lightcoral', 'gold'
-                    , 'mediumaquamarine', 'salmon', 'dimgray', 'turquoise'
+                    , 'yellowgreen', 'salmon', 'dimgray', 'turquoise'
                     , 'coral', 'powderblue', 'navajowhite', 'teal', 'mediumseagreen'
                     , 'crimson', 'goldenrod', 'steelblue', 'pink', 'palegreen'
                     , 'paleturquoise', 'plum', 'skyblue']

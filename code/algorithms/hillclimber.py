@@ -4,14 +4,27 @@ from code.visualization import Chip_Visualization
 import random
 import matplotlib.pyplot as plt
 
-class HillClimber(Greedy_RandomNet_LookAhead_Costs):
-    """
-    <INFORMATIE>
+class HillClimber(Random):
+    """ 
+    Provide Object to perform the (stochastic) Hillclimber algorithm with.
+    
+    Start State
+    ---------
+    The algorithm starts with a Random start State 
+
+    Random elements
+    ---------------
+    The path that is to be rebuild, is randomly chosen.
+    The new path will be built with the use of the Random algorithm.
+
     """
 
     def __init__(self, graph, random_startWireObject, start_wire_path_dict, start_cost):
         """ 
         Initializes the start state of the algorithm.
+
+        [Dit nog aan passen aan opgeschoonde algoritmes!!]
+
         """
 
         # 1. Initialize a random start state
@@ -36,20 +49,40 @@ class HillClimber(Greedy_RandomNet_LookAhead_Costs):
         self.iteration = []
 
     def get_random_net(self):
-        
+        """
+        Retrieves a random net from the netlist and returns the corresponding gateIDs
+        and gate Objects.
+
+        Returns
+        -------
+        net : tuple
+                A tuple of gateIDs (int)
+        gates : tuple
+                A tuple of Gate Objects
+        """
+
         # Randomly choose a net that is to be re-build
         nets = list(self.wire_path_dict.keys())
         net = random.choice(nets)
         
         gate_a = self.graph.gates[net[0]]
         gate_b = self.graph.gates[net[1]]
-
         gates = (gate_a, gate_b)
 
         return net, gates
     
     def remove_net(self, net, gates):
-        
+        """"
+        Removes the path form the Wire object that is to be rebuild.
+
+        Paramters
+        ---------
+        net : tuple
+                A tuple of gateIDs (int)
+        gates : tuple
+                A tuple of Gate Objects
+        """
+
         net_path = self.wire_path_dict[net]
         
         # coord_storage = []
@@ -71,7 +104,18 @@ class HillClimber(Greedy_RandomNet_LookAhead_Costs):
                 self.wire.path.remove(combination)
 
     def apply_random_adjustment(self, net, gates):
-        
+        """
+        Rebuilds the path of the given net with the use of a function from
+        the Random algorithm.
+
+        Parameters
+        ----------
+        net : tuple
+                A tuple of gateIDs (int)
+        gates : tuple
+                A tuple of Gate Objects
+        """
+
         gate_a, gate_b = gates
         # new_path = self.make_connection(gate_a, gate_b)
         not_found = True
@@ -89,13 +133,44 @@ class HillClimber(Greedy_RandomNet_LookAhead_Costs):
         # Update wire_path
         self.wire_path_dict[net] = new_path
 
+    def visualizeChip(self):
+        """
+        Visualizes the chip in the current state.
+        """
+
+        visualisation = Chip_Visualization(self.graph.gates, self.wire_path_dict)
+        visualisation.run()
+
+    def visualizeConversion(self):
+        """
+        Visualizes the performance of the HillClimber
+        """
+
+        # Initialize figure
+        fig, ax = plt.subplots() 
+
+        # Plot the costs as a function of the iterations
+        ax.plot(self.iteration, self.climbers_costs, color='lightseagreen')
+        
+        # Set labels
+        titleDict = {'fontsize': 12}
+        ax.set_title(label='Conversion Plot', fontdict=titleDict)
+        ax.set_xlabel('Iteration')
+        ax.set_ylabel('Cost')
+        
+        # Show conversion plot
+        plt.show()
+
     def run(self):
+        """
+        Runs the HillClimber algorithm
+        """
+
         ITERATIONS = 100
         iteration = 0
 
-        # # --------------------- Visualise Chip ---------------------
-        visualisation = Chip_Visualization(self.graph.gates, self.wire_path_dict)
-        visualisation.run()
+        # Visualise starting State
+        self.visualizeChip()
         
         # 2. Repeat until cost does not improve after N iterations:
         while not self.conversion:
@@ -140,13 +215,12 @@ class HillClimber(Greedy_RandomNet_LookAhead_Costs):
                 # Make room for next iteration
                 self.improvements.pop(0)
         
-        # --------------------- Visualise Chip ---------------------
-        visualisation = Chip_Visualization(self.graph.gates, self.wire_path_dict)
-        visualisation.run()
+        # Visualize end result
+        self.visualizeChip()
 
-        # # --------------------- Visualise Climbers cost -------------------
-        plt.plot(self.iteration, self.climbers_costs)
-        plt.show()
+        # Visualize Conversion
+        self.visualizeConversion()
+
 
 
 

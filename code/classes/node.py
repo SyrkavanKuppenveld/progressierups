@@ -143,8 +143,7 @@ class Node():
         int
                 The number of wires surrounding the current node
         """
-
-
+        
         node = initialNode
         surroundingWires = 0
         
