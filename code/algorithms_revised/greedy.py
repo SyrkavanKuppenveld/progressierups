@@ -3,8 +3,11 @@ Code for a Greedy Algorithm.
 
 
 This module contains the code for the Greedy algorithm and the extentions on the
-algorithm. The exentions are: LookAhead, NoIntersect and NoIntersectLookAhead and
-LookAheadCosts.
+algorithm. The exentions are: 
+* LookAhead: with a 4 step depth look a head.
+* NoIntersect: intersections as hard constrained.
+* NoIntersectLookAhead: intersections as hard constrained and a 4 step look a head.
+* LookAheadCosts: different costs formula.
 """
 
 from code.classes import Wire
