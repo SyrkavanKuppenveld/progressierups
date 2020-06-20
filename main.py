@@ -2,7 +2,8 @@ from code.classes import Graph
 from code.algorithms import Greedy_RandomNet, Greedy_RandomPath, Greedy_RandomNet_LookAhead, Random, Greedy_RandomNet_NoIntersect, Greedy_RandomNet_NoIntersect_LookAhead, Greedy_RandomNet_LookAhead_Costs
 from code.visualization import Chip_Visualization
 from code.algorithms_revised import Greedy, GreedyLookAhead, GreedyLookAheadCosts, GreedyNoIntersect, GreedyNoIntersectLookAhead
-from helpers import save_csv~
+from helpers import save_csv
+import random
 import sys
 import csv
 
@@ -12,8 +13,9 @@ if __name__ == "__main__":
     # IMPORTANT: ZELF HET ALGORITHME NOG INVULLEN EN DENSITY AANROEPEN WERKT NOG NIET
     chip = int(input('Chip?\n'))
     netlist = int(input('Netlist?\n'))
-    heuristic = input("Heuristic: density or distance?\n")
-    order = bool(input("Order >> Max-min = True or min-max = False?\n"))
+    heuristic = input("Heuristic: none, density or distance?\n")
+    if heuristic != "none":
+        order = bool(input("Order >> Max-min = True or min-max = False?\n"))
 
     print_file = f"gates&netlists/chip_{chip}/print_{chip}.csv"
     netlist_file = f"gates&netlists/chip_{chip}/netlist_{netlist}.csv"
@@ -22,7 +24,9 @@ if __name__ == "__main__":
     graph = Graph(print_file, netlist_file)
 
     # Instantiate connection list in correct order
-    if heuristic == "density":
+    if heuristic == "none":
+        connections = list(graph.netlist)
+    elif heuristic == "density":
         connections = graph.getGateDensities()
     elif heuristic == "distance":
         connections = graph.getConnectionDistance(order)
