@@ -2,86 +2,9 @@ from code.classes import Graph
 from code.algorithms import Greedy_RandomNet, Greedy_RandomPath, Greedy_RandomNet_LookAhead, Random, Greedy_RandomNet_NoIntersect, Greedy_RandomNet_NoIntersect_LookAhead, Greedy_RandomNet_LookAhead_Costs
 from code.visualization import Chip_Visualization
 from code.algorithms_revised import Greedy, GreedyLookAhead, GreedyLookAheadCosts, GreedyNoIntersect, GreedyNoIntersectLookAhead
-import time
+from helpers import save_csv~
 import sys
 import csv
-import re
-
-def save_csv(netlist_file, outfile, wire_path, costs):
-    """
-    Output a CSV file containing the wire path per connection.
-
-    Parameters 
-    ----------     
-    netlist_file: a csv file
-            Name of the csv file containing a netlist.
-
-    outfile: a csv file
-            A plain csv file for the output.
-
-    wire_path: dict
-            A dictionary containing the wire path per connection. 
-
-    Output
-    ------
-    csv file
-            A csv file containing the connections and the wire_path. 
-            In the correct format for the check50.
-    """
-
-    # Generate chip and netlist number 
-    plain = re.sub("[^0-9]", "", netlist_file)
-    chip = plain[0]
-    net = plain[1]
-
-    # Initialize csv write object
-    writer = csv.writer(outfile)
-
-    # Write headers
-    writer.writerow(['net', 'wires'])
-
-    # Write rows for connection and wire path in correct format for check50
-    for connection in wire_path:
-        layout = ""
-        for i, coordinate in enumerate(wire_path[connection]):
-            if i == 0:
-                layout += (f'([{coordinate[0]},{coordinate[1]},{coordinate[2]}),')
-            elif i == len(wire_path[connection]) - 1:
-                layout += (f'({coordinate[0]},{coordinate[1]},{coordinate[2]})]')
-            else:
-                layout += (f'({coordinate[0]},{coordinate[1]},{coordinate[2]}),')
-
-        # Write row for connection and corresponding wire path
-        writer.writerow([f"({connection[0]},{connection[1]})", f"{layout}"])
-
-    # Write row with chip and netlist information
-    writer.writerow([f'chip_{chip}_net_{net}', costs])
-
-    print("For ouput see: output.csv")
-
-    # WAT ER NET MET QUINTEN BESPROKEN IS
-
-    # # Repeat algorithm until solution is found
-    # not_found = True
-    # while not_found:
-    #     try:
-    #         # Run algorithm
-    #         graph = Graph(print_file, netlist_file)
-    #         algo = Random(graph)
-    #         wire_path = algo.run()
-
-    #         # Compute and print wire costs
-    #         costs = algo.wire.compute_costs()
-    #         print(f'wire costs = {costs}')
-
-    #         # Visualise algorithm 
-    #         visualisation = Chip_Visualization(graph.gates, wire_path)
-    #         visualisation.run()
-
-    #         # Set found to True and break out of loop
-    #         not_found = False
-    #     except:
-    #         print("restart algorithm")
 
 
 if __name__ == "__main__":
