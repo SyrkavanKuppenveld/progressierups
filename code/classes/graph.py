@@ -181,7 +181,7 @@ class Graph():
         Parameters
         ----------
         density : set
-                An empty set that is to be filled with neighbouring gates.
+                A set that is to be filled with neighbouring gates.
         node : a Node Object
                 A Node Object of the gate-coordinate whose neighboring gates are to be retrieved.
         count : int
@@ -198,7 +198,7 @@ class Graph():
         
         densitySet = density
 
-        # Get neighboring gates within radius
+        # Recursively get neighboring gates within radius distance
         if count < radius:
             count += 1
             # Check if neighbours are gates, if True append them to the density set
@@ -245,8 +245,6 @@ class Graph():
             gateDensities[gate] = len(density) - 1
         
         return gateDensities
-
-
 
     def getConnectionDistance(self, order):
         """

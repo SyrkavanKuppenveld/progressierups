@@ -80,13 +80,40 @@ class Node():
         
         return copy
 
-    
     def getResursiveWireDensity(self, node, surroundingWires, wirePath, count, radius):
+        """
+        Recursively looks at all neighbors within a given radius of the initial node 
+        and check how many wire-units are encountered on the way.
+
+        Parameters
+        ----------
+        node : a Node object
+                A Node Object whose directions are checked on having a path laid upon them
+        surroundingWires : int
+                A number representing the number of wire units encounters thus far
+        wirePath : set
+                A set of tuples representing the wire units laid by the algorithm (thus far)
+        count : int
+                An integers that keeps track of the recursion depth.
+        radius : int
+                An integer that specifies the depth of the recursion.
+
+        Returns
+        -------
+        int
+                A number representing the number of wire units encounters thus far
+
+        """
+
+        # Recurisively get the number of wire units within radius distance
         if count < radius:
             count += 1
+            # For each neighbor of the current node
             for neighbor in node.neighbors:
                 neighborCoords = (neighbor.xcoord, neighbor.ycoord, neighbor.zcoord)
                 currentNodeCoords = (node.xcoord, node.ycoord, node.zcoord)
+                
+                # Check if a wire path has been placed on the path to the current neighbor 
                 wireToNeighbor = tuple(sorted((currentNodeCoords, neighborCoords))) 
                 if wireToNeighbor in wirePath:
                     surroundingWires += 1
@@ -98,17 +125,34 @@ class Node():
         
         return surroundingWires
     
-    
-    
-    
-    def getWireDensity(self, currentNode, wirePath):
+    def getWireDensity(self, initialNode, wirePath):
+        """
+        Retrieves the number of wire lengths within a pre-specified radius surrounding the 
+        current neihbour in a pre-specified radius.
 
-        node = currentNode
+        Parameters
+        ----------
+        initialNode : a Node object
+                A Node object representing the current Node
+        wirePath : set
+                A set af coordinate-combinations representing the wire-length units 
+                of the path laid thusfar
+
+        Returns
+        -------
+        int
+                The number of wires surrounding the current node
+        """
+
+
+        node = initialNode
         surroundingWires = 0
         
+        # Determine radius (recursion depth)
         count = 0
         radius = 2
         
+        # Get the number of surrounding wires
         surroundingWires = self.getResursiveWireDensity(node, surroundingWires, wirePath, count, radius)
 
         return surroundingWires
