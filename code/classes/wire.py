@@ -133,6 +133,7 @@ class Wire():
         """
 
         length = self.compute_length()
+        print(f'length = {length}')
         intersections = self.compute_intersections()
 
         return length + 300 * intersections

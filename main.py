@@ -84,7 +84,7 @@ def save_csv(netlist_file, outfile, wire_path):
 
 
 if __name__ == "__main__":
-
+    
     print_file = "gates&netlists/chip_0/print_0.csv"
     netlist_file = "gates&netlists/chip_0/netlist_1.csv"
     netlist_file = "gates&netlists/chip_0/netlist_2.csv"

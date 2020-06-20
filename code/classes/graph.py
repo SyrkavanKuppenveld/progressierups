@@ -243,6 +243,47 @@ class Graph():
         
         return gateDensities
 
+    def getConnectionDistance(self, order):
+        """
+        Returns list with connection ordered based on the distances between gates from 
+        largest to smallest.
+
+        Parameters
+        ----------
+        order: a bool
+                True if order is from max to min, False if order is from min to max.
+        
+        Returns
+        -------
+        list
+                A list with connection ordered based on the distances between gates from 
+                largest to smallest.
+        """
+
+        mdist = []
+
+        # Compute Manhattan Distance between all connections in netlist
+        for connection in self.netlist:
+
+            # Get corresponding gate objects
+            gate_a = self.gates[connection[0]]
+            gate_b = self.gates[connection[1]]
+
+            # Compute Manhattan Distance
+            x_dist = abs(gate_a.xcoord - gate_b.xcoord)
+            y_dist = abs(gate_a.ycoord - gate_b.ycoord)
+            z_dist = abs(gate_a.zcoord - gate_b.zcoord)
+            total_dist = x_dist + y_dist + z_dist
+
+            # Append tuple with connection and Manhattan Distance
+            mdist.append((connection, total_dist))
+            
+        # Sort connections based on order
+        connections_sorted = sorted(mdist, key=lambda x:x[1], reverse=order)
+        
+        return [connection[0] for connection in connections_sorted]
+
+
 
         
 
