@@ -25,6 +25,9 @@ class Graph():
                 The number of layers of the chip.
         """
 
+        self.print_file = print_file
+        self.netlist_file = netlist_file
+        self.layers = layers
         self.gates = self.load_gates(print_file)
         self.connections, self.netlist = self.load_connections(netlist_file)
         self.x_max, self.y_max, self.z_max = self.grid_coords(layers)
@@ -219,7 +222,7 @@ class Graph():
         Returns
         -------
         dict
-                A dictionary of gates (=key) and their gate-density (=value)
+                A dictionary of gates (=key) and their gate-density (=value).
         """
 
         gateDensities = {}
@@ -282,6 +285,18 @@ class Graph():
         connections_sorted = sorted(mdist, key=lambda x:x[1], reverse=order)
         
         return [connection[0] for connection in connections_sorted]
+
+    def ClearGraph(self):
+        """
+        Cleans Graph Object.
+        """
+
+        self.gates = self.load_gates(self.print_file)
+        self.connections, self.netlist = self.load_connections(self.netlist_file)
+        self.x_max, self.y_max, self.z_max = self.grid_coords(self.layers)
+        self.nodes = self.generate_nodes()
+        self.generate_neighbors()
+        self.set_gate_status()
 
 
 

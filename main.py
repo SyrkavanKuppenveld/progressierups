@@ -1,12 +1,13 @@
 from code.classes import Graph
 from code.algorithms import Greedy_RandomNet, Greedy_RandomPath, Greedy_RandomNet_LookAhead, Random, Greedy_RandomNet_NoIntersect, Greedy_RandomNet_NoIntersect_LookAhead, Greedy_RandomNet_LookAhead_Costs
 from code.visualization import Chip_Visualization
+from code.algorithms_revised import Greedy, GreedyLookAhead, GreedyLookAheadCosts, GreedyNoIntersect, GreedyNoIntersectLookAhead
 import time
 import sys
 import csv
 import re
 
-def save_csv(netlist_file, outfile, wire_path):
+def save_csv(netlist_file, outfile, wire_path, costs):
     """
     Output a CSV file containing the wire path per connection.
 
@@ -56,7 +57,7 @@ def save_csv(netlist_file, outfile, wire_path):
     # Write row with chip and netlist information
     writer.writerow([f'chip_{chip}_net_{net}', costs])
 
-    print("output.csv DONE")
+    print("For ouput see: output.csv")
 
     # WAT ER NET MET QUINTEN BESPROKEN IS
 
@@ -85,57 +86,38 @@ def save_csv(netlist_file, outfile, wire_path):
 
 if __name__ == "__main__":
     
-    print_file = "gates&netlists/chip_0/print_0.csv"
-    netlist_file = "gates&netlists/chip_0/netlist_1.csv"
-    netlist_file = "gates&netlists/chip_0/netlist_2.csv"
-    netlist_file = "gates&netlists/chip_0/netlist_3.csv"
+    # IMPORTANT: ZELF HET ALGORITHME NOG INVULLEN EN DENSITY AANROEPEN WERKT NOG NIET
+    chip = int(input('Chip?\n'))
+    netlist = int(input('Netlist?\n'))
+    heuristic = input("Heuristic: density or distance?\n")
+    order = bool(input("Order >> Max-min = True or min-max = False?\n"))
 
-    print_file = "gates&netlists/chip_1/print_1.csv"
-    netlist_file = "gates&netlists/chip_1/netlist_4.csv"
-    netlist_file = "gates&netlists/chip_1/netlist_5.csv"
-    # netlist_file = "gates&netlists/chip_1/netlist_6.csv"
+    print_file = f"gates&netlists/chip_{chip}/print_{chip}.csv"
+    netlist_file = f"gates&netlists/chip_{chip}/netlist_{netlist}.csv"
 
-    # print_file = "gates&netlists/chip_2/print_2.csv"
-    # netlist_file = "gates&netlists/chip_2/netlist_7.csv"
-    # netlist_file = "gates&netlists/chip_2/netlist_8.csv"
-    # netlist_file = "gates&netlists/chip_2/netlist_9.csv"
-
-    # Instantiate Graph object
+    # Instantiate Graph object and order connections
     graph = Graph(print_file, netlist_file)
 
-    # Repeat algorithm until solution is found
-    not_found = True
-    while not_found:
-        while True:
-    
-            # Restart algorithm if error occurs
-            try:
-                # Run algorithm
-                algo = Greedy_RandomNet_LookAhead_Costs(graph)
-                wire_path = algo.run()
+    # Instantiate connection list in correct order
+    if heuristic == "density":
+        connections = graph.getGateDensities()
+    elif heuristic == "distance":
+        connections = graph.getConnectionDistance(order)
 
-                # Compute and print wire costs
-                costs = algo.wire.compute_costs()
-                print(f'wire costs = {costs}')
+    # Run algorithm
+    algo = GreedyLookAhead(graph, connections)
+    wire_path = algo.run()
 
-                # Print wire path per connection
-                print(algo.wire.path)
-                print()
-                print(wire_path)
+    # Compute and print wire costs
+    costs = algo.wire.compute_costs()
+    print(f'wire costs = {costs}')
 
-                # Visualise algorithm 
-                visualisation = Chip_Visualization(graph.gates, wire_path)
-                visualisation.run()
-
-                # Set not_found to True and break out of loop
-                not_found = False
-                break
-            except ValueError:
-                print("restart algorithm")
-                break
+    # Visualise algorithm 
+    visualisation = Chip_Visualization(graph.gates, wire_path)
+    visualisation.run()
 
     with open("output.csv", 'w', newline='') as output_file:
-        save_csv(netlist_file, output_file, wire_path)
+        save_csv(netlist_file, output_file, wire_path, costs)
 
     
 
