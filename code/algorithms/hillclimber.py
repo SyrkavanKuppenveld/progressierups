@@ -3,8 +3,9 @@ from code.algorithms import Greedy_RandomNet_LookAhead, Greedy_RandomNet_LookAhe
 from code.visualization import Chip_Visualization
 import random
 import matplotlib.pyplot as plt
+import os
 
-class HillClimber(Random):
+class HillClimber(Greedy_RandomNet_LookAhead):
     """ 
     Provide Object to perform the (stochastic) Hillclimber algorithm with.
     
@@ -141,6 +142,22 @@ class HillClimber(Random):
         visualisation = Chip_Visualization(self.graph.gates, self.wire_path_dict)
         visualisation.run()
 
+    def saveFigToResults(self, plt, filename):
+        """
+        Saves created figure to the results folder.
+        """
+
+        # Save conversion plot to results folder
+        scriptDir = os.path.dirname(__file__)
+        resultsDir = os.path.join(scriptDir, 'resultsSyr/')
+
+        # Create results folder ff the results folder does not yet exist
+        if not os.path.isdir(resultsDir):
+            os.makedirs(resultsDir)
+
+        # Save figure
+        plt.savefig(resultsDir + filename, bbox_inches='tight')
+    
     def visualizeConversion(self):
         """
         Visualizes the performance of the HillClimber
@@ -158,6 +175,10 @@ class HillClimber(Random):
         ax.set_xlabel('Iteration')
         ax.set_ylabel('Cost')
         
+        # Save figure
+        filename = "hillClimbersConverions.png"
+        self.saveFigToResults(plt, filename)
+
         # Show conversion plot
         plt.show()
 
