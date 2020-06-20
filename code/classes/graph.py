@@ -207,7 +207,7 @@ class Graph():
                     densitySet.add(neighbor)
                     return densitySet
                 
-                # Update the node to enable to look one step further away
+                # Update the node and resume recursion
                 node = neighbor
                 self.getGateNeighbours(densitySet, node, count, radius)
         
@@ -245,6 +245,8 @@ class Graph():
             gateDensities[gate] = len(density) - 1
         
         return gateDensities
+
+
 
     def getConnectionDistance(self, order):
         """

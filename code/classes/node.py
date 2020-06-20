@@ -17,6 +17,7 @@ class Node():
         self.neighbors = set()
         self.isgate = False
         self.intersection = 0
+        self.wired_neighbors = 0
 
     def add_neighbor(self, neighbor):
         """
@@ -51,6 +52,13 @@ class Node():
 
         self.intersection -= 1
 
+    def update_neighbors(self):
+        """
+        Increments self.neighbors with 1.
+        """
+
+        self.wired_neighbors += 1
+
     def copy(self):
         """
         Returns a "deep" copy of the Node.
@@ -73,27 +81,37 @@ class Node():
         return copy
 
     
-    def getWireDensity(self, wirePath):
+    def getResursiveWireDensity(self, node, surroundingWires, wirePath, count, radius):
+        if count < radius:
+            count += 1
+            for neighbor in node.neighbors:
+                neighborCoords = (neighbor.xcoord, neighbor.ycoord, neighbor.zcoord)
+                currentNodeCoords = (node.xcoord, node.ycoord, node.zcoord)
+                wireToNeighbor = tuple(sorted((currentNodeCoords, neighborCoords))) 
+                if wireToNeighbor in wirePath:
+                    surroundingWires += 1
+                    return surroundingWires
+                
+                # Update the node and resume recursion
+                node = neighbor
+                self.getResursiveWireDensity(node, surroundingWires, wirePath, count, radius)
         
-        # print(f"WirePath: {wirePath}")
+        return surroundingWires
+    
+    
+    
+    
+    def getWireDensity(self, currentNode, wirePath):
 
+        node = currentNode
         surroundingWires = 0
-        selfCoords = (self.xcoord, self.ycoord, self.zcoord)
-
-        # print(f"Self: {self.xcoord, self.ycoord, self.zcoord}")
-        for neighbor in self.neighbors:
-            neighborCoords = (neighbor.xcoord, neighbor.ycoord, neighbor.zcoord)
-            wireToNeighbor = tuple(sorted((selfCoords, neighborCoords))) 
-            # print(f"Neighbor: {neighbor}") 
-            # print(f"wireToNeighbor: {wireToNeighbor}")  
-            if wireToNeighbor in wirePath:
-                # print(f"Counted neighbor wire: {neighbor}")
-                surroundingWires += 1
+        
+        count = 0
+        radius = 2
+        
+        surroundingWires = self.getResursiveWireDensity(node, surroundingWires, wirePath, count, radius)
 
         return surroundingWires
-
-    
-    
     
     def __repr__(self):
         """Ensure that the object is printed properly if it is in a list/dict.

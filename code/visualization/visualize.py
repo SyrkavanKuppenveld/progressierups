@@ -156,7 +156,7 @@ class wireHeatmap(Chip_Visualization):
 
         for coordinates in self.nodes:
             node = self.nodes[coordinates]
-            wireDensity = node.getWireDensity(self.wire.path)
+            wireDensity = node.getWireDensity(node, self.wire.path)
             wireDensitiesList.append([node.xcoord, node.ycoord, node.zcoord, wireDensity])
 
         return pd.DataFrame(wireDensitiesList, columns=['x','y','z', 'wire density'])    
