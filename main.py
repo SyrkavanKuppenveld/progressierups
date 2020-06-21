@@ -9,7 +9,7 @@ import sys
 
 if __name__ == "__main__":
 
-    # Prompt user for algorithm
+    # Prompt user for chip
     chip = int(input('Choose a chip: 0, 1 or 2?\n'))
     print()
 
@@ -26,7 +26,7 @@ if __name__ == "__main__":
     print_file = f"gates&netlists/chip_{chip}/print_{chip}.csv"
     netlist_file = f"gates&netlists/chip_{chip}/netlist_{netlist}.csv"
 
-    # Instantiate Graph object and order connections
+    # Instantiate Graph object
     graph = Graph(print_file, netlist_file)
 
     # Prompt user for algorithm
@@ -86,11 +86,16 @@ if __name__ == "__main__":
     
     # Run algorithm
     print("Running Algorithm...")
+    print()
     wire_path = algo.run()
+    print("Algorithm completed!\n")
 
-    # Visualise algorithm 
-    visualisation = ChipVisualization(graph.gates, wire_path)
-    visualisation.run()
+    # Visualize algorithm results based on user's input
+    show_visualization = input("Would you like to visualize the results? (y/n)\n")
+    print()
+    if show_visualization == 'y':
+        visualisation = ChipVisualization(graph.gates, wire_path)
+        visualisation.run()
 
     # Create output file
     with open("output.csv", 'w', newline='') as output_file:
