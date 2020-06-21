@@ -26,7 +26,7 @@ class Gate():
                 Gate ID.
 
         xcoord: int
-                The z-coordinate of the gate.
+                The x-coordinate of the gate.
 
         ycoord: int
                 The y-coordinate of the gate.
