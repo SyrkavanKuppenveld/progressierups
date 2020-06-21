@@ -192,7 +192,7 @@ class HillClimber(Greedy_RandomNet_LookAhead):
         ax.set_title(label='Conversion Plot', fontdict=titleDict)
         ax.set_xlabel('Iteration')
         ax.set_ylabel('Cost')
-        
+
         # Save figure
         filename = "hillClimbersConverions.png"
         self.save_fig_to_results(plt, filename)
@@ -253,12 +253,9 @@ class HillClimber(Greedy_RandomNet_LookAhead):
 
                 # Make room for next iteration
                 self.improvements.pop(0)
-        
+
         # Visualize end result
         self.visualize_chip()
 
         # Visualize Conversion
         self.visualize_conversion()
-
-
-
