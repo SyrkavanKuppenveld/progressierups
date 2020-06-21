@@ -1,2 +1,2 @@
 
-from code.visualization.visualize import Chip_Visualization, wireHeatmap
+from code.visualization.visualize import ChipVisualization, WireHeatmap
