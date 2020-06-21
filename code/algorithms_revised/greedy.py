@@ -923,7 +923,119 @@ class GreedyLookAheadCosts(GreedyLookAhead):
     are wired. In order to avoid this places on the grid. 
     """
 
-    def compute_wire_costs(self, step, goal):
+    def next_position(self, position, goal):
+        """
+        Returns next position according to 4 steps look ahead.
+
+        Parameters
+        ----------
+        position: a Node object
+                A Node object representing the current position of the wire.
+
+        goal: a Node object
+                A Node object representing the goal position.
+        
+        Returns
+        -------
+        Node object
+                The Node object that will be the new position of the wire.
+        """
+
+        depth = 4
+        stack = [[]]
+        paths = []
+
+        # Set first to True
+        first = True
+
+        # Iterate until the stack is empty
+        while len(stack) > 0:
+            state = stack.pop()
+
+            # Append the state to path if first iteration is false and it reached the goal 
+            # gate or if state length equals the depth
+            length = len(state)
+            if first is False and (length == depth + 1 or state[length - 1] == goal):
+                paths.append(state)
+
+            # Only continue if len state does not exceed the depth
+            # depth + 1 >> because the current position is also added to the state in the
+            # first iteration, however, this should not be included as a depth level
+            elif len(state) < depth + 1:
+                
+                # Assign next position according to first
+                if first:
+                    position_next = position
+                else:
+                    position_next = state[len(state) - 1]
+
+                # Iterate over neighbors of the current position
+                for neighbor in position_next.neighbors:
+     
+                    # Different approach for first iteration
+                    if first:
+                        child = [position_next.copy(), neighbor.copy()]
+
+                        # Return position if goal gate is reached and no collision is caused
+                        if (neighbor.xcoord, neighbor.ycoord, neighbor.zcoord) == (goal.xcoord, goal.ycoord, goal.zcoord) and self.wire.check_collision(position_next, neighbor):
+
+                            # Get corresponding position from original graph nodes
+                            position = self.graph.nodes[(neighbor.xcoord, neighbor.ycoord, neighbor.zcoord)]
+                            return position
+
+                        # Only append path if no collission occurs
+                        elif self.wire.check_collision(position_next, neighbor):
+                            stack.append(child)
+                    else:
+                        child = self.copy_nodes(state)
+
+                        # Only append if i is valid
+                        if self.path_check(child, position_next, neighbor) and self.valid_check(child, neighbor):
+                            child.append(neighbor)
+                            stack.append(child)
+
+                # Set first to False
+                first = False
+
+        # Generate list with all path distances
+        mdist = self.all_distances(paths, position, goal)
+
+        # Get next position 
+        position = self.get_random_min(mdist)
+
+        # Get corresponding position from orginal graph nodes
+        position = self.graph.nodes[(position.xcoord, position.ycoord, position.zcoord)]
+
+        return position
+
+    def all_distances(self, paths, position, goal):
+        """
+        Returns the list with all distances and their corresponding total distance.
+        
+        Parameters
+        ----------
+        path: a list
+                A list containing all valid paths for a for step look ahead.
+
+        Goal: a Node object
+                A Node object repesenting the goal position on the grid.
+
+        Feturns 
+        -------
+                A list with tuples. First element of tuple is the neighbor and the 
+                second element is the Manhattan distance. 
+
+        """
+
+        mdist = []
+
+        for path in paths:
+            total_dist = self.path_distance(path, position, goal)
+            mdist.append((path[1], total_dist))
+
+        return mdist
+
+    def compute_wire_costs(self, position, step, goal):
         """
         Returns the increase in wire costs of the step.
 
@@ -947,16 +1059,25 @@ class GreedyLookAheadCosts(GreedyLookAhead):
 
         cost = 0
 
+        dist = self.compute_manhattan_dist(step, goal)
+
         # Only add extra costs if step is not goal
-        if step_coords != goal_coords:
+        if step_coords != goal_coords and dist > 4:
 
             # Increment the cost with 5 if the step with cause intersection
+            # if step.zcoord - position.zcoord < 0:
+            #     cost += 5
+            
             if step.zcoord == 0:
                 cost += 10
-            # elif step.zcoord == 1:
-            #     cost += 5
+            elif step.zcoord == 1:
+                cost += 8
+            elif step.zcoord == 2:
+                cost += 6
+            elif step.zcoord == 3:
+                cost += 4
 
-            # 
+            # Increment the costs for intersections
             if step.intersection > 0:
                 cost += 10
 
@@ -967,7 +1088,7 @@ class GreedyLookAheadCosts(GreedyLookAhead):
 
         return cost
 
-    def compute_total_costs(self, step, goal):
+    def compute_total_costs(self, position, step, goal):
         """
         Returns the costs of the step according to the Manhattan Distance and the 
         wire costs.
@@ -993,11 +1114,11 @@ class GreedyLookAheadCosts(GreedyLookAhead):
         mdist = self.compute_manhattan_dist(step, goal)
         
         # Compute wire costs
-        wire_cost = self.compute_wire_costs(step, goal)
+        wire_cost = self.compute_wire_costs(position, step, goal)
 
         return mdist + wire_cost
 
-    def path_distance(self, path, goal):
+    def path_distance(self, path, position, goal):
         """
         Returns the total costs of the total path.
         
@@ -1019,7 +1140,7 @@ class GreedyLookAheadCosts(GreedyLookAhead):
         dist = 0
         for i, step in enumerate(path):
             if i > 0:
-                dist += self.compute_total_costs(step, goal)
+                dist += self.compute_total_costs(position, step, goal)
 
         return dist
 

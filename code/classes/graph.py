@@ -198,10 +198,13 @@ class Graph():
         ----------
         density : set
                 A set that is to be filled with neighbouring gates.
+
         node : a Node Object
                 A Node Object of the gate-coordinate whose neighboring gates are to be retrieved.
+
         count : int
                 An integers that keeps track of the recursion depth.
+                
         radius : int
                 An integer that specifies the depth of the recursion.
 
@@ -230,15 +233,22 @@ class Graph():
         return densitySet
 
 
-    def get_gate_densities(self, order):
+    def get_gate_densities(self, order, radius):
         """
-        Retrieves and returns a dictionary of gates with their "gate-density" (=number of gates
-        in a pre-specified radius).
+        Returns list with connection ordered based on the gate density.
+
+        Parameters
+        ----------
+        order: a bool
+                True if order is from max to min, False if order is from min to max.
+
+        radius: a int
+                The radius on for which the density is computed.
 
         Returns
         -------
-        dict
-                A dictionary of gates (=key) and their gate-density (=value).
+        list
+                A list with gates sorted based on the gate density.
         """
 
         gate_densities = []
@@ -254,14 +264,15 @@ class Graph():
 
             # Determine radius (recursion depth)
             count = 0
-            radius = 3
 
             # Get gate-density of the current gate and append it to the gate_den
             density = self.get_gate_neighbours(density, node, count, radius)
             len_density = len(density) - 1
 
+            # Append gate and density to list
             gate_densities.append((gate, len_density))
         
+        # Sort gate density list based on order
         gate_densities_sorted = sorted(gate_densities, key=lambda x:x[1], reverse=order)
 
         return [gate[0] for gate in gate_densities_sorted]
