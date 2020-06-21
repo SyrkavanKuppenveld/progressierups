@@ -100,18 +100,13 @@ class HillClimber(GreedyLookAhead):
         """
 
         net_path = self.wirePathDict[net]
-
-        print(f"Wire: {self.wire}")
-        print(f"Wire coords: {self.wire.coords}")
-
-        print(f"Net path: {net_path}")
-        
+       
         # coord_storage = []
         for coordinates in net_path:    
             # Remove old path coordinates from the coordinate storage of the Wire Object
             # Gates can never be an intersection and thus will not be taken into account
             node = self.graph.nodes[coordinates]
-            if node.isgate == False:
+            if node.isgate is False:
                 # Remove node from coordinate storage
                 print(f"node: {node}")
                 self.wire.coords.remove(node)
@@ -203,7 +198,7 @@ class HillClimber(GreedyLookAhead):
         # 1. Get random Start State
         algo = GreedyLookAhead(self.bestGraph, self.connections)
         self.wirePathDict = algo.run()
-        self.bestWirePathDict = algo.run()
+        self.bestWirePathDict = self.wirePathDict
         self.wire = algo.wire
         self.bestWire = algo.wire
         self.cost = algo.wire.compute_costs()
