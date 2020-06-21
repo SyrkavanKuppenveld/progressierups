@@ -141,8 +141,6 @@ class Greedy():
         """
         
         # Get minimum Manhattan Distance of steps
-        # print(f"list: {lst}")
-        # print(f"min_value: {lst[1]}")
         min_value = min(lst, key=lambda x: x[1])
 
         # Create a list with all the steps with the minimum distance
@@ -199,8 +197,6 @@ class Greedy():
 
             # Append step to wire path
             wire_path.append((position.xcoord, position.ycoord, position.zcoord))
-        
-        # print(wire_path)
         
         return wire_path
 
@@ -487,6 +483,7 @@ class GreedyLookAhead(Greedy):
                 dist += self.compute_manhattan_dist(step, goal)
 
         return dist
+
 
 class GreedyNoIntersect(Greedy):
     """ 
