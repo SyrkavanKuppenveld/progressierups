@@ -37,12 +37,10 @@ class HillClimber(GreedyLookAhead):
     The new path will be built with the use of the Greedy LookaHead algorithm.
     """
 
-    def __init__(self, graph, connections):
+    def __init__(self, graph):
         """ 
         Initializes the states of the algorithm.
         """
-
-        self.connections = connections
 
         # Keeps track state after adjustment
         self.graph = graph
@@ -57,8 +55,7 @@ class HillClimber(GreedyLookAhead):
         self.bestCost = None
 
         # Used to check on conversion
-        self.improvements = []
-        self.conversion = False
+        self.improvements = [True]
 
         # Keep track of the HillClimbers' cost
         self.climbers_costs = []
@@ -115,7 +112,7 @@ class HillClimber(GreedyLookAhead):
                 node.decrement_intersection()
         
         # Remove old wire units from the path storage of the Wire Object
-        for i, coordinate in enumerate(net_path):
+        for i in range(len(net_path)):
             if i > 0:
                 combination = tuple(sorted((net_path[i - 1], net_path[i])))
                 self.wire.path.remove(combination)
@@ -146,22 +143,6 @@ class HillClimber(GreedyLookAhead):
 
         visualisation = ChipVisualization(self.graph.gates, self.wirePathDict)
         visualisation.run()
-
-    def save_fig_to_results(self, plt, filename):
-        """
-        Saves created figure to the results folder.
-        """
-
-        # Save conversion plot to results folder
-        scriptDir = os.path.dirname(__file__)
-        resultsDir = os.path.join(scriptDir, 'resultsSyr/')
-
-        # Create results folder ff the results folder does not yet exist
-        if not os.path.isdir(resultsDir):
-            os.makedirs(resultsDir)
-
-        # Save figure
-        plt.savefig(resultsDir + filename, bbox_inches='tight')
     
     def visualize_conversion(self):
         """
@@ -180,10 +161,6 @@ class HillClimber(GreedyLookAhead):
         ax.set_xlabel('Iteration')
         ax.set_ylabel('Cost')
 
-        # Save figure
-        filename = "hillClimbersConverions.png"
-        self.save_fig_to_results(plt, filename)
-
         # Show conversion plot
         plt.show()
 
@@ -192,11 +169,11 @@ class HillClimber(GreedyLookAhead):
         Runs the HillClimber algorithm
         """
 
-        ITERATIONS = 100
+        ITERATIONS = 500
         iteration = 0
 
-        # 1. Get random Start State
-        algo = GreedyLookAhead(self.bestGraph, self.connections)
+        # Get random Start State
+        algo = Random(self.bestGraph)
         self.wirePathDict = algo.run()
         self.bestWirePathDict = self.wirePathDict
         self.wire = algo.wire
@@ -207,8 +184,8 @@ class HillClimber(GreedyLookAhead):
         # Visualise starting State
         self.visualize_chip()
         
-        # 2. Repeat until cost does not improve after N iterations:
-        while not self.conversion:
+        # Repeat until cost does not improve after N iterations:
+        while True in self.improvements:
 
             # # Keep track of the HillClimbers' cost
             self.climbers_costs.append(self.bestCost)
@@ -217,7 +194,7 @@ class HillClimber(GreedyLookAhead):
             iteration += 1
             print(f"Best cost: {self.bestCost}")
             
-            # 3. Apply random adjustment
+            # Apply random adjustment
             # Get random net
             net, gates = self.get_random_net()
 
@@ -230,9 +207,9 @@ class HillClimber(GreedyLookAhead):
             # Compute cost of adjusted state
             cost = self.wire.compute_costs()
 
-            # 4. If state improved (cost decreased):
+            # If state improved (cost decreased):
             if cost < self.bestCost:
-                # 5. Confirm adjustment
+                # Confirm adjustment
                 self.bestCost = cost
                 self.bestGraph = self.graph
                 self.bestWire = self.wire
@@ -241,12 +218,8 @@ class HillClimber(GreedyLookAhead):
             else:
                 self.improvements.append(False)
 
-            # Check if conversion has occured over the past 20 iterations
+            # Check if conversion has occured over the past N iterations
             if len(self.improvements) == ITERATIONS:
-                # If no improvement occured, quit the HillClimber algorithm
-                if True not in self.improvements:
-                    self.conversion = True
-
                 # Make room for next iteration
                 self.improvements.pop(0)
 
