@@ -295,3 +295,14 @@ if __name__ == "__main__":
 #                     time.sleep(1)
 #                     print("restart algorithm")
 #                     break
+
+
+    # ----------------------- RUN HILLCLIMBER -------------------------------------#
+    # Syrka: NB. Zorg ervoor dat er een algoritme is gerund voor het verkijgen van de start State.
+    # Later kan ik dit volledig in de HillClimber zelf doen, maar dat kan nu nog niet met hoe de 
+    # andere algoritmes werken.
+    random_startWireObject = wireObject
+    start_wire_path_dict = wire_path
+    start_cost = costs
+    algo = HillClimber(graph, random_startWireObject, start_wire_path_dict, start_cost)
+    algo.run()
