@@ -230,7 +230,7 @@ class Graph():
         return densitySet
 
 
-    def get_gate_densities(self):
+    def get_gate_densities(self, order):
         """
         Retrieves and returns a dictionary of gates with their "gate-density" (=number of gates
         in a pre-specified radius).
@@ -241,7 +241,7 @@ class Graph():
                 A dictionary of gates (=key) and their gate-density (=value).
         """
 
-        gateDensities = {}
+        gate_densities = []
 
         for gate in self.gates:
 
@@ -256,15 +256,16 @@ class Graph():
             count = 0
             radius = 3
 
-            # Get gate-density of the current gate and append it to the gateDensities dictionary
+            # Get gate-density of the current gate and append it to the gate_den
             density = self.get_gate_neighbours(density, node, count, radius)
-            gateDensities[gate] = len(density) - 1
-        # NOG AAN TE PASSEN ZODAT DEZE NIET DE OCUNT MAAR DE SET RETURNT
-        return gateDensities
+            len_density = len(density) - 1
 
-    # NOG AAN TE PASSEN!!
-    def get_gate_density_count(self, gateDensitiesset):
-        return len(gateDensitiesset) - 1
+            gate_densities.append((gate, len_density))
+        
+        gate_densities_sorted = sorted(gate_densities, key=lambda x:x[1], reverse=order)
+
+        return [gate[0] for gate in gate_densities_sorted]
+
 
     def get_connection_distance(self, order):
         """

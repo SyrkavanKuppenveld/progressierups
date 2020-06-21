@@ -9,7 +9,7 @@ import csv
 
 
 if __name__ == "__main__":
-    
+
     # IMPORTANT: ZELF HET ALGORITHME NOG INVULLEN EN DENSITY AANROEPEN WERKT NOG NIET
     chip = int(input('Chip?\n'))
     netlist = int(input('Netlist?\n'))
@@ -23,29 +23,32 @@ if __name__ == "__main__":
     # Instantiate Graph object and order connections
     graph = Graph(print_file, netlist_file)
 
-    # # Instantiate connection list in correct order
-    # if heuristic == "none":
-    #     connections = list(graph.netlist)
-    # elif heuristic == "density":
-    #     connections = graph.get_gate_densities()
-    # elif heuristic == "distance":
-    #     connections = graph.get_connection_distance(order)
+    # Instantiate connection list in correct order
+    if heuristic == "none":
+        connections = list(graph.netlist)
+    if heuristic == "density":
+        connections = graph.get_gate_densities(order)
+        approach = False
+    elif heuristic == "distance":
+        connections = graph.get_connection_distance(order)
+        approach == True
 
-    # # Run algorithm
-    # algo = GreedyLookAhead(graph, connections)
-    # wire_path = algo.run()
+    # Run algorithm
+    algo = GreedyLookAheadCosts(graph, connections, approach)
+    # algo = Random(graph)
+    wire_path = algo.run()
 
-    # # Compute and print wire costs
-    # costs = algo.wire.compute_costs()
-    # print(f'wire costs = {costs}')
+    # Compute and print wire costs
+    costs = algo.wire.compute_costs()
+    print(f'wire costs = {costs}')
 
-    # # Visualise algorithm 
-    # visualisation = Chip_Visualization(graph.gates, wire_path)
-    # visualisation.run()
+    # Visualise algorithm 
+    visualisation = Chip_Visualization(graph.gates, wire_path)
+    visualisation.run()
 
-    # with open("output.csv", 'w', newline='') as output_file:
-    #     save_csv(netlist_file, output_file, wire_path, costs)
-
+    with open("output.csv", 'w', newline='') as output_file:
+        save_csv(netlist_file, output_file, wire_path, costs)
+    
     
 
 #     # Clear terminal

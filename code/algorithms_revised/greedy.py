@@ -51,7 +51,7 @@ class Greedy():
     The next position will be the neighbor with the lowest Manhattan distance.
     """
 
-    def __init__(self, graph, order):
+    def __init__(self, graph, order, approach):
         """
         Initializes the Random Greedy Net algorithm.
         
@@ -64,6 +64,7 @@ class Greedy():
         self.graph = graph
         self.order = order 
         self.wire = Wire()
+        self.approach = approach
 
     def next_position(self, position, goal):
         """
@@ -209,41 +210,95 @@ class Greedy():
         dict 
                 A dictionary containing the route of the wire per connection.
         """
-
-        route = {}
         
-        # Repeat run until solution is found
-        not_found = True
-        while not_found:
-            try:
+        if self.approach is True:
+            route = {}
+            
+            # Repeat run until solution is found
+            not_found = True
+            while not_found:
+                try:
 
-                # Make deep copy of connection order
-                connections = copy.deepcopy(self.order)
+                    # Make deep copy of connection order
+                    connections = copy.deepcopy(self.order)
 
-                # Iterate until netlist is empyt
-                while connections:
+                    # Iterate until netlist is empyt
+                    while connections:
 
-                    # Get random connection 
-                    connection = connections.pop(0)
+                        # Get random connection 
+                        connection = connections.pop(0)
 
-                    # Get corresponding Gate objects
-                    a, b = connection[0], connection[1]
-                    gate_a, gate_b = self.graph.gates[a], self.graph.gates[b]
+                        # Get corresponding Gate objects
+                        a, b = connection[0], connection[1]
+                        gate_a, gate_b = self.graph.gates[a], self.graph.gates[b]
 
-                    # Generate the connection between gate a and b
-                    route[(a, b)] = self.make_connection(gate_a, gate_b)
+                        # Generate the connection between gate a and b
+                        route[(a, b)] = self.make_connection(gate_a, gate_b)
 
-                # Set not_found to Flase   
-                not_found = False
-            except ValueError:
+                    # Set not_found to Flase   
+                    not_found = False
+                except ValueError:
 
-                # Clear graph, wire and route
-                print("restart")
-                self.graph.clear_graph()
-                self.wire = Wire()
-                route = {}
+                    # Clear graph, wire and route
+                    self.graph.clear_graph()
+                    self.wire = Wire()
+                    route = {}
 
-        return route
+            return route
+
+        else:
+            route = {}
+            completed = set()
+            
+            # Repeat run until solution is found
+            not_found = True
+            while not_found:
+                try:
+
+                    # Make deep copy of connection order
+                    gates = copy.deepcopy(self.order)
+
+                    # Iterate until netlist is empyt
+                    while gates:
+
+                        # Get gate object and corresponding connections
+                        gateID = gates.pop(0)
+                        gate_a = self.graph.gates[gateID]
+
+                        # Check if gate_a in connections
+                        if gate_a in self.graph.connections:
+
+                            # Get corresponding connections
+                            connections = self.graph.connections[gate_a]
+
+                            # Iterate until connections is empty
+                            while connections:
+
+                                # Generate next connection
+                                gate_b = connections.pop()
+
+                                # Check if connection is already completed
+                                a, b = gate_a.gateID, gate_b.gateID
+                                connection = tuple(sorted((a, b)))
+                                if connection not in completed:
+            
+                                    # Generate the connection between gate a and b
+                                    route[(a, b)] = self.make_connection(gate_a, gate_b)
+
+                                    # Add connection to completed
+                                    completed.add(connection)
+
+                    # Set not_found to Flase   
+                    not_found = False
+                except ValueError:
+
+                    # Clear graph, wire and route
+                    self.graph.clear_graph()
+                    self.wire = Wire()
+                    route = {}
+                    completed = set()
+
+            return route
 
 
 class GreedyLookAhead(Greedy):
@@ -898,8 +953,8 @@ class GreedyLookAheadCosts(GreedyLookAhead):
             # Increment the cost with 5 if the step with cause intersection
             if step.zcoord == 0:
                 cost += 10
-        #     elif step.zcoord >= 1 and step.zcoord < 5:
-        #         cost += 4
+            elif step.zcoord == 1:
+                cost += 5
 
             # 
             if step.intersection > 0:
