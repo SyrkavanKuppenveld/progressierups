@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 # Own modules
 from code.classes import Graph
 from code.algorithms_revised import Random, GreedyLookAhead
-from code.visualization import Chip_Visualization
+from code.visualization import ChipVisualization
 
 __author__ = 'Eline van Groningen, Mimoun Boulfich, Syrka van Kuppenveld'
 __copyright__ = 'Copyright 2020, Chips & Circuits'
@@ -144,7 +144,7 @@ class HillClimber(GreedyLookAhead):
         Visualizes the chip in the current state.
         """
 
-        visualisation = Chip_Visualization(self.graph.gates, self.wirePathDict)
+        visualisation = ChipVisualization(self.graph.gates, self.wirePathDict)
         visualisation.run()
 
     def save_fig_to_results(self, plt, filename):
