@@ -150,7 +150,7 @@ class wireHeatmap(ChipVisualization):
         self.fig = None
         self.ax = None
     
-    def get_data_frame(self):
+    def get_DataFrame(self):
 
         wireDensitiesList = []
 
@@ -172,7 +172,7 @@ class wireHeatmap(ChipVisualization):
         self.create_3D_chip_outlines()
 
         # Create DataFrame of data that is to be used
-        dfNodeWireDensities = self.getDataFrame()
+        dfNodeWireDensities = self.get_DataFrame()
 
         # Plot wire density per node
         self.plot_heat(dfNodeWireDensities)
