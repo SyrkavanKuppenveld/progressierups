@@ -152,7 +152,7 @@ class HillClimber(Greedy_RandomNet_LookAhead):
         # Update wire_path
         self.wire_path_dict[net] = new_path
 
-    def visualizeChip(self):
+    def visualize_chip(self):
         """
         Visualizes the chip in the current state.
         """
@@ -160,7 +160,7 @@ class HillClimber(Greedy_RandomNet_LookAhead):
         visualisation = Chip_Visualization(self.graph.gates, self.wire_path_dict)
         visualisation.run()
 
-    def saveFigToResults(self, plt, filename):
+    def save_fig_to_results(self, plt, filename):
         """
         Saves created figure to the results folder.
         """
@@ -176,7 +176,7 @@ class HillClimber(Greedy_RandomNet_LookAhead):
         # Save figure
         plt.savefig(resultsDir + filename, bbox_inches='tight')
     
-    def visualizeConversion(self):
+    def visualize_conversion(self):
         """
         Visualizes the performance of the HillClimber
         """
@@ -195,7 +195,7 @@ class HillClimber(Greedy_RandomNet_LookAhead):
         
         # Save figure
         filename = "hillClimbersConverions.png"
-        self.saveFigToResults(plt, filename)
+        self.save_fig_to_results(plt, filename)
 
         # Show conversion plot
         plt.show()
@@ -209,7 +209,7 @@ class HillClimber(Greedy_RandomNet_LookAhead):
         iteration = 0
 
         # Visualise starting State
-        self.visualizeChip()
+        self.visualize_chip()
         
         # 2. Repeat until cost does not improve after N iterations:
         while not self.conversion:
@@ -255,17 +255,10 @@ class HillClimber(Greedy_RandomNet_LookAhead):
                 self.improvements.pop(0)
         
         # Visualize end result
-        self.visualizeChip()
+        self.visualize_chip()
 
         # Visualize Conversion
-        self.visualizeConversion()
+        self.visualize_conversion()
 
 
 
-
-
-
-            
-
-
-        
