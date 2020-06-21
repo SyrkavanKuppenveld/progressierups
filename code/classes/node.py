@@ -71,7 +71,7 @@ class Node():
         
         return copy
 
-    def getResursiveWireDensity(self, node, surroundingWires, wirePath, count, radius):
+    def get_resursive_wire_density(self, node, surroundingWires, wirePath, count, radius):
         """
         Recursively looks at all neighbors within a given radius of the initial node 
         and check how many wire-units are encountered on the way.
@@ -112,11 +112,11 @@ class Node():
                 
                 # Update the node and resume recursion
                 node = neighbor
-                self.getResursiveWireDensity(node, surroundingWires, wirePath, count, radius)
+                self.get_resursive_wire_density(node, surroundingWires, wirePath, count, radius)
         
         return surroundingWires
     
-    def getWireDensity(self, initialNode, wirePath):
+    def get_wire_density(self, initialNode, wirePath):
         """
         Retrieves the number of wire lengths within a pre-specified radius surrounding the 
         current neihbour in a pre-specified radius.
@@ -143,7 +143,7 @@ class Node():
         radius = 2
         
         # Get the number of surrounding wires
-        surroundingWires = self.getResursiveWireDensity(node, surroundingWires, wirePath, count, radius)
+        surroundingWires = self.get_resursive_wire_density(node, surroundingWires, wirePath, count, radius)
 
         return surroundingWires
     

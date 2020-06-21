@@ -50,4 +50,4 @@ def initialize():
     #     pass
 
 
-    return chosen_chip, chosen_netlist, chosen_algorithm
+    return chosen_chip, chosen_netlist, chosen_printfile, chosen_algorithm

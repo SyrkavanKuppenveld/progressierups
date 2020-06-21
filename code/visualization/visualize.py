@@ -150,18 +150,18 @@ class wireHeatmap(Chip_Visualization):
         self.fig = None
         self.ax = None
     
-    def getDataFrame(self):
+    def get_data_frame(self):
 
         wireDensitiesList = []
 
         for coordinates in self.nodes:
             node = self.nodes[coordinates]
-            wireDensity = node.getWireDensity(node, self.wire.path)
+            wireDensity = node.get_wire_density(node, self.wire.path)
             wireDensitiesList.append([node.xcoord, node.ycoord, node.zcoord, wireDensity])
 
         return pd.DataFrame(wireDensitiesList, columns=['x','y','z', 'wire density'])    
         
-    def plotHeat(self, DataFrame):
+    def plot_heat(self, DataFrame):
 
         self.ax.scatter(DataFrame[['x']], DataFrame[['y']], DataFrame[['z']], marker='s', s=140, c=DataFrame[['wire density']], cmap='Reds', alpha=0.5)
 
@@ -175,7 +175,7 @@ class wireHeatmap(Chip_Visualization):
         dfNodeWireDensities = self.getDataFrame()
 
         # Plot wire density per node
-        self.plotHeat(dfNodeWireDensities)
+        self.plot_heat(dfNodeWireDensities)
 
         # Show the 3D visualisattion of the wire density
         plt.show()

@@ -173,7 +173,7 @@ class Graph():
             coords = self.gates[gate].xcoord, self.gates[gate].ycoord, self.gates[gate].zcoord 
             self.nodes[coords].set_isgate()
 
-    def getGateNeighbours(self, density, node, count, radius):
+    def get_gate_neighbours(self, density, node, count, radius):
         """
         Recursively looks at all neighbors within a given radius of the respective gate 
         gate (="node"), and returns theneighbors that are a gate in a set.
@@ -209,12 +209,12 @@ class Graph():
                 
                 # Update the node and resume recursion
                 node = neighbor
-                self.getGateNeighbours(densitySet, node, count, radius)
+                self.get_gate_neighbours(densitySet, node, count, radius)
         
         return densitySet
 
 
-    def getGateDensities(self):
+    def get_gate_densities(self):
         """
         Retrieves and returns a dictionary of gates with their "gate-density" (=number of gates
         in a pre-specified radius).
@@ -241,12 +241,12 @@ class Graph():
             radius = 3
 
             # Get gate-density of the current gate and append it to the gateDensities dictionary
-            density = self.getGateNeighbours(density, node, count, radius)
+            density = self.get_gate_neighbours(density, node, count, radius)
             gateDensities[gate] = len(density) - 1
         
         return gateDensities
 
-    def getConnectionDistance(self, order):
+    def get_connection_distance(self, order):
         """
         Returns list with connection ordered based on the distances between gates.
 
@@ -284,7 +284,7 @@ class Graph():
         
         return [connection[0] for connection in connections_sorted]
 
-    def ClearGraph(self):
+    def clear_graph(self):
         """
         Cleans a Graph Object.
         """
