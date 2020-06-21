@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 
 # Own modules
 from code.classes import Graph
-from code.algorithms import Greedy_RandomNet_LookAhead, Greedy_RandomNet_LookAhead_Costs, Greedy_RandomNet, Random
+from code.algorithms_revised import GreedyLookAhead
 from code.visualization import Chip_Visualization
 
 __author__ = 'Eline van Groningen, Mimoun Boulfich, Syrka van Kuppenveld'
@@ -23,7 +23,7 @@ __email__ = 'elinevangroningen@gmail.com, mimounboulfich@live.nl, syrkavankuppen
 __status__ = 'Dev'
 
 
-class HillClimber(Greedy_RandomNet_LookAhead):
+class HillClimber(GreedyLookAhead):
     """ 
     Provide Object to perform the (stochastic) Hillclimber algorithm with.
     

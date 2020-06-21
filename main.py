@@ -1,5 +1,5 @@
 from code.classes import Graph
-from code.algorithms import Greedy_RandomNet, Greedy_RandomPath, Greedy_RandomNet_LookAhead, Random, Greedy_RandomNet_NoIntersect, Greedy_RandomNet_NoIntersect_LookAhead, Greedy_RandomNet_LookAhead_Costs
+# from code.algorithms import Greedy_RandomNet, Greedy_RandomPath, Greedy_RandomNet_LookAhead, Random, Greedy_RandomNet_NoIntersect, Greedy_RandomNet_NoIntersect_LookAhead, Greedy_RandomNet_LookAhead_Costs
 from code.visualization import Chip_Visualization
 from code.algorithms_revised import Greedy, GreedyLookAhead, GreedyLookAheadCosts, GreedyNoIntersect, GreedyNoIntersectLookAhead
 from helpers import save_csv
@@ -27,9 +27,9 @@ if __name__ == "__main__":
     if heuristic == "none":
         connections = list(graph.netlist)
     elif heuristic == "density":
-        connections = graph.getGateDensities()
+        connections = graph.get_gate_densities()
     elif heuristic == "distance":
-        connections = graph.getConnectionDistance(order)
+        connections = graph.get_connection_distance(order)
 
     # Run algorithm
     algo = GreedyLookAhead(graph, connections)
