@@ -17,7 +17,6 @@ class Node():
         self.neighbors = set()
         self.isgate = False
         self.intersection = 0
-        self.wired_neighbors = 0
 
     def add_neighbor(self, neighbor):
         """
@@ -52,13 +51,6 @@ class Node():
 
         self.intersection -= 1
 
-    def update_neighbors(self):
-        """
-        Increments self.neighbors with 1.
-        """
-
-        self.wired_neighbors += 1
-
     def copy(self):
         """
         Returns a "deep" copy of the Node.
@@ -76,7 +68,6 @@ class Node():
         copy.neighbors = self.neighbors
         copy.isgate = self.isgate
         copy.intersection = self.intersection
-        copy.wired_neighbors = self.wired_neighbors
         
         return copy
 

@@ -35,9 +35,6 @@ class Wire():
 
         # Sort and convert to tuple to ensure consistent order
         path = tuple(sorted((position_coords, step_coords)))
-        if path in self.path:
-            print(f'already in path = {path}')
-            print(f'collision check = {self.check_collision(position, step)}')
         self.path.add(path)
 
     def update_coords(self, position):
@@ -133,7 +130,6 @@ class Wire():
         """
 
         length = self.compute_length()
-        print(f'length = {length}')
         intersections = self.compute_intersections()
 
         return length + 300 * intersections
