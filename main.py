@@ -82,7 +82,7 @@ if __name__ == "__main__":
     elif algorithm == 3:
         algo = GreedyLookAheadCosts(graph, connections, run_approach)
     elif algorithm == 4:
-        algo = HillClimber(graph, connections)
+        algo = HillClimber(graph)
     
     # Run algorithm
     print("Running Algorithm...")
