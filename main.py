@@ -1,7 +1,7 @@
 from code.classes import Graph
 # from code.algorithms import Greedy_RandomNet, Greedy_RandomPath, Greedy_RandomNet_LookAhead, Random, Greedy_RandomNet_NoIntersect, Greedy_RandomNet_NoIntersect_LookAhead, Greedy_RandomNet_LookAhead_Costs
 from code.visualization import Chip_Visualization
-from code.algorithms_revised import Greedy, GreedyLookAhead, GreedyLookAheadCosts, GreedyNoIntersect, GreedyNoIntersectLookAhead
+from code.algorithms_revised import Greedy, GreedyLookAhead, GreedyLookAheadCosts, GreedyNoIntersect, GreedyNoIntersectLookAhead, HillClimber
 from helpers import save_csv
 import random
 import sys
@@ -23,28 +23,28 @@ if __name__ == "__main__":
     # Instantiate Graph object and order connections
     graph = Graph(print_file, netlist_file)
 
-    # Instantiate connection list in correct order
-    if heuristic == "none":
-        connections = list(graph.netlist)
-    elif heuristic == "density":
-        connections = graph.get_gate_densities()
-    elif heuristic == "distance":
-        connections = graph.get_connection_distance(order)
+    # # Instantiate connection list in correct order
+    # if heuristic == "none":
+    #     connections = list(graph.netlist)
+    # elif heuristic == "density":
+    #     connections = graph.get_gate_densities()
+    # elif heuristic == "distance":
+    #     connections = graph.get_connection_distance(order)
 
-    # Run algorithm
-    algo = GreedyLookAhead(graph, connections)
-    wire_path = algo.run()
+    # # Run algorithm
+    # algo = GreedyLookAhead(graph, connections)
+    # wire_path = algo.run()
 
-    # Compute and print wire costs
-    costs = algo.wire.compute_costs()
-    print(f'wire costs = {costs}')
+    # # Compute and print wire costs
+    # costs = algo.wire.compute_costs()
+    # print(f'wire costs = {costs}')
 
-    # Visualise algorithm 
-    visualisation = Chip_Visualization(graph.gates, wire_path)
-    visualisation.run()
+    # # Visualise algorithm 
+    # visualisation = Chip_Visualization(graph.gates, wire_path)
+    # visualisation.run()
 
-    with open("output.csv", 'w', newline='') as output_file:
-        save_csv(netlist_file, output_file, wire_path, costs)
+    # with open("output.csv", 'w', newline='') as output_file:
+    #     save_csv(netlist_file, output_file, wire_path, costs)
 
     
 
@@ -298,11 +298,6 @@ if __name__ == "__main__":
 
 
     # ----------------------- RUN HILLCLIMBER -------------------------------------#
-    # Syrka: NB. Zorg ervoor dat er een algoritme is gerund voor het verkijgen van de start State.
-    # Later kan ik dit volledig in de HillClimber zelf doen, maar dat kan nu nog niet met hoe de 
-    # andere algoritmes werken.
-    # random_startWireObject = wireObject
-    # start_wire_path_dict = wire_path
-    # start_cost = costs
-    # algo = HillClimber(graph, random_startWireObject, start_wire_path_dict, start_cost)
-    # algo.run()
+    connections = graph.get_connection_distance(True)
+    algo = HillClimber(graph, connections)
+    algo.run()
