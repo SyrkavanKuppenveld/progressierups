@@ -953,8 +953,8 @@ class GreedyLookAheadCosts(GreedyLookAhead):
             # Increment the cost with 5 if the step with cause intersection
             if step.zcoord == 0:
                 cost += 10
-            elif step.zcoord == 1:
-                cost += 5
+            # elif step.zcoord == 1:
+            #     cost += 5
 
             # 
             if step.intersection > 0:
