@@ -5,9 +5,9 @@ from helpers import save_csv
 import time
 import csv
 import sys
+import time
 
-
-if __name__ == "__main__":
+def main():
 
     # Prompt user for chip
     chip = int(input('Choose a chip: 0, 1 or 2?\n'))
@@ -101,6 +101,13 @@ if __name__ == "__main__":
     with open("output.csv", 'w', newline='') as output_file:
         costs = algo.wire.compute_costs()
         save_csv(netlist_file, output_file, wire_path, costs)
-    
+    print()
+
+    rerun = input("Would you like to run another algorithm? (y/n)\n")
+    if rerun == 'y':
+        sys.stderr.write("\x1b[2J\x1b[H")
+        main()
 
 
+if __name__ == "__main__":
+    main()
