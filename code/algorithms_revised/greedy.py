@@ -31,7 +31,7 @@ algorithm. The exentions are:
 """
 
 from code.classes import Wire
-from code.visualization.visualize import Chip_Visualization
+from code.visualization.visualize import ChipVisualization
 import random
 import copy
 

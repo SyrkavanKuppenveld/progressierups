@@ -7,7 +7,7 @@ import pandas as pd
 from pandas import DataFrame
 
 
-class Chip_Visualization():
+class ChipVisualization():
     """ Provides a visualisation of the Chip Object in 3D."""
     
     def __init__(self, gates, wire_path):
@@ -130,7 +130,7 @@ class Chip_Visualization():
         plt.show()
 
 
-class wireHeatmap(Chip_Visualization):
+class wireHeatmap(ChipVisualization):
     """ Visualise 3D wire density of the given solution."""    
 
     def __init__(self, nodes, wireObject):
@@ -150,7 +150,7 @@ class wireHeatmap(Chip_Visualization):
         self.fig = None
         self.ax = None
     
-    def get_data_frame(self):
+    def get_DataFrame(self):
 
         wireDensitiesList = []
 
@@ -172,7 +172,7 @@ class wireHeatmap(Chip_Visualization):
         self.create_3D_chip_outlines()
 
         # Create DataFrame of data that is to be used
-        dfNodeWireDensities = self.getDataFrame()
+        dfNodeWireDensities = self.get_DataFrame()
 
         # Plot wire density per node
         self.plot_heat(dfNodeWireDensities)
