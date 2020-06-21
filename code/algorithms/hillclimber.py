@@ -1,9 +1,27 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+# Built-in/Generic Imports
+import random
+import os
+
+# Libs
+import matplotlib.pyplot as plt
+
+# Own modules
 from code.classes import Graph
 from code.algorithms import Greedy_RandomNet_LookAhead, Greedy_RandomNet_LookAhead_Costs, Greedy_RandomNet, Random
 from code.visualization import Chip_Visualization
-import random
-import matplotlib.pyplot as plt
-import os
+
+__author__ = 'Eline van Groningen, Mimoun Boulfich, Syrka van Kuppenveld'
+__copyright__ = 'Copyright 2020, Chips & Circuits'
+__credits__ = ['Eline van Groningen, Mimoun Boulfich, Syrka van Kuppenveld']
+__license__ = 'GNU GPL 3.0'
+__version__ = '0.1.0'
+__maintainer__ = 'Eline van Groningen, Mimoun Boulfich, Syrka van Kuppenveld'
+__email__ = 'elinevangroningen@gmail.com, Mimoun Boulfich, syrkavankuppenveld@gmail.com'
+__status__ = 'Dev'
+
 
 class HillClimber(Greedy_RandomNet_LookAhead):
     """ 
