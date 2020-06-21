@@ -1,10 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-# Built-in/Generic Imports
-import random
-import os
-
 # Libs
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
