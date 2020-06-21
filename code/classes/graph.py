@@ -259,8 +259,12 @@ class Graph():
             # Get gate-density of the current gate and append it to the gateDensities dictionary
             density = self.get_gate_neighbours(density, node, count, radius)
             gateDensities[gate] = len(density) - 1
-        
+        # NOG AAN TE PASSEN ZODAT DEZE NIET DE OCUNT MAAR DE SET RETURNT
         return gateDensities
+
+    # NOG AAN TE PASSEN!!
+    def get_gate_density_count(self, gateDensitiesset):
+        return len(gateDensitiesset) - 1
 
     def get_connection_distance(self, order):
         """
