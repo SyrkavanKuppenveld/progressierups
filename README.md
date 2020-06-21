@@ -18,13 +18,16 @@ Prerequisite libraries, and packages can be installed through:
 
 or    
 
-`conda install --file requirements.txt`    
+` `
+`conda install --file requirements.txt`
+` `    
 
 This will install the correct versions of:
-
-- numpy (1.18.4)      
-- matplotlib (3.2.1)    
-....    
+     
+- matplotlib (3.2.1)
+- numpy (1.18.4)
+- pandas (1.0.3)
+- seaborn (0.10.1)     
 
 ### Usage
 (...<nog verder in te vullen>)
@@ -34,14 +37,16 @@ The following list describes the most important files in the project and where t
 
 - /code: contains all of the codebase of this project.
     - /code/algorithms: contains code to run the algorithms with.
-        - (...<evt nog specifieke algorithm-files weergeven>)
+        - /code/algorithms/greedy.py: contains the Greedy algorithm and extensions thereof.
+        - /code/algorithms/hillclimber: contains the HillClimber algorithm.
+        - /code/algorithms/random: contains the Random algorithm.
     - /code/classes: contains four classes necessary for the project.
-        - /code/classes/gates.py: contains the Gate Class
-        - /code/classes/graph.py: contains the Graph Class
-        - /code/classes/node.py: contains the Node Class
-        - /code/classes/wire.py: contains the Wire Class
-    - /code/visualization: contains code that generates a visualisation of the designed chip(s).
-- /gates&netlists: contains multiple datafiles necessary for initialising the chip and graph.
+        - /code/classes/gates.py: contains the Gate Class.
+        - /code/classes/graph.py: contains the Graph Class.
+        - /code/classes/node.py: contains the Node Class.
+        - /code/classes/wire.py: contains the Wire Class.
+    - /code/visualization: contains code that generates a visualisation of the designed chip(s) and wire.
+- /gates&netlists: contains multiple datafiles needed for initialization of the chip and connections.
 
 ## Authors
 - Eline van Groningen
