@@ -248,8 +248,7 @@ class Graph():
 
     def getConnectionDistance(self, order):
         """
-        Returns list with connection ordered based on the distances between gates from 
-        largest to smallest.
+        Returns list with connection ordered based on the distances between gates.
 
         Parameters
         ----------
@@ -259,8 +258,7 @@ class Graph():
         Returns
         -------
         list
-                A list with connection ordered based on the distances between gates from 
-                largest to smallest.
+                A list with connection ordered based on the distances between gates.
         """
 
         mdist = []
@@ -288,7 +286,7 @@ class Graph():
 
     def ClearGraph(self):
         """
-        Cleans Graph Object.
+        Cleans a Graph Object.
         """
 
         self.gates = self.load_gates(self.print_file)

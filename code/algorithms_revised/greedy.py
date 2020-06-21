@@ -268,7 +268,7 @@ class GreedyLookAhead(Greedy):
                 The Node object that will be the new position of the wire.
         """
 
-        depth = 5
+        depth = 4
         stack = [[]]
         paths = []
 
@@ -824,6 +824,7 @@ class GreedyNoIntersectLookAhead(GreedyNoIntersect):
 
         return dist
 
+
 class GreedyLookAheadCosts(GreedyLookAhead):
     """ 
     Creates a Wire object that connects the gates according to the netlist and 
@@ -877,10 +878,10 @@ class GreedyLookAheadCosts(GreedyLookAhead):
         if step_coords != goal_coords:
 
             # Increment the cost with 5 if the step with cause intersection
-            if step.zcoord < 2:
-                cost += 8
-            elif step.zcoord >= 2 and step.zcoord < 5:
-                cost += 4
+            if step.zcoord == 0:
+                cost += 10
+        #     elif step.zcoord >= 1 and step.zcoord < 5:
+        #         cost += 4
 
             # 
             if step.intersection > 0:
