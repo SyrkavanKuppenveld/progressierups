@@ -92,10 +92,10 @@ if __name__ == "__main__":
 
     # Visualize algorithm results based on user's input
     show_visualization = input("Would you like to visualize the results? (y/n)\n")
-    print()
     if show_visualization == 'y':
         visualisation = ChipVisualization(graph.gates, wire_path)
         visualisation.run()
+    print()
 
     # Create output file
     with open("output.csv", 'w', newline='') as output_file:
