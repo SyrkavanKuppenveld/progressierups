@@ -373,7 +373,7 @@ class GreedyLookAhead(Greedy):
      
                     # Different approach for first iteration
                     if first:
-                        child = [position_next.copy(), neighbor.copy()]
+                        child = [position_next.get_copy(), neighbor.get_copy()]
 
                         # Return position if goal gate is reached and no collision is caused
                         if (neighbor.xcoord, neighbor.ycoord, neighbor.zcoord) == (goal.xcoord, goal.ycoord, goal.zcoord) and self.wire.check_collision(position_next, neighbor):
@@ -424,7 +424,7 @@ class GreedyLookAhead(Greedy):
 
         copy = []
         for node in state:
-            node_copy = node.copy()
+            node_copy = node.get_copy()
             copy.append(node_copy)
 
         return copy
@@ -714,7 +714,7 @@ class GreedyNoIntersectLookAhead(GreedyNoIntersect):
      
                     # Different approach for first iteration
                     if first:
-                        child = [position_next.copy(), neighbor.copy()]
+                        child = [position_next.get_copy(), neighbor.get_copy()]
 
                         # Return position if goal gate is reached and no collision is caused
                         if (neighbor.xcoord, neighbor.ycoord, neighbor.zcoord) == (goal.xcoord, goal.ycoord, goal.zcoord) and self.wire.check_collision(position_next, neighbor):
@@ -767,7 +767,7 @@ class GreedyNoIntersectLookAhead(GreedyNoIntersect):
 
         copy = []
         for node in state:
-            node_copy = node.copy()
+            node_copy = node.get_copy()
             copy.append(node_copy)
 
         return copy
@@ -974,7 +974,7 @@ class GreedyLookAheadCosts(GreedyLookAhead):
      
                     # Different approach for first iteration
                     if first:
-                        child = [position_next.copy(), neighbor.copy()]
+                        child = [position_next.get_copy(), neighbor.get_copy()]
 
                         # Return position if goal gate is reached and no collision is caused
                         if (neighbor.xcoord, neighbor.ycoord, neighbor.zcoord) == (goal.xcoord, goal.ycoord, goal.zcoord) and self.wire.check_collision(position_next, neighbor):

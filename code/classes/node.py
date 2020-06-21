@@ -66,7 +66,7 @@ class Node():
 
         self.intersection -= 1
 
-    def copy(self):
+    def get_copy(self):
         """
         Returns a "deep" copy of the Node.
         
@@ -94,13 +94,17 @@ class Node():
         Parameters
         ----------
         node : a Node object
-                A Node Object whose directions are checked on having a path laid upon them
+                A Node Object whose directions are checked on having a path laid upon them.
+
         surroundingWires : int
-                A number representing the number of wire units encounters thus far
+                A number representing the number of wire units encounters thus far.
+
         wirePath : set
-                A set of tuples representing the wire units laid by the algorithm (thus far)
+                A set of tuples representing the wire units laid by the algorithm (thus far).
+
         count : int
                 An integers that keeps track of the recursion depth.
+
         radius : int
                 An integer that specifies the depth of the recursion.
 
@@ -114,6 +118,7 @@ class Node():
         # Recurisively get the number of wire units within radius distance
         if count < radius:
             count += 1
+
             # For each neighbor of the current node
             for neighbor in node.neighbors:
                 neighborCoords = (neighbor.xcoord, neighbor.ycoord, neighbor.zcoord)
