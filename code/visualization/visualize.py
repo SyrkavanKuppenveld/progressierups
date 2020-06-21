@@ -7,7 +7,7 @@ import pandas as pd
 from pandas import DataFrame
 
 
-class Chip_Visualization():
+class ChipVisualization():
     """ Provides a visualisation of the Chip Object in 3D."""
     
     def __init__(self, gates, wire_path):
@@ -130,7 +130,7 @@ class Chip_Visualization():
         plt.show()
 
 
-class wireHeatmap(Chip_Visualization):
+class wireHeatmap(ChipVisualization):
     """ Visualise 3D wire density of the given solution."""    
 
     def __init__(self, nodes, wireObject):
