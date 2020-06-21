@@ -18,9 +18,7 @@ Prerequisite libraries, and packages can be installed through:
 
 or    
 
-` `
 `conda install --file requirements.txt`
-` `    
 
 This will install the correct versions of:
      
@@ -54,4 +52,4 @@ The following list describes the most important files in the project and where t
 - Syrka van Kuppenveld
 
 ## License
-This project is licensed under the MIT License - see the [LICENSE](https://github.com/SyrkavanKuppenveld/progressierups/blob/master/LICENSE) file for details.
+This project is licensed under the GNU GENERAL PUBLIC LICENSE v3 - see the [LICENSE](https://github.com/SyrkavanKuppenveld/progressierups/blob/master/LICENSE) file for details.
