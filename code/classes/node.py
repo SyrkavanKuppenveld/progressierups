@@ -66,7 +66,7 @@ class Node():
 
         self.intersection -= 1
 
-    def copy(self):
+    def get_copy(self):
         """
         Returns a "deep" copy of the Node.
         
@@ -118,7 +118,7 @@ class Node():
         # Recurisively get the number of wire units within radius distance
         if count < radius:
             count += 1
-            
+
             # For each neighbor of the current node
             for neighbor in node.neighbors:
                 neighborCoords = (neighbor.xcoord, neighbor.ycoord, neighbor.zcoord)
