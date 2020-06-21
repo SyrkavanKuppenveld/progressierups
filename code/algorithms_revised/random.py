@@ -1,7 +1,22 @@
-import random
-from code.classes.wire import Wire
-from code.visualization.visualize import Chip_Visualization
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+# Built-in/Generic Imports
 import copy
+import random
+
+# Own modules
+from code.classes import Graph, Wire
+
+__author__ = 'Eline van Groningen, Mimoun Boulfich, Syrka van Kuppenveld'
+__copyright__ = 'Copyright 2020, Chips & Circuits'
+__credits__ = ['Eline van Groningen, Mimoun Boulfich, Syrka van Kuppenveld']
+__license__ = 'GNU GPL 3.0'
+__version__ = '0.1.0'
+__maintainer__ = 'Eline van Groningen, Mimoun Boulfich, Syrka van Kuppenveld'
+__email__ = 'elinevangroningen@gmail.com, mimounboulfich@live.nl, syrkavankuppenveld@gmail.com'
+__status__ = 'Dev'
+
 
 class Random():
     """ 
