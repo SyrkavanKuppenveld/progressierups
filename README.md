@@ -43,7 +43,7 @@ The following list describes the most important files in the project and where t
         - /code/classes/graph.py: contains the Graph Class.
         - /code/classes/node.py: contains the Node Class.
         - /code/classes/wire.py: contains the Wire Class.
-    - /code/visualization: contains code that generates a visualisation of the designed chip(s) and wire.
+    - /code/visualization: contains code that generates a visualisation of the designed chip and wire.
 - /gates&netlists: contains multiple datafiles needed for initialization of the chip and connections.
 
 ## Authors
