@@ -180,11 +180,12 @@ class Random():
                     # Generate the connection between gate a and b
                     route[(a, b)] = self.make_connection(gate_a, gate_b)
 
-                    not_found = False
+                # Set not_found to False
+                not_found = False
             except ValueError:
 
                 # Clear graph, wire and route
-                self.graph.ClearGraph()
+                self.graph.clear_graph()
                 self.wire = Wire()
                 route = {}
         
