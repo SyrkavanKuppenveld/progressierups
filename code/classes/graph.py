@@ -6,7 +6,8 @@ import csv
 import itertools
 
 # Own modules
-from code.classes import Gate, Node
+from code.classes.gates import Gate
+from code.classes.node import Node
 
 __author__ = 'Eline van Groningen, Mimoun Boulfich, Syrka van Kuppenveld'
 __copyright__ = 'Copyright 2020, Chips & Circuits'
