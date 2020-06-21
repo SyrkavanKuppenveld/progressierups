@@ -238,7 +238,7 @@ class Greedy():
             except ValueError:
 
                 # Clear graph, wire and route
-                self.graph.ClearGraph()
+                self.graph.clear_graph()
                 self.wire = Wire()
                 route = {}
 
