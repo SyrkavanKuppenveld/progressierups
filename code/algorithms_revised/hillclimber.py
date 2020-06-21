@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 
 # Own modules
 from code.classes import Graph
-from code.algorithms_revised import GreedyLookAhead
+from code.algorithms_revised import Random, GreedyLookAhead
 from code.visualization import Chip_Visualization
 
 __author__ = 'Eline van Groningen, Mimoun Boulfich, Syrka van Kuppenveld'
@@ -31,33 +31,30 @@ class HillClimber(GreedyLookAhead):
     ---------
     The algorithm starts with a Random start State 
 
-    Random elements
-    ---------------
+    Random adjustments
+    ------------------
     The path that is to be rebuild, is randomly chosen.
-    The new path will be built with the use of the Random algorithm.
-
+    The new path will be built with the use of the Greedy LookaHead algorithm.
     """
 
-    def __init__(self, graph, random_startWireObject, start_wire_path_dict, start_cost):
+    def __init__(self, graph, connections):
         """ 
-        Initializes the start state of the algorithm.
-
-        [Dit nog aan passen aan opgeschoonde algoritmes!!]
-
+        Initializes the states of the algorithm.
         """
 
-        # 1. Initialize a random start state
-        # Keeps track of current state
-        self.graph = graph
-        self.wire = random_startWireObject
-        self.wire_path_dict = start_wire_path_dict
-        self.cost = start_cost
+        self.connections = connections
 
-        # Keeps track of best state
-        self.best_graph = graph
-        self.best_wire = random_startWireObject
-        self.best_wire_path_dict = start_wire_path_dict
-        self.best_cost = start_cost
+        # Keeps track state after adjustment
+        self.graph = graph
+        self.wire = None
+        self.wirePathDict = None
+        self.cost = None
+
+        # Keeps track of best state encountered
+        self.bestGraph = graph
+        self.bestWire = None
+        self.bestWirePathDict = None
+        self.bestCost = None
 
         # Used to check on conversion
         self.improvements = []
@@ -81,7 +78,7 @@ class HillClimber(GreedyLookAhead):
         """
 
         # Randomly choose a net that is to be re-build
-        nets = list(self.wire_path_dict.keys())
+        nets = list(self.wirePathDict.keys())
         net = random.choice(nets)
         
         gate_a = self.graph.gates[net[0]]
@@ -102,15 +99,21 @@ class HillClimber(GreedyLookAhead):
                 A tuple of Gate Objects
         """
 
-        net_path = self.wire_path_dict[net]
+        net_path = self.wirePathDict[net]
+
+        print(f"Wire: {self.wire}")
+        print(f"Wire coords: {self.wire.coords}")
+
+        print(f"Net path: {net_path}")
         
         # coord_storage = []
         for coordinates in net_path:    
             # Remove old path coordinates from the coordinate storage of the Wire Object
             # Gates can never be an intersection and thus will not be taken into account
             node = self.graph.nodes[coordinates]
-            if not node.isgate:
-                # Remove node form coordinate storage
+            if node.isgate == False:
+                # Remove node from coordinate storage
+                print(f"node: {node}")
                 self.wire.coords.remove(node)
 
                 # Correct intersection-count of the Node object of the current coordinate
@@ -136,28 +139,17 @@ class HillClimber(GreedyLookAhead):
         """
 
         gate_a, gate_b = gates
-        # new_path = self.make_connection(gate_a, gate_b)
-        not_found = True
-        while not_found:
-            while True:
-
-                # Restart algorithm if error occurs
-                try:
-                    new_path = self.make_connection(gate_a, gate_b)
-                    not_found = False
-                    break
-                except ValueError:
-                    break
-
+        new_path = self.make_connection(gate_a, gate_b)
+ 
         # Update wire_path
-        self.wire_path_dict[net] = new_path
+        self.wirePathDict[net] = new_path
 
     def visualize_chip(self):
         """
         Visualizes the chip in the current state.
         """
 
-        visualisation = Chip_Visualization(self.graph.gates, self.wire_path_dict)
+        visualisation = Chip_Visualization(self.graph.gates, self.wirePathDict)
         visualisation.run()
 
     def save_fig_to_results(self, plt, filename):
@@ -208,6 +200,15 @@ class HillClimber(GreedyLookAhead):
         ITERATIONS = 100
         iteration = 0
 
+        # 1. Get random Start State
+        algo = GreedyLookAhead(self.bestGraph, self.connections)
+        self.wirePathDict = algo.run()
+        self.bestWirePathDict = algo.run()
+        self.wire = algo.wire
+        self.bestWire = algo.wire
+        self.cost = algo.wire.compute_costs()
+        self.bestCost = algo.wire.compute_costs()
+
         # Visualise starting State
         self.visualize_chip()
         
@@ -215,11 +216,11 @@ class HillClimber(GreedyLookAhead):
         while not self.conversion:
 
             # # Keep track of the HillClimbers' cost
-            self.climbers_costs.append(self.best_cost)
+            self.climbers_costs.append(self.bestCost)
             self.iteration.append(iteration)
             print(f"Iteration: {iteration}")
             iteration += 1
-            print(f"Best cost: {self.best_cost}")
+            print(f"Best cost: {self.bestCost}")
             
             # 3. Apply random adjustment
             # Get random net
@@ -235,12 +236,12 @@ class HillClimber(GreedyLookAhead):
             cost = self.wire.compute_costs()
 
             # 4. If state improved (cost decreased):
-            if cost < self.best_cost:
+            if cost < self.bestCost:
                 # 5. Confirm adjustment
-                self.best_cost = cost
-                self.best_graph = self.graph
-                self.best_wire = self.wire
-                self.best_wire_path_dict = self.wire_path_dict
+                self.bestCost = cost
+                self.bestGraph = self.graph
+                self.bestWire = self.wire
+                self.bestWirePathDict = self.wirePathDict
                 self.improvements.append(True)
             else:
                 self.improvements.append(False)
