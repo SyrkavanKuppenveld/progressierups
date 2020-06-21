@@ -1,6 +1,7 @@
 import random
 from code.classes.wire import Wire
 from code.visualization.visualize import Chip_Visualization
+import copy
 
 class Random():
     """ 
@@ -142,20 +143,33 @@ class Random():
         """
 
         route = {}
-        netlist = list(self.graph.netlist)
+        
+        # Run algorithm until solution is found
+        not_found = True
+        while not_found:
+            try:
+                
+                # Make deep copy of netlist
+                netlist = copy.deepcopy(list(self.graph.netlist))
 
-        # Iterate until netlist is empyt
-        while netlist:
+                # Iterate until netlist is empyt
+                while netlist:
 
-            # Get random connection 
-            connection = netlist.pop(random.randrange(0, len(netlist)))
+                    # Get random connection 
+                    connection = netlist.pop(random.randrange(0, len(netlist)))
 
-            # Get corresponding Gate objects
-            a, b = connection[0], connection[1]
-            gate_a, gate_b = self.graph.gates[a], self.graph.gates[b]
+                    # Get corresponding Gate objects
+                    a, b = connection[0], connection[1]
+                    gate_a, gate_b = self.graph.gates[a], self.graph.gates[b]
 
-            # Generate the connection between gate a and b
-            route[(a, b)] = self.make_connection(gate_a, gate_b)
+                    # Generate the connection between gate a and b
+                    route[(a, b)] = self.make_connection(gate_a, gate_b)
+            except ValueError:
 
+                # Clear graph, wire and route
+                self.graph.ClearGraph()
+                self.wire = Wire()
+                route = {}
+        
         return route
 
