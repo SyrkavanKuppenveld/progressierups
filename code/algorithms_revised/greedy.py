@@ -244,6 +244,11 @@ class Greedy():
                     self.wire = Wire()
                     route = {}
 
+            # Visualizatie is voor testen, later weghalen!
+            print(f"if part")
+            visualisation = ChipVisualization(self.graph.gates, route)
+            visualisation.run()
+
             return route
 
         else:
@@ -297,6 +302,11 @@ class Greedy():
                     self.wire = Wire()
                     route = {}
                     completed = set()
+
+            # Visualizatie is voor testen, later weghalen!
+            print(f"else part")
+            visualisation = ChipVisualization(self.graph.gates, route)
+            visualisation.run()
 
             return route
 
@@ -1143,6 +1153,130 @@ class GreedyLookAheadCosts(GreedyLookAhead):
                 dist += self.compute_total_costs(position, step, goal)
 
         return dist
+
+
+    
+class WireJam(Greedy):
+    """ 
+    Creates a Wire object that connects the gates according to the Greedy
+    algorithm with one exception conscidering the ....
+
+    Heuristic
+    ---------
+    ...
+
+    """
+
+    def compute_manhattan_dist(self, position, goal):
+        """
+        Returns the heuristic cost of going to the current position
+        
+        Parameters
+        ----------
+        position: a Node object
+                A Node object representing the current position of the wire.
+
+        goal: a Node object
+                A Node object repesenting the goal position on the grid.
+
+        Returns
+        -------
+        int 
+                Heuristic cost (= Manhattan distance + 2 * nr of surrounding wires)
+        """
+
+        # Compute Manhattan Distance for each dimension
+        x_dist = abs(position.xcoord - goal.xcoord)
+        y_dist = abs(position.ycoord - goal.ycoord)
+        z_dist = abs(position.zcoord - goal.zcoord)
+
+        # Compute the number of wires surrounding the current position
+        surrounding_wires = position.get_wire_density(position, self.wire.path)
+
+        # Return heuristic score of the current position
+        return x_dist + y_dist + z_dist + 2 * surrounding_wires
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    # def get_next_neighbor(self, neighbors):
+    #     """
+    #     Applies the Wire Jame heuristic by looking at the number of wires 
+    #     surrounding the neighbours and randomly returns a neighbor from a list 
+    #     of neighbors with the lowest surrounding wires.
+
+    #     Parameters
+    #     ----------
+    #     neighbors: a list
+    #             A list containing the neighbors of the current position of the wire.
+
+    #     Returns
+    #     -------
+    #     Node object
+    #             Randomly generated neighbor Node from a list of neighbors with the
+    #             lowest surrounding wires.
+    #     """
+
+
+    #     # Store all neighbours with the number of wires surrounding them
+    #     wire_jam_risk = []
+    #     for neighbor in neighbors:
+    #     #     print(f"Neighbor: {neighbor}")
+    #     #     print(f"Type neighbor: {type(neighbor)}")
+    #         surrounding_wires = neighbor.get_wire_density(neighbor, self.wire.path)
+    #     #     print(f"surrounding_wires: {surrounding_wires}")
+    #         risk_evaluation = (neighbor, surrounding_wires)
+    #         wire_jam_risk.append(risk_evaluation)
+
+    #     print(f"Wire jam risk: {wire_jam_risk}")
+        
+    #     # # Sort neighbors based on their wire jam risk from low to high
+    #     # sorted_neighbors = sorted(wire_jam_risk, key=lambda x: x[1], reverse=True)
+    #     # print(f"Sorted neihbors based on jam risk: {sorted_neighbors}")
+
+    #     favourable_neigbors_list = []
+    #     for neighbor in wire_jam_risk:
+    #             adjusted_neighbor_frequency = 10 - (neighbor[1])
+    #             for i in range(adjusted_neighbor_frequency):
+    #                     favourable_neigbors_list.append(neighbor[0])
+    #     print(f"fav neigh list: {favourable_neigbors_list}")
+    #     # # Create a list with all the neighbors with the lowest wire jam risk
+    #     # quiet_nodes = []
+    #     # for risk_evaluation in wire_jam_risk:
+    #     #     if risk_evaluation[1] == lowest_risk:
+    #     #         quiet_nodes.append(risk_evaluation[1])
+
+    #     # # If all neighbors have the same number of surrounding wires, randomly 
+    #     # # choose a neighbor from the list of all neighbors
+    #     # if len(quiet_nodes) == 0:
+    #     #         quiet_nodes = neighbors
+
+    #     print(f"Searching...")
+    #     print(f"...")
+
+    #     # print(f"Quiet nodes: {quiet_nodes}")
+
+    #     # Return neighbor that is first in line
+    #     # low_risk_neighbor = lowest_risk.pop(0)
+    #     # print(f" Low risk neighbor: {low_risk_neighbor}")
+        
+    #     # return "test"
+    #     # return low_risk_neighbor[0]
+    #     returned_neighbor = favourable_neigbors_list.pop(random.randrange(0, len(favourable_neigbors_list)))
+    #     print(f"to be returned neighbor: {returned_neighbor}")
+    #     return returned_neighbor
 
 
         
