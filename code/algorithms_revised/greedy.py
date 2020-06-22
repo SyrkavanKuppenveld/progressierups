@@ -285,7 +285,7 @@ class Greedy():
 
                     # Set not_found to Flase   
                     not_found = False
-                    
+
                 except ValueError:
 
                     # Clear graph, wire and route
@@ -293,7 +293,7 @@ class Greedy():
                     self.wire = Wire()
                     route = {}
 
-                return route
+            return route
 
 
 class GreedyLookAhead(Greedy):
