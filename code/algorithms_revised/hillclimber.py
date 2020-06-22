@@ -33,7 +33,7 @@ class HillClimber(GreedyLookAhead):
 
     Random adjustments
     ------------------
-    The path that is to be rebuild, is randomly chosen.
+    The path that is to be rebuilt, is chosen randomly.
     The new path will be built with the use of the Greedy LookaHead algorithm.
     """
 
@@ -86,9 +86,9 @@ class HillClimber(GreedyLookAhead):
     
     def remove_net(self, net, gates):
         """"
-        Removes the path form the Wire object that is to be rebuild.
+        Removes the path form the Wire object that is to be rebuilt.
 
-        Paramters
+        Paramteres
         ---------
         net : tuple
                 A tuple of gateIDs (int)
