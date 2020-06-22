@@ -140,6 +140,10 @@ class Greedy():
                 is selected randomly.
         """
         
+        
+        # Dit is voor testen: straks weghalen!
+        print(f"List of neighbors {lst}")
+        
         # Get minimum Manhattan Distance of steps
         min_value = min(lst, key=lambda x: x[1])
 

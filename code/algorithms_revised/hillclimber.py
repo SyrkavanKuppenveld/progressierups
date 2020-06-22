@@ -42,6 +42,8 @@ class HillClimber(GreedyLookAhead):
         Initializes the states of the algorithm.
         """
 
+        self.iterations = 500
+
         # Keeps track state after adjustment
         self.graph = graph
         self.wire = None
@@ -136,6 +138,32 @@ class HillClimber(GreedyLookAhead):
         # Update wire_path
         self.wirePathDict[net] = new_path
 
+    def confirm_adjustment(self, cost):
+        """
+        INFORMATIE
+        """
+        
+        # If state improved (cost decreased):
+        if cost < self.bestCost:
+            # Confirm adjustment
+            self.bestCost = cost
+            self.bestGraph = self.graph
+            self.bestWire = self.wire
+            self.bestWirePathDict = self.wirePathDict
+            self.improvements.append(True)
+        else:
+            self.improvements.append(False)
+    
+    def track_iterations(self):
+        """
+        INFORMATIE
+        """
+        
+        # Keep track of the past N iterations
+        if len(self.improvements) == self.iterations:
+            # Make room for next iteration
+            self.improvements.pop(0)
+    
     def visualize_chip(self):
         """
         Visualizes the chip in the current state.
@@ -169,10 +197,10 @@ class HillClimber(GreedyLookAhead):
         Runs the HillClimber algorithm
         """
 
-        ITERATIONS = 500
         iteration = 0
 
         # Get random Start State
+        print("Computing random start state...")
         algo = Random(self.bestGraph)
         self.wirePathDict = algo.run()
         self.bestWirePathDict = self.wirePathDict
@@ -184,7 +212,7 @@ class HillClimber(GreedyLookAhead):
         # Visualise starting State
         self.visualize_chip()
         
-        # Repeat until cost does not improve after N iterations:
+        # Repeat until conversion has occured
         while True in self.improvements:
 
             # # Keep track of the HillClimbers' cost
@@ -207,24 +235,109 @@ class HillClimber(GreedyLookAhead):
             # Compute cost of adjusted state
             cost = self.wire.compute_costs()
 
-            # If state improved (cost decreased):
-            if cost < self.bestCost:
-                # Confirm adjustment
-                self.bestCost = cost
-                self.bestGraph = self.graph
-                self.bestWire = self.wire
-                self.bestWirePathDict = self.wirePathDict
-                self.improvements.append(True)
-            else:
-                self.improvements.append(False)
+            # Confirm adjustment if state improved
+            self.confirm_adjustment(cost)
 
-            # Check if conversion has occured over the past N iterations
-            if len(self.improvements) == ITERATIONS:
-                # Make room for next iteration
-                self.improvements.pop(0)
+            # Keep track of the pas N iterations
+            self.track_iterations()
 
         # Visualize end result
         self.visualize_chip()
 
         # Visualize Conversion
         self.visualize_conversion()
+
+class RestartHillClimber(HillClimber):
+    """
+    INFORMATIE
+    """
+
+    def __init__(self, graph, frequency):
+        """ 
+        Initializes the states of the algorithm.
+        """
+        
+        # Empirically chosen number of iterations
+        self.iterations = 200
+
+        # Frequency of restarts entered by user
+        self.frequency = frequency
+
+        # Keeps track state after adjustment
+        self.graph = graph
+        self.wire = None
+        self.wirePathDict = None
+        self.cost = None
+
+        # Keeps track of best state encountered
+        self.bestGraph = graph
+        self.bestWire = None
+        self.bestWirePathDict = None
+        self.bestCost = None
+
+        # Used to check on conversion
+        self.improvements = [True]
+
+        # Keep track of the HillClimbers' cost
+        self.climbers_costs = []
+        self.iteration = []
+
+    def run(self):
+        """
+        Runs the HillClimber algorithm a number of times, frequency is given by user.
+        """
+
+        iteration = 0
+        for i in range(self.frequency):
+
+            # Get random Start State
+            print(f"Computing random start state nr. {i}...")
+            algo = Random(self.bestGraph)
+            self.wirePathDict = algo.run()
+            self.bestWirePathDict = self.wirePathDict
+            self.wire = algo.wire
+            self.bestWire = algo.wire
+            self.cost = algo.wire.compute_costs()
+            self.bestCost = algo.wire.compute_costs()
+
+            # Visualise starting State
+            self.visualize_chip()
+
+            # Repeat until conversion has occured
+            while True in self.improvements:
+
+                # # Keep track of the HillClimbers' cost
+                self.climbers_costs.append(self.bestCost)
+                self.iteration.append(iteration)
+                print(f"Iteration: {iteration}")
+                iteration += 1
+                print(f"Best cost: {self.bestCost}")
+                
+                # Apply random adjustment
+                # Get random net
+                net, gates = self.get_random_net()
+
+                # Remove old net path form wire object
+                self.remove_net(net, gates)
+
+                # Apply random adjustment on net
+                self.apply_random_adjustment(net, gates)
+
+                # Compute cost of adjusted state
+                cost = self.wire.compute_costs()
+
+                # Confirm adjustment if state improved
+                self.confirm_adjustment(cost)
+
+                # Keep track of the pas N iterations
+                self.track_iterations()
+            
+            # Reset conversion status
+            self.improvements = [True]
+
+        # Visualize end result
+        self.visualize_chip()
+
+        # Visualize Conversion
+        self.visualize_conversion()
+
