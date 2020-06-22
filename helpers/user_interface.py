@@ -234,6 +234,7 @@ def heuristic_input(netlist, algorithm):
         elif heuristic == '93':
             print("\033[1m""INFORMATION SKY IS THE LIMIT""\033[0m")
             print("The 'Sky Is The Limit' heuristic increases the costs for not moving up in the grid if the Manhattan Distance between gates is higher than 4.")
+            print("This heuristic can be combined with 'Sky Is The Limit' and 'Better A Neighbor Who Is Near Than A Brother Far Away'.")
             print()
             time.sleep(3)
             print()
@@ -311,6 +312,27 @@ def heuristic_order_input(chip, heuristic, graph):
             # Generate connection list
             connections = graph.get_connection_distance(order)
             return connections, True
+
+    elif heuristic == 3:
+
+        options = {'0', '1', '2'}
+        
+        # Ensure correct usage
+        correct = False
+        while not correct:
+            
+            # Prompt user for order heuristic list
+            exitention = input("\033[1m""With which heuristic would you like to extent 'Sky Is The Limit'?\n> 0 = none \n> 1 = 'Social Map'\n> 2 = 'Better a neighbor who is near than an brother far away?\n""\033[1m")
+
+            # If usage is correct set correct to true and convert order to bool
+            if order in options:
+                correct == True
+                order = int(order)
+    
+        
+        return int(order)
+        
+    
     else:
 
         # Generate connection list
@@ -337,8 +359,6 @@ def visualize_save_results(graph, wire_path):
     
     png file
             A png file of the visualization.
-
-
     """
 
     options = {'y', 'n'}
