@@ -21,11 +21,11 @@ __status__ = 'Dev'
 class Random():
     """ 
     Creates a Wire object that connects the gates according to the netlist and 
-    according to the lowest Manhattan Distance. 
+    the lowest Manhattan Distance. 
 
     Random element
     --------------
-    * The order of the connections are generated randomly.
+    * The order of the connections is generated randomly.
     * The next position is generated randomly.
     """
 
@@ -48,7 +48,7 @@ class Random():
         Parameters
         ----------
         connections: a list
-                A list containing the connections from the netlist file.
+                A list containing the connections of the netlist file.
 
         Returns
         -------
@@ -59,17 +59,17 @@ class Random():
         return connections.pop(random.randrange(0, len(connections)))
 
     def get_next_neighbor(self, neighbors):
-        """Randomly returns a neighbor.
+        """Randomly returns a neighbour.
         
         Parameters
         ----------
         connections: a list
-                A list containing the neighbors of the current position of the wire.
+                A list containing the neighbours of the current position of the wire.
 
         Returns
         -------
         Node object
-                Randomly generated neighbor Node.
+                Randomly generated neighbour Node.
         """
 
         return neighbors.pop(random.randrange(0, len(neighbors)))
@@ -108,10 +108,10 @@ class Random():
         Parameters
         ----------
         gate_a: int
-                A integer representing the gateID of gate_a.
+                An integer representing the gateID of gate_a.
 
         gate_a: int
-                A integer representing the gateID of gate_b.
+                An integer representing the gateID of gate_b.
 
 
         Returns
@@ -158,7 +158,7 @@ class Random():
         """
 
         route = {}
-        
+
         # Run algorithm until solution is found
         not_found = True
         while not_found:
@@ -180,12 +180,11 @@ class Random():
                     # Generate the connection between gate a and b
                     route[(a, b)] = self.make_connection(gate_a, gate_b)
 
-                # Set not_found to False
-                not_found = False
+                    not_found = False
             except ValueError:
 
                 # Clear graph, wire and route
-                self.graph.clear_graph()
+                self.graph.ClearGraph()
                 self.wire = Wire()
                 route = {}
         
