@@ -243,11 +243,11 @@ def get_flow(plot):
     # Questions
     q1_start_state = "Would you like to see the start states of the hillclimber algorithm?"
     q1_conversion = "Would you like to see the conversion plot of the hillclimber algorithm?"
-    questions1 = [q1_start_state, q1_conversion_plot]
+    questions1 = [q1_start_state, q1_conversion]
 
     q2_start_state = "Would you like to save the start states of the hillclimber algorithm?"
     q2_conversion = "Would you like to save the conversion plot of the hillclimber algorithm?"
-    questions2 = [q2_start_state, q2_conversion_plot]
+    questions2 = [q2_start_state, q2_conversion]
 
     # Adapt questions to the plot being asked
     if plot == 'start_state':
@@ -261,7 +261,7 @@ def get_flow(plot):
     while not correct:
         
         # Ask user if the plot should be shown
-        print(f"\033[1m""{q1} (y/n)?""\033[0m\n")
+        print("\033[1m"f"{q1} (y/n)?""\033[0m\n")
         show_bool = bool(input())
 
         # Quit if user input is correct
@@ -274,7 +274,7 @@ def get_flow(plot):
     # Ensure proper usage
     while not correct:
         # Ask user if the start state(s) of the Hillclimber algorithm should be saved
-        print("\033[1m""{q2} (y/n)?""\033[0m\n")
+        print("\033[1m"f"{q2} (y/n)?""\033[0m\n")
         save_bool = bool(input())
 
         # Quit if user input is correct
