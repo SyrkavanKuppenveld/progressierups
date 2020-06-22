@@ -273,7 +273,7 @@ def get_flow(plot):
 
     # Ensure proper usage
     while not correct:
-        # Ask user if the start state(s) of the Hillclimber algorithm should be saved
+        # Ask user if the plot of the Hillclimber algorithm should be saved
         print("\033[1m"f"{q2} (y/n)?""\033[0m\n")
         save_bool = bool(input())
 
