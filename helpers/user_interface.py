@@ -282,7 +282,7 @@ def heuristic_extention(chip, graph):
         
         # Prompt user for order heuristic list
         print("\033[1m""With which heuristic would you like to extent 'Sky Is The Limit'?""\033[1m")
-        print("> 0 = none\n> 1 = 'Social Map'\n> 2 = 'Better a neighbor who is near than an brother far away?")
+        print("> 0 = none\n> 1 = 'Social Map'\n> 2 = 'Better a neighbor who is near than a brother far away?")
         extention = input()
 
         # If usage is correct set correct to true and convert order to bool
@@ -458,6 +458,7 @@ def visualize_save_results(graph, wire_path):
         plot.savefig("results/visualization_algorithm.png")
         print()
         print("See 'results/visualization_algorithn.png' for visualizaton.")
+    
     elif show == 'y' and save == 'n':
 
         # Visualize the results
