@@ -367,8 +367,9 @@ def heuristic_order_input(chip, heuristic, graph):
         while not correct:
             
             # Prompt user for order heuristic list
-            print()
-            order = input("\033[1m""How would you like to implement the heuristic?\n> 0 = min-max\n> 1 = max-min\n""\033[1m")
+            print("\033[1m""How would you like to implement the heuristic?""\033[1m")
+            print("> 0 = min-max\n> 1 = max-min\n")
+            order = input()
 
             # If usage is correct set correct to true and convert order to bool
             if order in options:
@@ -484,7 +485,9 @@ def restart_program():
     while not correct:
 
         # Prompt user for input
-        restart = input("\033[1m""Would you like to ... ?\n> 0 = continue\n> 1 = restart program\n> 2 = quit program\n""\033[1m")
+        print("\033[1m""Would you like to ... ?""\033[1m")
+        print("> 0 = continue\n> 1 = restart program\n> 2 = quit program")
+        restart = input()
         if restart in options:
             correct = True
 
