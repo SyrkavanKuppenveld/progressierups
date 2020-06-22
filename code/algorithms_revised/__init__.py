@@ -10,4 +10,4 @@ Also see:
 
 from code.algorithms_revised.greedy import Greedy, GreedyLookAhead, GreedyNoIntersect, GreedyNoIntersectLookAhead, GreedyLookAheadCosts, WireJam
 from code.algorithms_revised.random import Random
-from code.algorithms_revised.hillclimber import HillClimber, RestartHillClimber
+from code.algorithms_revised.hillclimber import HillClimber

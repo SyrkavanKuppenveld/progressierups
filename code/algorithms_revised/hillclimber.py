@@ -24,25 +24,20 @@ __status__ = 'Dev'
 
 
 class HillClimber(GreedyLookAhead):
-    """ 
-    Provide Object to perform the (stochastic) Hillclimber algorithm with.
-    
-    Start State
-    ---------
-    The algorithm starts with a Random start State 
-
-    Random adjustments
-    ------------------
-    The path that is to be rebuilt, is chosen randomly.
-    The new path will be built with the use of the Greedy LookaHead algorithm.
+    """
+    INFORMATIE
     """
 
-    def __init__(self, graph):
+    def __init__(self, graph, frequency):
         """ 
         Initializes the states of the algorithm.
         """
+        
+        # Empirically chosen number of iterations
+        self.iterations = 200
 
-        self.iterations = 500
+        # Frequency of restarts entered by user
+        self.frequency = frequency
 
         # Keeps track state after adjustment
         self.graph = graph
@@ -63,6 +58,7 @@ class HillClimber(GreedyLookAhead):
         self.climbers_costs = []
         self.iteration = []
 
+    
     def get_random_start_state(self):
         
         print("Computing random start state...")
@@ -206,97 +202,13 @@ class HillClimber(GreedyLookAhead):
 
         # Show conversion plot
         plt.show()
-
-    def run(self):
-        """
-        Runs the HillClimber algorithm
-        """
-
-        iteration = 0
-
-        # Get random Start State
-        self.get_random_start_state()
-
-        # Visualise starting State
-        self.visualize_chip()
-        
-        # Repeat until conversion has occured
-        while True in self.improvements:
-
-            # # Keep track of the HillClimbers' cost
-            self.climbers_costs.append(self.bestCost)
-            self.iteration.append(iteration)
-            print(f"Iteration: {iteration}")
-            iteration += 1
-            print(f"Best cost: {self.bestCost}")
-            
-            # Apply random adjustment
-            # Get random net
-            net, gates = self.get_random_net()
-
-            # Remove old net path form wire object
-            self.remove_net(net, gates)
-
-            # Apply random adjustment on net
-            self.apply_random_adjustment(net, gates)
-
-            # Compute cost of adjusted state
-            cost = self.wire.compute_costs()
-
-            # Check is adjusment resulted in an improved state
-            improvement = self.check_improvement(cost)
-
-            # Confirm adjustment if state improved
-            self.confirm_improvement(improvement, cost)
-
-            # Update improvements list
-            self.improvements.append(improvement)
-
-            # Keep track of the pas N iterations
-            self.track_iterations()
-
-        # Visualize end result
-        self.visualize_chip()
-
-        # Visualize Conversion
-        self.visualize_conversion()
-
-# class RestartHillClimber(HillClimber):
-class RestartHillClimber():
-    """
-    INFORMATIE
-    """
-
-    def __init__(self, graph, frequency):
-        """ 
-        Initializes the states of the algorithm.
-        """
-        
-        # Empirically chosen number of iterations
-        self.iterations = 200
-
-        # Frequency of restarts entered by user
-        self.frequency = frequency
-
-        # Keeps track state after adjustment
-        self.graph = graph
-        self.wire = None
-        self.wirePathDict = None
-        self.cost = None
-
-        # Keeps track of best state encountered
-        self.bestGraph = graph
-        self.bestWire = None
-        self.bestWirePathDict = None
-        self.bestCost = None
-
-        # Used to check on conversion
-        self.improvements = [True]
-
-        # Keep track of the HillClimbers' cost
-        self.climbers_costs = []
-        self.iteration = []
-
+    
+    
+    
+    
+    
+    
+    
     def run(self):
         """
         Runs the HillClimber algorithm a number of times, frequency is given by user.
