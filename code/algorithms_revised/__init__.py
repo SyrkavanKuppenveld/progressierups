@@ -6,6 +6,7 @@ This module contains algorithms that find a solution for the chips&circuits case
 Also see:
         pydoc algorithms.greedy
         pydoc algorithms.random
+        pydoc algorithms.hillclimber
 """
 
 from code.algorithms_revised.greedy import Greedy, GreedyLookAhead, GreedyNoIntersect, GreedyNoIntersectLookAhead, GreedyCosts, GreedyLookAheadCosts, WireJam

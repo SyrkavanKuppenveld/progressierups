@@ -22,7 +22,8 @@ __status__ = 'Dev'
 Code for the Greedy Algorithm.
 
 
-This module contains the code for the Greedy algorithm and the extensions thereof. These are: 
+This module contains the code for the Greedy algorithm and the extensions thereof. 
+These are: 
 * LookAhead: with a 4 step depth look ahead.
 * NoIntersect: intersections as hard constraint.
 * NoIntersectLookAhead: intersections as a hard constraint, and a 4 step look a head.
@@ -31,18 +32,19 @@ This module contains the code for the Greedy algorithm and the extensions thereo
 
 class Greedy():
     """ 
-    Creates a Wire object that connects the gates according to the netlist and 
-    the lowest Manhattan Distance. 
+    Creates a Wire object that connects the gates according to thethe lowest 
+    Manhattan Distance. 
+
 
     Random element
     --------------
-    * The order of the connections is generated randomly.
-    * If multiple neighbours have the same distance, the next position is generated
-      randomly. 
+    * If multiple neighbours have the same distance, the next position is 
+    generated randomly. 
     
     Greedy element
     --------------
-    The next position will be the neighbour with the lowest Manhattan distance.
+    The next position will be one of the neighbours with the lowest Manhattan 
+    distance.
     """
 
     def __init__(self, graph, order, approach):
@@ -53,6 +55,12 @@ class Greedy():
         ----------
         graph: a Graph object
                 A Graph object representing the chip grid.
+        order: a list
+                A list of either gates or connections that indicates the order in 
+                which the connections/nets of the netlist will be build.
+        approach: boolean
+                A boolean of which True indicates that "order" is a list of 
+                connections and False indicates a list of gates.
         """
  
         self.graph = graph
@@ -131,8 +139,8 @@ class Greedy():
         Returns
         -------
         Node object
-                The Node object with the minimal Manhattan Distance; if multiple, one of those 
-                is selected randomly.
+                The Node object with the minimal Manhattan Distance; if multiple, one of 
+                those is selected randomly.
         """
         
         # Get minimum Manhattan Distance of steps
@@ -176,7 +184,7 @@ class Greedy():
         # Iterate until connection has been made
         while position != goal:
             
-            # Store current position in temporary value
+            # Store current position in a temporary value
             tmp = position
 
             # Generate next position
@@ -197,7 +205,8 @@ class Greedy():
 
     def run(self):
         """
-        Returns a dictionary with the wire route to connect all gates according to netlist.
+        Returns a dictionary with the wire route that connects all gates according 
+        to the netlist.
 
         Returns
         -------
@@ -205,7 +214,8 @@ class Greedy():
                 A dictionary containing the route of the wire per connection.
         """
         
-        # Run based on approach
+        # Built connections based on an ordered list of connection which is  
+        # pre-determined by a chosen heuristic
         if self.approach is True:
             route = {}
             
@@ -241,6 +251,8 @@ class Greedy():
                     route = {}
 
             return route
+        # Built connections based on an ordered list of gates which is  
+        # pre-determined by a chosen heuristic
         else:
             route = {}
             completed = set()
@@ -304,8 +316,8 @@ class GreedyLookAhead(Greedy):
 
     Random element
     --------------
-    * The order of the connections is generated randomly.
-    * If multiple neighbours have the same distance, the next position is generated randomly. 
+    * If multiple neighbours have the same distance, the next position is generated r
+    andomly. 
     
     Greedy element
     --------------
@@ -383,7 +395,7 @@ class GreedyLookAhead(Greedy):
                     else:
                         child = self.copy_nodes(state)
 
-                        # Only append if i is valid
+                        # Only append if valid
                         if self.path_check(child, position_next, neighbor) and self.valid_check(child, neighbor):
                             child.append(neighbor)
                             stack.append(child)
@@ -434,14 +446,16 @@ class GreedyLookAhead(Greedy):
                 A list containing Node objects representing a wire path.
 
         position: a Node object
-                A node object representing the current position of the wire in the grid.
+                A node object representing the current position of the wire in 
+                the grid.
 
         neighbor: a Node object 
-                A Node object representing the neighbor of the current position of the wire.
+                A Node object representing the neighbor of the current position of 
+                the wire.
 
         Returns 
         -------
-        boolchec
+        bool
                 True if successful, otherwise False.
         """
 
@@ -460,7 +474,8 @@ class GreedyLookAhead(Greedy):
                 A list containing Node objects representing a wire path.
 
         neighbor: a Node object 
-                A Node object representing the neighbour of the current position of the wire.
+                A Node object representing the neighbour of the current position 
+                of the wire.
 
         Returns 
         -------
@@ -485,7 +500,8 @@ class GreedyLookAhead(Greedy):
 
     def all_distances(self, paths, goal):
         """
-        Returns the list with all distances and their corresponding total costs.
+        Returns the list with all distances and their corresponding total 
+        (Manhattan) costs.
         
         Parameters
         ----------
@@ -498,13 +514,14 @@ class GreedyLookAhead(Greedy):
         Returns 
         -------
         list        
-                A list with tuples. First element of tuple is the neighbour and the 
-                second element is the path's costs. 
+                A list with tuples. First element of tuple is the neighbour and 
+                the second element is the path's costs. 
         """
 
         costs = []
 
         for path in paths:
+            # Compute the number of steps (= Cost) needed to get to the goal gate
             total_dist = self.path_distance(path, goal)
             costs.append((path[1], total_dist))
 
@@ -538,19 +555,19 @@ class GreedyLookAhead(Greedy):
 
 class GreedyNoIntersect(Greedy):
     """ 
-    Creates a Wire object that connects the gates according to the netlist and 
-    the lowest Manhattan Distance. For this algorithm, intersections
+    Creates a Wire object that connects the gates according to the netlist 
+    and the lowest Manhattan Distance. For this algorithm, intersections
     are a hard constraint. 
 
     Random element
     --------------
-    * The order of the connections is generated randomly.
-    * If multiple neighbors have the same distance, the next position is generated
-      randomly. 
+    * If multiple neighbors have the same distance, the next position is 
+    generated randomly. 
     
     Greedy element
     --------------
-    The next position will be the neighbour with the lowest Manhattan distance.
+    The next position will be one of the neighbours with the lowest Manhattan 
+    distance.
     """
 
     def next_position(self, position, goal):
@@ -598,7 +615,6 @@ class GreedyNoIntersect(Greedy):
         gate_a: int
                 An integer representing the gateID of gate_b.
 
-
         Returns
         -------
         tuple
@@ -639,15 +655,14 @@ class GreedyNoIntersect(Greedy):
 
 class GreedyNoIntersectLookAhead(GreedyNoIntersect):
     """ 
-    Creates a Wire object that connects the gates according to the netlist and 
-    the lowest Manhattan Distance. For this algorithm, intersections
+    Creates a Wire object that connects the gates according to the netlist 
+    and the lowest Manhattan Distance. For this algorithm, intersections
     are a hard constraint. 
 
     Random element
     --------------
-    * The order of the connections are generated randomly.
-    * If multiple neighbors have the same distance, the next position is generated
-      randomly. 
+    * If multiple neighbors have the same lowest Manhattan distance, the next 
+    position is generated randomly. 
     
     Greedy element
     --------------
@@ -655,7 +670,7 @@ class GreedyNoIntersectLookAhead(GreedyNoIntersect):
 
     Look ahead
     ----------
-    Depth of 5.
+    Depth of 4.
     """
 
     def next_position(self, position, goal):
@@ -776,10 +791,12 @@ class GreedyNoIntersectLookAhead(GreedyNoIntersect):
                 A list containing Node objects representing a wire path.
 
         position: a Node object
-                A node object representing the current position of the wire in the grid.
+                A node object representing the current position of the wire in 
+                the grid.
 
         neighbor: a Node object 
-                A Node object representing the neighbor of the current position of the wire.
+                A Node object representing the neighbor of the current position of 
+                the wire.
 
         Returns 
         -------
@@ -814,7 +831,8 @@ class GreedyNoIntersectLookAhead(GreedyNoIntersect):
                 A list containing Node objects representing a wire path.
 
         neighbor: a Node object 
-                A Node object representing the neighbour of the current position of the wire.
+                A Node object representing the neighbour of the current position of 
+                the wire.
 
         Returns 
         -------
@@ -844,16 +862,16 @@ class GreedyNoIntersectLookAhead(GreedyNoIntersect):
         
         Parameters
         ----------
-        path: a list
+        paths: a list
                 A list containing all valid paths for a four step look ahead.
 
-        Goal: a Node object
+        goal: a Node object
                 A Node object repesenting the goal position on the grid.
 
-        Feturns 
+        Returns 
         -------
-                A list with tuples. First element of tuple is the neighbour and the 
-                second element is the Manhattan distance. 
+                A list with tuples. First element of tuple is the neighbour and 
+                the second element is the Manhattan distance. 
 
         """
 
@@ -874,7 +892,7 @@ class GreedyNoIntersectLookAhead(GreedyNoIntersect):
         path: a list
                 A list of Nodes representing a wire path.
 
-        Goal: a Node object
+        goal: a Node object
                 A Node object repesenting the goal position on the grid. 
 
         Returns 
@@ -894,32 +912,39 @@ class GreedyNoIntersectLookAhead(GreedyNoIntersect):
 
 class GreedyCosts(Greedy):
     """ 
-    Creates a Wire object that connects the gates according to the netlist and 
-    the lowest Manhattan Distance. 
+    Creates a Wire object that connects the gates according to the netlist 
+    and the lowest Manhattan Distance. 
 
     Random element
     --------------
-    * The order of the connections are generated randomly.
-    * If multiple neighbours have the same distance, the next position is generated
-      randomly. 
+    * If multiple neighbours have the same distance, the next position is 
+    generated randomly. 
     
     Greedy element
     --------------
-    The next position will be the neighbour with the lowest Manhattan distance.
+    The next position will be the neighbor with the lowest Manhattan distance.
 
     Costs
     -----
-    The cost assigned to the step are higher if the step and its neighbors already 
-    are wired, in order to avoid these places on the grid. 
+    The cost assigned to the step are higher if the step remaings on the lower 4 layers
+    of the chip and if the step and its neighbors already are wired, in order to avoid 
+    these places on the grid. 
 
     """
 
     def compute_wire_costs(self, position, step, goal):
         """
-        Returns the increase in wire costs of the step.
+        Increases cost of the step if the step is in the lower layers of the 
+        chip and if the step has neighbors that are already wired.
+
+        Returns the increased wire costs of the step.
 
         Parameters 
         ----------
+        position: a Node object
+                A node object representing the current position of the wire in 
+                the grid.
+        
         step: a Node object
                 A Node object representing the next position of the wire.
 
@@ -938,14 +963,12 @@ class GreedyCosts(Greedy):
 
         cost = 0
 
+        # Get Manhatten distance between the current step and the 
+        # goal coordinate
         dist = self.compute_manhattan_dist(step, goal)
 
         # Only add extra costs if step is not goal
         if step_coords != goal_coords and dist > 4:
-
-            # Increment the cost with 5 if the step with cause intersection
-            # if step.zcoord - position.zcoord < 0:
-            #     cost += 5
             
             if step.zcoord == 0:
                 cost += 10
@@ -960,7 +983,8 @@ class GreedyCosts(Greedy):
             if step.intersection > 0:
                 cost += 10
 
-            # Increment the costs with 2 per neighbor of the step who is alread wired
+            # Increment the costs with 2 per neighbor of the step who is 
+            # alread wired
             for neighbor in step.neighbors:
                 if neighbor.intersection > 0:
                     cost += 2
@@ -969,8 +993,8 @@ class GreedyCosts(Greedy):
 
     def compute_total_costs(self, position, step, goal):
         """
-        Returns the costs of the step according to the Manhattan Distance and the 
-        wire costs.
+        Returns the costs of the step according to the Manhattan Distance and 
+        the wire costs.
 
         Parameters 
         ----------
@@ -1039,9 +1063,8 @@ class GreedyLookAheadCosts(GreedyLookAhead):
 
     Random element
     --------------
-    * The order of the connections are generated randomly.
-    * If multiple neighbours have the same distance, the next position is generated
-      randomly. 
+    * If multiple neighbours have the same distance, the next position is 
+    generated randomly. 
     
     Greedy element
     --------------
@@ -1053,8 +1076,9 @@ class GreedyLookAheadCosts(GreedyLookAhead):
 
     Costs
     -----
-    The cost assigned to the step are higher if the step and its neighbors already 
-    are wired, in order to avoid these places on the grid. 
+    The cost assigned to the step are higher if the step remaings on the lower 4 layers
+    of the chip and if the step and its neighbors already are wired, in order to avoid 
+    these places on the grid. 
     """
 
     def next_position(self, position, goal):
@@ -1144,7 +1168,10 @@ class GreedyLookAheadCosts(GreedyLookAhead):
 
     def compute_wire_costs(self, position, step, goal):
         """
-        Returns the increase in wire costs of the step.
+        Increases cost of the step if the step is in the lower layers of the 
+        chip and if the step has neighbors that are already wired.
+
+        Returns the increased wire costs of the step.
 
         Parameters 
         ----------
@@ -1170,11 +1197,6 @@ class GreedyLookAheadCosts(GreedyLookAhead):
 
         # Only add extra costs if step is not goal
         if step_coords != goal_coords and dist > 4:
-
-            # Increment the cost with 5 if the step with cause intersection
-            # if step.zcoord - position.zcoord < 0:
-            #     cost += 5
-            
             if step.zcoord == 0:
                 cost += 10
             elif step.zcoord == 1:
@@ -1234,14 +1256,16 @@ class GreedyLookAheadCosts(GreedyLookAhead):
         path: a list
                 A list containing all valid paths for a for step look ahead.
 
-        Goal: a Node object
+        position: a Node object
+                A Node object representing the current position of the wire.
+
+        goal: a Node object
                 A Node object repesenting the goal position on the grid.
 
-        Feturns 
+        Returns 
         -------
                 A list with tuples. First element of tuple is the neighbor and the 
                 second element is the Manhattan distance. 
-
         """
 
         mdist = []
@@ -1261,6 +1285,9 @@ class GreedyLookAheadCosts(GreedyLookAhead):
         path: a list
                 A list of Nodes representing a wire path.
 
+        position: a Node object
+                A Node object representing the current position of the wire.
+
         goal: a Node object
                 A Node object repesenting the goal position on the grid.
 
@@ -1268,7 +1295,6 @@ class GreedyLookAheadCosts(GreedyLookAhead):
         -------
         int
                 The costs of the total path.
-        
         """
         
         dist = 0
