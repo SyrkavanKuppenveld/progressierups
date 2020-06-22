@@ -364,7 +364,7 @@ def heuristic_input(netlist, algorithm):
 
         elif heuristic == '93':
             print("\033[1m""INFORMATION SKY IS THE LIMIT""\033[0m")
-            print("The 'Social Map' heuristic increases the costs for not moving up in the grid if the Manhattan Distance between gates is higher than 4.")
+            print("The 'Sky Is The Limit' heuristic increases the costs for not moving up in the grid and wired neighbors if the Manhattan Distance between gates is higher than 4.")
             print("This heuristic can be combined with 'Social Map' and 'Better A Neighbor Who Is Near Than A Brother Far Away'.")
             print()
             time.sleep(3)
@@ -385,16 +385,16 @@ def heuristic_input(netlist, algorithm):
             correct = True
 
             # Print warning for greedy with none or no intersect heuristic
-            if netlist > 3 and algorithm == 1 and (heuristic == 0 or heuristic == 4):
+            if netlist > 3 and algorithm == 1 and (heuristic < 3 or heuristic == 4):
                 print()
                 print("\033[31m""WARNING: the combination of the algorithm and heuristic only works for netlist 1-3 within a reasonable amount of time.""\033[0m")
                 print()
                 restart_program()
 
             # Print warning for greedy look ahead for heuristics 1 and 2
-            elif netlist > 5 and algorithm == 2 and (heuristic == 1 or heuristic == 2):
+            elif netlist > 4 and algorithm == 2 and (heuristic == 1 or heuristic == 2):
                 print()
-                print("\033[31m""WARNING: the combination of the algorithm and heuristic only works for netlist 1-5 within a reasonable amount of time.""\033[0m")
+                print("\033[31m""WARNING: the combination of the algorithm and heuristic only works for netlist 1-4 within a reasonable amount of time.""\033[0m")
                 print()
                 restart_program()
 
@@ -423,8 +423,9 @@ def heuristic_input(netlist, algorithm):
 
 
 def heuristic_extention(chip, graph):
-
     """
+    Returns the correct connections list based on heuristic and the corresponding run approach.
+
     chip: an int
             The chip number chosen by the user.
 
@@ -468,7 +469,7 @@ def heuristic_extention(chip, graph):
             # Prompt user for the order in which the heuristic list should be
             print()
             print("\033[1m""How would you like to implement the heuristic?""\033[0m")
-            print("> 0 = min-max\n> 1 = max-min")
+            print("> 0 = sorted from min-max\n> 1 = sorted from max-min")
             order = input()
 
             # If usage is correct set correct to true and convert order to bool
@@ -504,6 +505,8 @@ def heuristic_extention(chip, graph):
 
 def heuristic_order_input(chip, heuristic, graph):
     """
+    Returns the correct connections list based on heuristic and the corresponding run approach.
+
     chip: int
             The chip number chosen by the user.
 
@@ -533,7 +536,7 @@ def heuristic_order_input(chip, heuristic, graph):
             
             # Prompt user for order heuristic list
             print("\033[1m""How would you like to implement the heuristic?""\033[0m")
-            print("> 0 = min-max\n> 1 = max-min")
+            print("> 0 = sorted from min-max\n> 1 = sorted from max-min")
             order = input()
 
             # If usage is correct set correct to true and convert order to bool
@@ -571,7 +574,7 @@ def heuristic_order_input(chip, heuristic, graph):
 
 def visualize_save_results(graph, wire_path):
     """
-    Visualizes and/or saves the results of the algorithm.
+    Visualizes and/or saves the results of the algorithm based on user input.
 
     Parameters
     ----------

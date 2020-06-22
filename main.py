@@ -88,7 +88,6 @@ def main():
     print("\033[1m""Would you like to run another algorithm? (y/n)""\033[0m")
     rerun = input()
     if rerun == 'y':
-        sys.stderr.write("\x1b[2J\x1b[H")
         main()
 
 if __name__ == "__main__":
