@@ -64,7 +64,7 @@ def main():
     elif algorithm == 2:
         algo = alg.GreedyLookAhead(graph, connections, run_approach)
     elif algorithm == 3 or algorithm == 4:
-        algo = alg.HillClimber(graph, frequency, start_state_flow, conversion_plot_flow)
+        algo = alg.HillClimber(graph, frequency, start_state_flow, conversion_plot_flow, chip, netlist)
 
     # Run algorithm
     print("Running Algorithm...")

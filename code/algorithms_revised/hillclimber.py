@@ -29,7 +29,7 @@ class HillClimber(GreedyLookAhead):
     
     Start State
     ---------
-    The algorithm starts with a Random start State 
+    The algorithm starts with a Random start State. 
 
     Random adjustments
     ------------------
@@ -40,17 +40,36 @@ class HillClimber(GreedyLookAhead):
     The new path will be build with the use of the Greedy LookaHead algorithm.
     """
 
-    def __init__(self, graph, frequency, start_state_flow, conversion_flow):
+    def __init__(self, graph, frequency, start_state_flow, conversion_flow, chip, netlist):
         """ 
         Initializes the states of the algorithm.
+
+        Parameters
+        ---------
+        graph: a Graph Object
+                A Graph Object of the used chip and netlist
+        frequency: an int
+                The number of times the HillClimber needs to run
+        start_state_flow: boolean tuple
+                A boolean tuple needed for showing and saving the visualization of the start state
+        conversion_flow: boolean tuple
+                A boolean tuple needed for showing and saving the visualization of the conversion plot
+        chip: an int
+                The number of the used chip
+        netlist: an int
+                The number of the used netlist
         """
+
+        # Used chip and netlist
+        self.chip = chip
+        self.netlist = netlist
 
         # Answers to whether the plots should be shown/saved or not
         self.show_start_state = start_state_flow[0]
         self.save_start_state = start_state_flow[1]
         self.show_conversion_plot = conversion_flow[0]
         self.save_conversion_plot = conversion_flow[1]
-        
+
         # Empirically chosen number of iterations
         self.iterations = 200
 
@@ -60,14 +79,14 @@ class HillClimber(GreedyLookAhead):
         # Keeps track state after adjustment
         self.graph = graph
         self.wire = None
-        self.wirePathDict = None
+        self.wire_path = None
         self.cost = None
 
         # Keeps track of best state encountered
-        self.bestGraph = graph
-        self.bestWire = None
-        self.bestWirePathDict = None
-        self.bestCost = None
+        self.best_graph = graph
+        self.best_wire = None
+        self.best_wire_path = None
+        self.best_cost = None
 
         # Used to check on conversion
         self.improvements = [True]
@@ -75,62 +94,61 @@ class HillClimber(GreedyLookAhead):
         # Keep track of the HillClimbers' cost
         self.climbers_costs = []
         self.iteration = []
-
     
     def get_random_start_state(self):
         
         print("Computing random start state...")
         
         # Get random Start State
-        algo = Random(self.bestGraph)
-        self.wirePathDict = algo.run()
-        self.bestWirePathDict = self.wirePathDict
+        algo = Random(self.best_graph)
+        self.wire_path = algo.run()
+        self.best_wire_path = self.wire_path
         self.wire = algo.wire
-        self.bestWire = algo.wire
+        self.best_wire = algo.wire
         self.cost = algo.wire.compute_costs()
-        self.bestCost = algo.wire.compute_costs()
+        self.best_cost = algo.wire.compute_costs()
         
         print("Start state found")
     
-    def get_random_net(self):
+    def get_random_connection(self):
         """
-        Retrieves a random net from the netlist and returns the corresponding gateIDs
+        Retrieves a random connection from the netlist and returns the corresponding gateIDs
         and gate Objects.
 
         Returns
         -------
-        net : tuple
-                A tuple of gateIDs (int)
+        connection : tuple
+                A tuple of gateIDs (int).
         gates : tuple
-                A tuple of Gate Objects
+                A tuple of Gate Objects.
         """
 
         # Randomly choose a net that is to be re-build
-        nets = list(self.wirePathDict.keys())
-        net = random.choice(nets)
+        connections_list = list(self.wire_path.keys())
+        connection = random.choice(connections_list)
         
         # Get Gate Objects
-        gate_a = self.graph.gates[net[0]]
-        gate_b = self.graph.gates[net[1]]
+        gate_a = self.graph.gates[connection[0]]
+        gate_b = self.graph.gates[connection[1]]
         gates = (gate_a, gate_b)
 
-        return net, gates
+        return connection, gates
     
-    def remove_net(self, net, gates):
+    def remove_connection(self, connection, gates):
         """"
         Removes the path form the Wire object that is to be rebuilt.
 
-        Paramteres
+        Paramters
         ---------
-        net : tuple
-                A tuple of gateIDs (int)
+        connection : tuple
+                A tuple of gateIDs (int).
         gates : tuple
-                A tuple of Gate Objects
+                A tuple of Gate Objects.
         """
 
-        net_path = self.wirePathDict[net]
+        connection_path = self.wire_path[connection]
        
-        for coordinates in net_path:    
+        for coordinates in connection_path:    
             # Remove old path coordinates from the coordinate storage of the Wire Object
             # Gates can never be an intersection and thus will not be taken into account
             node = self.graph.nodes[coordinates]
@@ -142,29 +160,29 @@ class HillClimber(GreedyLookAhead):
                 node.decrement_intersection()
         
         # Remove old wire units from the path storage of the Wire Object
-        for i in range(len(net_path)):
+        for i in range(len(connection_path)):
             if i > 0:
-                combination = tuple(sorted((net_path[i - 1], net_path[i])))
+                combination = tuple(sorted((connection_path[i - 1], connection_path[i])))
                 self.wire.path.remove(combination)
 
-    def apply_random_adjustment(self, net, gates):
+    def apply_random_adjustment(self, connection, gates):
         """
-        Rebuilds the path of the given net with the use of a function from
+        Rebuilds the path of the given connection with the use of a function from
         the Random algorithm.
 
         Parameters
         ----------
-        net : tuple
-                A tuple of gateIDs (int)
+        neconnectiont : tuple of ints
+                A tuple of gateIDs.
         gates : tuple
-                A tuple of Gate Objects
+                A tuple of Gate Objects.
         """
 
         gate_a, gate_b = gates
         new_path = self.make_connection(gate_a, gate_b)
  
         # Update wire_path
-        self.wirePathDict[net] = new_path
+        self.wire_path[connection] = new_path
 
     def check_improvement(self, cost):
         """ 
@@ -173,7 +191,7 @@ class HillClimber(GreedyLookAhead):
         Paramters
         ---------
         cost: an int
-                An int representing the hight of the cost of the adjusted state
+                An int representing the hight of the cost of the adjusted state.
         
         Returns 
         -------
@@ -181,7 +199,7 @@ class HillClimber(GreedyLookAhead):
                 True if the state improved, else false.
         """
 
-        return cost < self.bestCost
+        return cost < self.best_cost
 
     def confirm_improvement(self, improvement, cost):
         """
@@ -190,18 +208,18 @@ class HillClimber(GreedyLookAhead):
         Paramters
         ---------
         improvement: bool
-                A boolean representing the answer to wether or not the costs decreased
+                A boolean representing the answer to wether or not the costs decreased.
         cost: an int
-                An int representing the hights of the cost of the adjusted state
+                An int representing the hights of the cost of the adjusted state.
         """
         
-        # If state improved (cost decreased):
+        # If state improved (i.e. cost decreased):
         if improvement:
             # Confirm adjustment
-            self.bestCost = cost
-            self.bestGraph = self.graph
-            self.bestWire = self.wire
-            self.bestWirePathDict = self.wirePathDict
+            self.best_cost = cost
+            self.best_graph = self.graph
+            self.best_wire = self.wire
+            self.best_wire_path = self.wire_path
     
     def track_iterations(self):
         """
@@ -215,18 +233,60 @@ class HillClimber(GreedyLookAhead):
     
     def visualize_chip(self):
         """
-        Visualizes the chip in the current state.
+        Constructs a visualization of the start state of the chip.
+
+        Returns
+        -------
+        fig
+                A matplotlib figure of the start state of the chip.
+        """
+        visualization = ChipVisualization(self.graph.gates, self.wire_path)
+        start_state_visualisation = visualization.run(False)
+        
+        return start_state_visualisation
+
+    def show_chip(self, visualization):
+        """
+        Shows the visualization of the start state of the chip.
+
+        Parameters
+        ---------
+        visualization: matplotlib figure
+                A matplotlibfigure representing the start state of the Hillclimber.
+        """
+        visualization = visualization.run(True)
+
+    def save_plot(self, plt, filename):
+        """
+        Saves the start state to the results folder.
+
+        Paramters
+        --------
+        plt: a matplotlib figure
+                A matplotlib figure of the visualization that needs to be saved.
+        filename: a string
+                A string representing the name of the figure.
         """
 
-        visualisation = ChipVisualization(self.graph.gates, self.wirePathDict)
-        visualisation.run(True)
+        # Save conversion plot to results folder
+        scriptDir = os.path.dirname(__file__)
+        resultsDir = os.path.join(scriptDir, f'results/chip_{self.chip}/netlist_{self.netlist}')
 
-    def save_chip(self):
-        pass
+        # Create results folder if the results folder does not yet exist
+        if not os.path.isdir(resultsDir):
+            os.makedirs(resultsDir)
+
+        # Save figure
+        plt.savefig(resultsDir + filename, bbox_inches='tight')
     
     def visualize_conversion(self):
         """
-        Visualizes the performance of the HillClimber
+        Visualizes the performance of the HillClimber.
+
+        Returns
+        -------
+        fig
+                A matplotlib figure of the Conversion plot.
         """
 
         # Initialize figure
@@ -241,11 +301,19 @@ class HillClimber(GreedyLookAhead):
         ax.set_xlabel('Iteration')
         ax.set_ylabel('Cost')
 
-        # Show conversion plot
+        return fig
+
+    def show_conversion(self, plt):
+        """
+        Shows conversion plot
+
+        Paramters
+        ---------
+        plt: matplotlib figure
+                A matplotlib figure representing the conversion plot.
+        """
         plt.show()
-    
-    def save_conversion(self):
-        pass
+
     
     def run(self):
         """
@@ -259,33 +327,38 @@ class HillClimber(GreedyLookAhead):
             # Get random start state
             self.get_random_start_state()
 
+            # Construct visualisation of the start state
+            start_state_visualisation = self.visualize_chip()
+
             # Visualise start state
             if self.show_start_state:
-                self.visualize_chip()
-
+                self.show_chip(start_state_visualisation)
+            
+            filename = 'Start state Hillclimber.png'
+            
             # Save start state
             if self.save_start_state:
-                self.save_chip()
+                self.save_plot(start_state_visualisation, filename)
 
             # Repeat until conversion has occured
             while True in self.improvements:
 
                 # # Keep track of the HillClimbers' cost
-                self.climbers_costs.append(self.bestCost)
+                self.climbers_costs.append(self.best_cost)
                 self.iteration.append(iteration)
                 print(f"Iteration: {iteration}")
                 iteration += 1
-                print(f"Best cost: {self.bestCost}")
+                print(f"Best cost: {self.best_cost}")
                 
                 # Apply random adjustment
                 # Get random net
-                net, gates = self.get_random_net()
+                connection, gates = self.get_random_connection()
 
                 # Remove old net path form wire object
-                self.remove_net(net, gates)
+                self.remove_connection(connection, gates)
 
                 # Apply random adjustment on net
-                self.apply_random_adjustment(net, gates)
+                self.apply_random_adjustment(connection, gates)
 
                 # Compute cost of adjusted state
                 cost = self.wire.compute_costs()
@@ -305,11 +378,16 @@ class HillClimber(GreedyLookAhead):
             # Reset conversion status
             self.improvements = [True]
         
+        # Connstruct conversion plot
+        conversion_plot_visualisation = self.visualize_conversion()
+
         # Visualize conversion plot
         if self.show_conversion_plot:
-            self.visualize_conversion()
+            self.show_conversion(conversion_plot_visualisation)
+
+        filename = 'Conversion Plot Hillclimber.png'
 
         # Save conversion plot
         if self.save_conversion_plot:
-            self.save_conversion()
+            self.save_plot(conversion_plot_visualisation, filename)
 
