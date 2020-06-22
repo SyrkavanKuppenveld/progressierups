@@ -63,6 +63,21 @@ class HillClimber(GreedyLookAhead):
         self.climbers_costs = []
         self.iteration = []
 
+    def get_random_start_state(self):
+        
+        print("Computing random start state...")
+        
+        # Get random Start State
+        algo = Random(self.bestGraph)
+        self.wirePathDict = algo.run()
+        self.bestWirePathDict = self.wirePathDict
+        self.wire = algo.wire
+        self.bestWire = algo.wire
+        self.cost = algo.wire.compute_costs()
+        self.bestCost = algo.wire.compute_costs()
+        
+        print("Start State found")
+    
     def get_random_net(self):
         """
         Retrieves a random net from the netlist and returns the corresponding gateIDs
@@ -137,21 +152,22 @@ class HillClimber(GreedyLookAhead):
         # Update wire_path
         self.wirePathDict[net] = new_path
 
-    def confirm_adjustment(self, cost):
-        """
-        Updates best solution of the algorithm if the cost is lower than
-        the costs of all previous solutions.
+    def check_improvement(self, cost):
+        """ Returns True if the state improved, else false."""
+        return cost < self.bestCost
 
-        Parameters
-        ----------
-        cost : int
-            The cost of the generated solution
+    def confirm_improvement(self, improvement, cost):
         """
-        # Confirm adjustment
-        self.bestCost = cost
-        self.bestGraph = self.graph
-        self.bestWire = self.wire
-        self.bestWirePathDict = self.wirePathDict
+        Update improvement
+        """
+        
+        # If state improved (cost decreased):
+        if improvement:
+            # Confirm adjustment
+            self.bestCost = cost
+            self.bestGraph = self.graph
+            self.bestWire = self.wire
+            self.bestWirePathDict = self.wirePathDict
     
     def track_iterations(self):
         """
@@ -199,14 +215,7 @@ class HillClimber(GreedyLookAhead):
         iteration = 0
 
         # Get random Start State
-        print("Computing random start state...")
-        algo = Random(self.bestGraph)
-        self.wirePathDict = algo.run()
-        self.bestWirePathDict = self.wirePathDict
-        self.wire = algo.wire
-        self.bestWire = algo.wire
-        self.cost = algo.wire.compute_costs()
-        self.bestCost = algo.wire.compute_costs()
+        self.get_random_start_state()
 
         # Visualise starting State
         self.visualize_chip()
@@ -234,15 +243,14 @@ class HillClimber(GreedyLookAhead):
             # Compute cost of adjusted state
             cost = self.wire.compute_costs()
 
-            # If state improved (cost decreased):
-            if cost < self.bestCost:
-                self.confirm_adjustment(cost)
-                
-            # Add improvment status to the list of previous improvements
-            self.improvements.append(cost < self.bestCost)
+            # Check is adjusment resulted in an improved state
+            improvement = self.check_improvement(cost)
 
             # Confirm adjustment if state improved
-            self.confirm_adjustment(cost)
+            self.confirm_improvement(improvement, cost)
+
+            # Update improvements list
+            self.improvements.append(improvement)
 
             # Keep track of the pas N iterations
             self.track_iterations()
@@ -294,17 +302,11 @@ class RestartHillClimber(HillClimber):
         """
 
         iteration = 0
+        
         for i in range(self.frequency):
 
             # Get random Start State
-            print(f"Computing random start state nr. {i}...")
-            algo = Random(self.bestGraph)
-            self.wirePathDict = algo.run()
-            self.bestWirePathDict = self.wirePathDict
-            self.wire = algo.wire
-            self.bestWire = algo.wire
-            self.cost = algo.wire.compute_costs()
-            self.bestCost = algo.wire.compute_costs()
+            self.get_random_start_state()
 
             # Visualise starting State
             self.visualize_chip()
@@ -332,8 +334,14 @@ class RestartHillClimber(HillClimber):
                 # Compute cost of adjusted state
                 cost = self.wire.compute_costs()
 
+                # Check is adjusment resulted in an improved state
+                improvement = self.check_improvement(cost)
+
                 # Confirm adjustment if state improved
-                self.confirm_adjustment(cost)
+                self.confirm_improvement(improvement, cost)
+
+                # Update improvements list
+                self.improvements.append(improvement)
 
                 # Keep track of the pas N iterations
                 self.track_iterations()

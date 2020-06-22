@@ -238,8 +238,9 @@ class Greedy():
                         # Generate the connection between gate a and b
                         route[(a, b)] = self.make_connection(gate_a, gate_b)
 
-                    # Set not_found to Flase   
+                    # Set not_found to False   
                     not_found = False
+
                 except ValueError:
 
                     # Clear graph, wire and route
@@ -306,12 +307,12 @@ class Greedy():
                     route = {}
                     completed = set()
 
-            # Visualizatie is voor testen, later weghalen!
-            print(f"else part")
-            visualisation = ChipVisualization(self.graph.gates, route)
-            visualisation.run(True)
+                # Visualizatie is voor testen, later weghalen!
+                print(f"else part")
+                visualisation = ChipVisualization(self.graph.gates, route)
+                visualisation.run(True)
 
-            return route
+                return route
 
 
 class GreedyLookAhead(Greedy):
