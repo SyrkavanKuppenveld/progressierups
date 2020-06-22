@@ -261,7 +261,8 @@ class HillClimber(GreedyLookAhead):
         # Visualize Conversion
         self.visualize_conversion()
 
-class RestartHillClimber(HillClimber):
+# class RestartHillClimber(HillClimber):
+class RestartHillClimber():
     """
     INFORMATIE
     """
@@ -302,7 +303,7 @@ class RestartHillClimber(HillClimber):
         """
 
         iteration = 0
-        
+
         for i in range(self.frequency):
 
             # Get random Start State
