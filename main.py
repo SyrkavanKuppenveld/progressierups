@@ -44,7 +44,7 @@ def main():
         heuristic = hlp.uif.heuristic_input(netlist, algorithm)
         if heuristic < 3:
             print()
-            connections, run_approach = hlp.uif.heuristic_order_input(chip, heuristic, graph)
+            connections, run_approach = hlp.uif.heuristic_order_input(chip, netlist, algorithm, heuristic, graph)
         else:
             print()
             connections, run_approach = hlp.uif.heuristic_extention(chip, graph)

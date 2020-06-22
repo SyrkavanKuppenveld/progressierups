@@ -518,12 +518,18 @@ def heuristic_extention(chip, graph):
         return connections, True
     
 
-def heuristic_order_input(chip, heuristic, graph):
+def heuristic_order_input(chip, netlist, algorithm, heuristic, graph):
     """
     Returns the correct connections list based on heuristic and the corresponding run approach.
 
     chip: int
             The chip number chosen by the user.
+
+    netlist: int
+            The netlist number chosen by the user.
+
+    algorithm: int
+            A integer representing the algorithm chosen by the user.
 
     heuristic: int
             The heuristic chosen by the user.
@@ -553,6 +559,13 @@ def heuristic_order_input(chip, heuristic, graph):
             print("\033[1m""How would you like to implement the heuristic?""\033[0m")
             print("> 0 = sorted from min-max\n> 1 = sorted from max-min")
             order = input()
+
+            # Print warning for greedy look ahead with none 
+            if netlist > 3 and algorithm == 2 and heuristic == 2 and order == '0':
+                print()
+                print("\033[31m""WARNING: the combination of the algorithm, heuristic and orer only works for netlist 1-3 within a reasonable amount of time.""\033[0m")
+                print()
+                restart_program()
 
             # If usage is correct set correct to true and convert order to bool
             if order in options:
