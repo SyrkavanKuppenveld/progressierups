@@ -199,35 +199,6 @@ def algorithm_input(netlist):
 
     return int(algorithm)
 
-def get_hillclimber_flow(self, algorithm):
-    """
-    Asks user what the prefered work flow of the hillblimber is.
-
-    Parameters
-    ----------
-    algorithm: an int
-            The algorithm that is chosen, 3 for Hillclimber, 4 for Restart Hillclimber
-
-    Returns
-    -------
-    boolean tuple
-            A tuple representing the answers on 1) what the frequency should be of 
-            the Restart Hillclimber and whether or not 2) the start states 3) and
-            the conversion plot shouldbe shown.
-    """
-
-    # Get the frequency of the Restart Hillclimber
-    if algorithm == 4:
-        frequency = self.hillclimber_restarts()
-    # Default frequency for the normal Hillclimber  to 1
-    else:
-        frequency = 1
-
-    # Get answer to whether or not the plots should be shown
-    show_start_state, show_conversion_plot = self.showing_plots()
-
-    return frequency, show_start_state, show_conversion_plot
-
 
 def hillclimber_restarts():
     """
@@ -254,7 +225,7 @@ def hillclimber_restarts():
     return frequency
 
 
-def showing_plots(self):
+def showing_plots():
     """
     Asks user if the start states need to be shown and if the conversion plot needs
     to be shown. Returns True or False on both questions.
@@ -294,6 +265,36 @@ def showing_plots(self):
             correct = True
         
     return show_start_state, show_conversion_plot
+
+
+def get_hillclimber_flow(algorithm):
+    """
+    Asks user what the prefered work flow of the hillblimber is.
+
+    Parameters
+    ----------
+    algorithm: an int
+            The algorithm that is chosen, 3 for Hillclimber, 4 for Restart Hillclimber
+
+    Returns
+    -------
+    boolean tuple
+            A tuple representing the answers on 1) what the frequency should be of 
+            the Restart Hillclimber and whether or not 2) the start states 3) and
+            the conversion plot shouldbe shown.
+    """
+
+    # Get the frequency of the Restart Hillclimber
+    if algorithm == 4:
+        frequency = hillclimber_restarts()
+    # Default frequency for the normal Hillclimber  to 1
+    else:
+        frequency = 1
+
+    # Get answer to whether or not the plots should be shown
+    show_start_state, show_conversion_plot = showing_plots()
+
+    return frequency, show_start_state, show_conversion_plot
 
 
 def heuristic_input(netlist, algorithm):
