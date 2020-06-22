@@ -127,7 +127,7 @@ class ChipVisualization():
         if visualization_bool == True:
             plt.show()
 
-        return plt
+        return self.fig
 
 class WireHeatmap(ChipVisualization):
     """ Visualise 3D wire density of the given solution."""    
@@ -180,4 +180,4 @@ class WireHeatmap(ChipVisualization):
         if visualization_bool == True:
             plt.show()
 
-        return plt
+        return self.fig
