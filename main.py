@@ -43,6 +43,7 @@ def main():
     if algorithm != 0:
         heuristic = hlp.uif.heuristic_input(netlist, algorithm)
         if heuristic < 3:
+            print()
             connections, run_approach = hlp.uif.heuristic_order_input(chip, heuristic, graph)
         else:
             print()
@@ -53,6 +54,8 @@ def main():
     # Instantiate algorithm according to user's input
     if algorithm == 0:
         algo = alg.Random(graph)
+    elif algorithm == 1 and heuristic == 3:
+        algo = alg.GreedyCosts(graph, connections, run_approach)
     elif algorithm == 1:
         algo = alg.Greedy(graph, connections, run_approach)
     elif algorithm == 2 and heuristic == 3:
@@ -78,7 +81,8 @@ def main():
         hlp.save_csv(netlist_file, output_file, wire_path, costs)
     print()
 
-    rerun = input("Would you like to run another algorithm? (y/n)\n")
+    print("\033[1m""Would you like to run another algorithm? (y/n)\n""\033[0m")
+    rerun = input()
     if rerun == 'y':
         sys.stderr.write("\x1b[2J\x1b[H")
         main()
