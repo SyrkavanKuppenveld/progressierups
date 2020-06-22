@@ -250,7 +250,7 @@ def get_flow(plot):
     questions2 = [q2_start_state, q2_conversion_plot]
 
     # Adapt questions to the plot being asked
-    if plot == 'start_state'
+    if plot == 'start_state':
         q1 = questions1[0]
         q2 = questions2[0]
     else:
