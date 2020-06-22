@@ -390,7 +390,7 @@ def heuristic_input(netlist, algorithm):
 def heuristic_extention(chip, graph):
 
     """
-    chip: int
+    chip: an int
             The chip number chosen by the user.
 
     graph: a Graph object
@@ -460,7 +460,6 @@ def heuristic_extention(chip, graph):
             # Generate connection list
             connections = graph.get_connection_distance(order)
             return connections, True
-    
     else:
 
         # Generate connection list
@@ -570,6 +569,7 @@ def visualize_save_results(graph, wire_path):
         if show in options:
             correct = True
 
+    # Ensure correct usage
     correct = False
     while not correct:
         
