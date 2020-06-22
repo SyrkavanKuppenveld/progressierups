@@ -335,7 +335,7 @@ def heuristic_input(netlist, algorithm):
             An integer representing the chosen heuristic. 
     """
 
-    options = {'0', '1', '2', '3'}
+    options = {'0', '1', '2', '3', '4'}
 
     correct = False
     while not correct:
@@ -343,7 +343,7 @@ def heuristic_input(netlist, algorithm):
         # Prompt user for heuristic 
         print("\033[1m""Which heuristic would you like to implement?""\033[0m")
         print("For more information on the algorithms press 9 directly followed by the heuristic number.")
-        print("> 0 = none\n> 1 = 'Social Map'\n> 2 = 'Better a neighbor who is near than an brother far away?\n> 3 = 'Sky is the Limit'")
+        print("> 0 = none\n> 1 = 'Social Map'\n> 2 = 'Better a neighbor who is near than an brother far away?\n> 3 = 'Sky is the Limit'\n> 4 = 'Can't Touch This'")
         heuristic = input()
         
         if heuristic == '91':
@@ -365,32 +365,67 @@ def heuristic_input(netlist, algorithm):
         elif heuristic == '93':
             print("\033[1m""INFORMATION SKY IS THE LIMIT""\033[0m")
             print("The 'Social Map' heuristic increases the costs for not moving up in the grid if the Manhattan Distance between gates is higher than 4.")
-            print("This heuristic can be combined with 'Sky Is The Limit' and 'Better A Neighbor Who Is Near Than A Brother Far Away'.")
+            print("This heuristic can be combined with 'Social Map' and 'Better A Neighbor Who Is Near Than A Brother Far Away'.")
             print()
             time.sleep(3)
             print()
 
+        elif heuristic == '94':
+            print("\033[1m""INFORMATION CANT TOUCH THIS""\033[0m")
+            print("The 'Can't Touch This' heuristic has intersections as hard contrained.")
+            print("This heuristic can be combined with 'Social Map' and 'Better A Neighbor Who Is Near Than A Brother Far Away'.")
+            print()
+
+        # Only continue if heuristic for correct input
         if heuristic in options:
+
+            heuristic = int(heuristic)
 
             # Set correct to true
             correct = True
 
-            if netlist > 4 and algorithm == 1:
-                print("\033[1m""WARNING: the combination of the algorithm (and heuristic) only works for netlist 1-4 within a reasonable amount of time.""\033[0m")
+            # Print warning for greedy with none or no intersect heuristic
+            if netlist > 3 and algorithm == 1 and (heuristic == 0 or heuristic == 4):
+                print()
+                print("\033[31m""WARNING: the combination of the algorithm and heuristic only works for netlist 1-3 within a reasonable amount of time.""\033[0m")
                 print()
                 restart_program()
-            elif netlist > 7 and algorithm == 2 and heuristic == '3':
-                print("\033[1m""WARNING: the combination of the algorithm (and heuristic) only works for netlist 1-7 within a reasonable amount of time.""\033[0m")
+
+            # Print warning for greedy look ahead for heuristics 1 and 2
+            elif netlist > 5 and algorithm == 2 and (heuristic == 1 or heuristic == 2):
+                print()
+                print("\033[31m""WARNING: the combination of the algorithm and heuristic only works for netlist 1-5 within a reasonable amount of time.""\033[0m")
+                print()
+                restart_program()
+
+            # Print warning for greedy look ahead with none or no intersect heuristic
+            elif netlist > 3 and algorithm == 2 and heuristic == 4:
+                print()
+                print("\033[31m""WARNING: the combination of the algorithm and heuristic only works for netlist 1-3 within a reasonable amount of time.""\033[0m")
+                print()
+                restart_program()
+
+            # Print warning for greedy look ahead with none 
+            elif netlist > 3 and algorithm == 2 and heuristic == 0:
+                print()
+                print("\033[31m""WARNING: the combination of the algorithm and heuristic only works for netlist 1-4 within a reasonable amount of time.""\033[0m")
+                print()
+                restart_program()
+
+            # Print warning for greedy and greedy look ahead with costs heuristic
+            elif netlist > 7 and (algorithm == 1 or algorithm == 2) and heuristic == 3:
+                print()
+                print("\033[31m""WARNING: the combination of the algorithm (and heuristic) only works for netlist 1-7 within a reasonable amount of time.""\033[0m")
                 print()
                 restart_program()
            
-    return int(heuristic)
+    return heuristic 
 
 
 def heuristic_extention(chip, graph):
 
     """
-    chip: int
+    chip: an int
             The chip number chosen by the user.
 
     graph: a Graph object
@@ -412,7 +447,7 @@ def heuristic_extention(chip, graph):
     while not correct:
         
         # Prompt user for order heuristic list
-        print("\033[1m""With which second heuristic would you like to extent 'Sky Is The Limit'?""\033[0m")
+        print("\033[1m""With which second heuristic would you like to extent 'Sky Is The Limit' / 'Can't Touch This'?""\033[0m")
         print("> 0 = none\n> 1 = 'Social Map'\n> 2 = 'Better a neighbor who is near than an brother far away?")
         extention = input()
 
@@ -460,7 +495,6 @@ def heuristic_extention(chip, graph):
             # Generate connection list
             connections = graph.get_connection_distance(order)
             return connections, True
-    
     else:
 
         # Generate connection list
@@ -570,6 +604,7 @@ def visualize_save_results(graph, wire_path):
         if show in options:
             correct = True
 
+    # Ensure correct usage
     correct = False
     while not correct:
         
