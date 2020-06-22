@@ -44,7 +44,8 @@ def chip_input():
     while not correct:
 
         # Prompt user for chip
-        chip = input("\033[1m"'Choose a chip: 0, 1 or 2?\n')
+        print("\033[1m""Choose a chip: 0, 1 or 2?""\033[0m")
+        chip = input()
 
         # Quit if user input is correct
         if chip in options:
@@ -281,7 +282,7 @@ def heuristic_extention(chip, graph):
     while not correct:
         
         # Prompt user for order heuristic list
-        print("\033[1m""With which heuristic would you like to extent 'Sky Is The Limit'?""\033[1m")
+        print("\033[1m""With which second heuristic would you like to extent 'Sky Is The Limit'?""\033[1m")
         print("> 0 = none\n> 1 = 'Social Map'\n> 2 = 'Better a neighbor who is near than an brother far away?")
         extention = input()
 
@@ -458,7 +459,7 @@ def visualize_save_results(graph, wire_path):
         plot = visualisation.run(True)
         plot.savefig("results/visualization_algorithm.png")
         print()
-        print("See 'results/visualization_algorithn.png' for visualizaton.")
+        print("For saved visualization see: 'results/visualization_algorithn.png'.")
     elif show == 'y' and save == 'n':
 
         # Visualize the results
@@ -471,7 +472,7 @@ def visualize_save_results(graph, wire_path):
         plot = visualisation.run(False)
         plot.savefig("results/visualization_algorithm.png")
         print()
-        print("See 'results/visualization_algorithn.png' for visualizaton.")
+        print("For saved visualization see: 'results/visualization_algorithn.png'.")
 
 def restart_program():
     """
