@@ -291,6 +291,7 @@ class Greedy():
                     # Clear graph, wire and route
                     self.graph.clear_graph()
                     self.wire = Wire()
+                    completed = set()
                     route = {}
 
             return route
