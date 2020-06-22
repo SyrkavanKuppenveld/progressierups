@@ -259,7 +259,8 @@ class HillClimber(GreedyLookAhead):
         visualization: matplotlib figure
                 A matplotlibfigure representing the start state of the Hillclimber.
         """
-        visualization = visualization.run(True)
+        visualization = ChipVisualization(self.graph.gates, self.wire_path)
+        start_state_visualisation = visualization.run(True)
 
     def save_plot(self, plt, filename):
         """
