@@ -29,11 +29,6 @@ This module contains the code for the Greedy algorithm and the extensions thereo
 * LookAheadCosts: different costs formula.
 """
 
-from code.classes import Wire
-from code.visualization.visualize import ChipVisualization
-import random
-import copy
-
 class Greedy():
     """ 
     Creates a Wire object that connects the gates according to the netlist and 
@@ -297,10 +292,6 @@ class Greedy():
                     self.wire = Wire()
                     route = {}
                     completed = set()
-
-                # Visualizatie is voor testen, later weghalen!
-                visualisation = ChipVisualization(self.graph.gates, route)
-                visualisation.run(True)
 
                 return route
 
