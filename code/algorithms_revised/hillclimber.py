@@ -309,7 +309,7 @@ class HillClimber(GreedyLookAhead):
 
         Paramters
         ---------
-        plt: matplotlib figure
+        plt: a matplotlib figure
                 A matplotlib figure representing the conversion plot.
         """
         plt.show()

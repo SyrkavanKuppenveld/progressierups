@@ -32,11 +32,10 @@ def main():
     # Prompt user for algorithm
     algorithm = hlp.uif.algorithm_input(netlist)
     
+    # If the Hillclimber algorithm is chosen, specify its workflow
     frequency = None
     start_state_flow = None 
     conversion_plot_flow = None
-    
-    # If the Hillclimber algorithm is chosen, specify its workflow
     if algorithm == 3 or algorithm == 4:
         frequency, start_state_flow, conversion_plot_flow = hlp.uif.get_hillclimber_flow(algorithm)
 
