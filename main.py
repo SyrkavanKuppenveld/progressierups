@@ -1,5 +1,5 @@
 import code.classes as cs
-import code.algorithms_revised as alg
+import code.algorithms as alg
 from code.visualization.visualize import ChipVisualization
 import helpers as hlp
 import csv
