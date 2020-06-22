@@ -108,7 +108,7 @@ class ChipVisualization():
             # Plot net-path
             self.ax.plot(x_coords, y_coords, z_coords, color=colors[i % 21])
 
-    def run(self):
+    def run(self, visualization_bool):
         """ Creates and displays the 3D visualisation of the chip."""
         
         # Initialize 3D plot
@@ -123,8 +123,11 @@ class ChipVisualization():
         # Plot grid lines
         plt.grid(True)
 
-        # Show the 3D visualisattion of the Chip
-        plt.show()
+        # Show the 3D visualisation of the Chip
+        if visualization_bool == True:
+            plt.show()
+
+        return plt
 
 class WireHeatmap(ChipVisualization):
     """ Visualise 3D wire density of the given solution."""    
@@ -161,7 +164,7 @@ class WireHeatmap(ChipVisualization):
 
         self.ax.scatter(DataFrame[['x']], DataFrame[['y']], DataFrame[['z']], marker='s', s=140, c=DataFrame[['wire density']], cmap='Reds', alpha=0.5)
 
-    def run(self):
+    def run(self, visualization_bool):
         """ Creates and displays the 3D wire density of the solution."""
 
         # Initialize 3D plot
@@ -173,5 +176,8 @@ class WireHeatmap(ChipVisualization):
         # Plot wire density per node
         self.plot_heat(dfNodeWireDensities)
 
-        # Show the 3D visualisattion of the wire density
-        plt.show()
+        # Show the 3D visualisation of the Chip
+        if visualization_bool == True:
+            plt.show()
+
+        return plt

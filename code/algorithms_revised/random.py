@@ -63,8 +63,13 @@ class Random():
         
         Parameters
         ----------
+<<<<<<< HEAD
+        neighbors: a list
+                A list containing the neighbors of the current position of the wire.
+=======
         connections: a list
                 A list containing the neighbours of the current position of the wire.
+>>>>>>> 0771935e874b5bbff6e89a4d4de5350751d4039f
 
         Returns
         -------
@@ -76,7 +81,8 @@ class Random():
 
     def next_position(self, position, goal):
         """
-        Returns the next position, according to the lowest Manhattan Distance.
+        Returns the next position, according [to the lowest Manhattan Distance]???
+        dit klopt niet toch??.
                 
         Parameters
         ----------
@@ -131,7 +137,6 @@ class Random():
 
         # Iterate until connection has been made
         while position != goal:
-            
             # Store current position in temporary value
             tmp = position
 
@@ -156,14 +161,12 @@ class Random():
         dict 
                 A dictionary containing the route of the wire per connection.
         """
-
         route = {}
 
         # Run algorithm until solution is found
         not_found = True
         while not_found:
             try:
-                
                 # Make deep copy of netlist
                 netlist = copy.deepcopy(list(self.graph.netlist))
 
@@ -180,7 +183,13 @@ class Random():
                     # Generate the connection between gate a and b
                     route[(a, b)] = self.make_connection(gate_a, gate_b)
 
+<<<<<<< HEAD
+                # Set not_found to False
+                not_found = False
+
+=======
                     not_found = False
+>>>>>>> 0771935e874b5bbff6e89a4d4de5350751d4039f
             except ValueError:
 
                 # Clear graph, wire and route
@@ -189,4 +198,7 @@ class Random():
                 route = {}
         
         return route
+
+
+
 
