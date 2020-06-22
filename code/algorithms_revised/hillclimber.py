@@ -24,11 +24,25 @@ __status__ = 'Dev'
 
 
 class HillClimber(GreedyLookAhead):
-    """
-    INFORMATIE
+    """ 
+    Provide Object to perform the (stochastic) Hillclimber algorithm with.
+    
+    Start State
+    ---------
+    The algorithm starts with a Random start State 
+
+    Random adjustments
+    ------------------
+    The path that is to be rebuilt, is chosen randomly.
+
+    New path
+    --------
+    The new path will be build with the use of the Greedy LookaHead algorithm.
     """
 
-    def __init__(self, graph, frequency):
+    # NB show_start_state, show_conversion_plot nog te implementeren!!!!
+
+    def __init__(self, graph, frequency, show_start_state, show_conversion_plot):
         """ 
         Initializes the states of the algorithm.
         """

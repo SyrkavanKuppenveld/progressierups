@@ -32,6 +32,13 @@ def main():
     # Prompt user for algorithm
     algorithm = hlp.uif.algorithm_input(netlist)
 
+    frequency = None
+    show_start_state = None 
+    show_conversion_plot = None
+    # If the Hillclimber algorithm is chosen, specify its workflow
+    if algorithm == 3 or algorithm == 4:
+        frequency, show_start_state, show_conversion_plot = hlp.uif.get_hillclimber_flow(algorithm)
+
     # Prompt user for heuristics if possible for algorithm choice
     if algorithm != 0:
         heuristic = hlp.uif.heuristic_input(netlist, algorithm)
@@ -52,8 +59,8 @@ def main():
         algo = alg.GreedyLookAheadCosts(graph, connections, run_approach)
     elif algorithm == 2:
         algo = alg.GreedyLookAhead(graph, connections, run_approach)
-    elif algorithm == 3:
-        algo = alg.HillClimber(graph)
+    elif algorithm == 3 or algorithm == 4:
+        algo = alg.HillClimber(graph, frequency, show_start_state, show_conversion_plot)
     
     # Run algorithm
     print("Running Algorithm...")
