@@ -244,10 +244,6 @@ class Greedy():
                     self.wire = Wire()
                     route = {}
 
-            # Visualizatie is voor testen, later weghalen!
-            visualisation = ChipVisualization(self.graph.gates, route)
-            visualisation.run(True)
-
             return route
 
         else:
