@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 
 # Own modules
 from code.classes import Graph
-from code.algorithms_revised import Random, GreedyLookAhead
+from code.algorithms import Random, GreedyLookAhead
 from code.visualization import ChipVisualization
 
 __author__ = 'Eline van Groningen, Mimoun Boulfich, Syrka van Kuppenveld'
