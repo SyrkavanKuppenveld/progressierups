@@ -87,7 +87,7 @@ def netlist_input(chip):
             if netlist in options:
                 correct = True
         else:
-            print("\033[1m""Choose a netlist: 7, 8 or 9?\n""\033[0m")
+            print("\033[1m""Choose a netlist: 7, 8 or 9?""\033[0m")
             netlist = input()
             options = {'7', '8', '9'}
             if netlist in options:
