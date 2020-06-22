@@ -8,6 +8,7 @@ import time
 # Own modules
 from main import main
 import code.visualization as vs
+import matplotlib.pyplot as plt
 
 __author__ = 'Eline van Groningen, Mimoun Boulfich, Syrka van Kuppenveld'
 __copyright__ = 'Copyright 2020, Chips & Circuits'
@@ -255,6 +256,86 @@ def heuristic_input(netlist, algorithm):
            
     return int(heuristic)
 
+def heuristic_extention(chip, graph):
+
+    """
+    chip: a int
+            The chip number choosen by the user.
+
+    graph: a Graph object
+            A graph object representing the chip grid.
+    
+    Returns
+    -------
+    list 
+            A list containining containing gateIDs or connections.
+
+    bool
+            True if list contains connections, false if list contains gates.
+    """
+
+    extention_options = {'0', '1', '2'}
+        
+    # Ensure correct usage
+    correct = False
+    while not correct:
+        
+        # Prompt user for order heuristic list
+        print("\033[1m""With which heuristic would you like to extent 'Sky Is The Limit'?""\033[1m")
+        print("> 0 = none\n> 1 = 'Social Map'\n> 2 = 'Better a neighbor who is near than an brother far away?")
+        extention = input()
+
+        # If usage is correct set correct to true and convert order to bool
+        if extention in extention_options:
+            correct = True
+            extention = int(extention)
+    
+    order_options = {'0', '1'}
+    
+    # Only prompt for order if user wants an extention
+    if extention > 0:
+
+        # Ensure correct usage
+        correct = False
+        while not correct:
+            
+            # Prompt user for order heuristic list
+            print()
+            print("\033[1m""How would you like to implement the heuristic?""\033[1m")
+            print("> 0 = min-max\n> 1 = max-min")
+            order = input()
+
+            # If usage is correct set correct to true and convert order to bool
+            if order in order_options:
+                correct = True
+                order = bool(order)
+
+        # Instantiate connection list based on heuristic and in correct order,
+        # and return correct approach
+        if extention == 1:
+
+            # Set density radius based on chip
+            if chip == 0:
+                density_radius = 3
+            else:
+                density_radius = 5
+
+            # Generate connection list
+            connections = graph.get_gate_densities(order, density_radius)
+
+            return connections, False
+        elif extention == 2:
+
+            # Generate connection list
+            connections = graph.get_connection_distance(order)
+            return connections, True
+    else:
+
+        # Generate connection list
+        connections = list(graph.netlist)
+
+        return connections, True
+    
 
 def heuristic_order_input(chip, heuristic, graph):
     """
@@ -278,19 +359,20 @@ def heuristic_order_input(chip, heuristic, graph):
 
     options = {'0', '1'}
     
-    # Only prompt for order for heuristic 1 or 2
-    if heuristic == 1 or heuristic == 2:
+    # Only prompt for order for heuristic 1 and 2
+    if heuristic > 0:
 
         # Ensure correct usage
         correct = False
         while not correct:
             
             # Prompt user for order heuristic list
+            print()
             order = input("\033[1m""How would you like to implement the heuristic?\n> 0 = min-max\n> 1 = max-min\n""\033[1m")
 
             # If usage is correct set correct to true and convert order to bool
             if order in options:
-                correct == True
+                correct = True
                 order = bool(order)
 
         # Instantiate connection list based on heuristic and in correct order,
@@ -311,34 +393,14 @@ def heuristic_order_input(chip, heuristic, graph):
 
             # Generate connection list
             connections = graph.get_connection_distance(order)
-            return connections, True
-
-    elif heuristic == 3:
-
-        options = {'0', '1', '2'}
-        
-        # Ensure correct usage
-        correct = False
-        while not correct:
-            
-            # Prompt user for order heuristic list
-            exitention = input("\033[1m""With which heuristic would you like to extent 'Sky Is The Limit'?\n> 0 = none \n> 1 = 'Social Map'\n> 2 = 'Better a neighbor who is near than an brother far away?\n""\033[1m")
-
-            # If usage is correct set correct to true and convert order to bool
-            if order in options:
-                correct == True
-                order = int(order)
-    
-        
-        return int(order)
-        
-    
+            return connections, True    
     else:
 
         # Generate connection list
         connections = list(graph.netlist)
 
         return connections, True
+    
 
 def visualize_save_results(graph, wire_path):
     """
@@ -368,7 +430,8 @@ def visualize_save_results(graph, wire_path):
     while not correct:
 
         # Prompt user for input for visualization
-        show = input("\033[1m""Would you like to visualize the results? (y/n)\n""\033[1m")
+        print("\033[1m""Would you like to visualize the results? (y/n)\n""\033[1m")
+        show = input()
 
         # Check input user
         if show in options:
@@ -378,7 +441,9 @@ def visualize_save_results(graph, wire_path):
     while not correct:
         
         # Prompt user for input for saving visualization
-        save = input("\033[1m""Would you like to save the visualization of the results? (y/n)\n""\033[1m")
+        print()
+        print("\033[1m""Would you like to save the visualization of the results? (y/n)\n""\033[1m")
+        save = input()
 
         # Check input user
         if save in options:
@@ -389,18 +454,23 @@ def visualize_save_results(graph, wire_path):
 
         # Visualize and save the results
         visualisation = vs.ChipVisualization(graph.gates, wire_path)
-        visualisation.run()
-        
+        plot = visualisation.run(True)
+        plot.savefig("results/visualization_algorithm.png")
+        print()
+        print("See 'results/visualization_algorithn.png' for visualizaton.")
     elif show == 'y' and save == 'n':
 
         # Visualize the results
         visualisation = vs.ChipVisualization(graph.gates, wire_path)
-        visualisation.run()
+        plot = visualisation.run(True)
     elif show == 'n' and save == 'y':
 
         # Save the visualization of the resutls
-        pass
-
+        visualisation = vs.ChipVisualization(graph.gates, wire_path)
+        plot = visualisation.run(False)
+        plot.savefig("results/visualization_algorithm.png")
+        print()
+        print("See 'results/visualization_algorithn.png' for visualizaton.")
 
 def restart_program():
     """
@@ -424,4 +494,4 @@ def restart_program():
     elif restart == '1':
         main()
     elif restart == '2':
-        sys.exit("Thank you, bye!")
+        sys.exit()

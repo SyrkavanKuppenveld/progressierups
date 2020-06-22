@@ -30,12 +30,16 @@ def main():
 
     # Prompt user for algorithm
     algorithm = hlp.uif.algorithm_input(netlist)
-    print()
 
     # Prompt user for heuristics if possible for algorithm choice
     if algorithm != 0:
         heuristic = hlp.uif.heuristic_input(netlist, algorithm)
-        connections, run_approach = hlp.uif.heuristic_order_input(chip, heuristic, graph)
+        if heuristic < 3:
+            connections, run_approach = hlp.uif.heuristic_order_input(chip, heuristic, graph)
+        else:
+            connections, run_approach = hlp.uif.heuristic_extention(chip, graph)
+
+    print()
 
     # Instantiate algorithm according to user's input
     if algorithm == 0:
@@ -55,12 +59,8 @@ def main():
     wire_path = algo.run()
     print("Algorithm completed!\n")
 
-    # Visualize algorithm results based on user's input
-    show_visualization = input("Would you like to visualize the results? (y/n)\n")
-    if show_visualization == 'y':
-        visualisation = ChipVisualization(graph.gates, wire_path)
-        visualisation.run()
-    print()
+    # Visualize and or save algorithm results based on user's input
+    hlp.uif.visualize_save_results(graph, wire_path)
 
     # Create output file
     with open("output.csv", 'w', newline='') as output_file:
@@ -72,7 +72,6 @@ def main():
     if rerun == 'y':
         sys.stderr.write("\x1b[2J\x1b[H")
         main()
-
 
 if __name__ == "__main__":
     main()
