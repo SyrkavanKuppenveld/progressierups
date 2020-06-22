@@ -205,6 +205,7 @@ class Greedy():
                 A dictionary containing the route of the wire per connection.
         """
         
+        # Run based on approach
         if self.approach is True:
             route = {}
             
@@ -240,7 +241,6 @@ class Greedy():
                     route = {}
 
             return route
-
         else:
             route = {}
             completed = set()
