@@ -76,8 +76,7 @@ class Random():
 
     def next_position(self, position, goal):
         """
-        Returns the next position, according [to the lowest Manhattan Distance]???
-        dit klopt niet toch??.
+        Returns a random next position.
                 
         Parameters
         ----------
@@ -96,7 +95,9 @@ class Random():
         neighbors = list(position.neighbors)
 
         while neighbors:
+            # Get a random next neighbour
             neighbor = self.get_next_neighbor(neighbors)
+            # Only return neighbor if a path to this neighbor does not cause a collision
             if self.wire.check_collision(position, neighbor):
                 return neighbor
 
@@ -104,7 +105,7 @@ class Random():
 
     def make_connection(self, gate_a, gate_b):
         """
-        Returns set with wire path between gate_a and gate_b.
+        Returns a set with the wire path between gate_a and gate_b.
         
         Parameters
         ----------
@@ -113,7 +114,6 @@ class Random():
 
         gate_a: int
                 An integer representing the gateID of gate_b.
-
 
         Returns
         -------
@@ -154,7 +154,7 @@ class Random():
         Returns
         -------
         dict 
-                A dictionary containing the route of the wire per connection.
+                A dictionary containing the route of the wire per connection in netlist.
         """
         route = {}
 
