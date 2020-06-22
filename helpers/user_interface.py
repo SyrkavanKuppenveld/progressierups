@@ -44,7 +44,8 @@ def chip_input():
     while not correct:
 
         # Prompt user for chip
-        chip = input("\033[1m"'Choose a chip: 0, 1 or 2?\n')
+        print("\033[1m""Choose a chip: 0, 1 or 2?""\033[0m")
+        chip = input()
 
         # Quit if user input is correct
         if chip in options:
@@ -281,8 +282,13 @@ def heuristic_extention(chip, graph):
     while not correct:
         
         # Prompt user for order heuristic list
+<<<<<<< HEAD
         print("\033[1m""With which heuristic would you like to extent 'Sky Is The Limit'?""\033[1m")
         print("> 0 = none\n> 1 = 'Social Map'\n> 2 = 'Better a neighbor who is near than a brother far away?")
+=======
+        print("\033[1m""With which second heuristic would you like to extent 'Sky Is The Limit'?""\033[1m")
+        print("> 0 = none\n> 1 = 'Social Map'\n> 2 = 'Better a neighbor who is near than an brother far away?")
+>>>>>>> 205984641dae76832e6af9fe313c716fb86ec0d8
         extention = input()
 
         # If usage is correct set correct to true and convert order to bool
@@ -367,8 +373,9 @@ def heuristic_order_input(chip, heuristic, graph):
         while not correct:
             
             # Prompt user for order heuristic list
-            print()
-            order = input("\033[1m""How would you like to implement the heuristic?\n> 0 = min-max\n> 1 = max-min\n""\033[1m")
+            print("\033[1m""How would you like to implement the heuristic?""\033[1m")
+            print("> 0 = min-max\n> 1 = max-min\n")
+            order = input()
 
             # If usage is correct set correct to true and convert order to bool
             if order in options:
@@ -457,8 +464,12 @@ def visualize_save_results(graph, wire_path):
         plot = visualisation.run(True)
         plot.savefig("results/visualization_algorithm.png")
         print()
+<<<<<<< HEAD
         print("See 'results/visualization_algorithn.png' for visualizaton.")
     
+=======
+        print("For saved visualization see: 'results/visualization_algorithn.png'.")
+>>>>>>> 205984641dae76832e6af9fe313c716fb86ec0d8
     elif show == 'y' and save == 'n':
 
         # Visualize the results
@@ -471,7 +482,7 @@ def visualize_save_results(graph, wire_path):
         plot = visualisation.run(False)
         plot.savefig("results/visualization_algorithm.png")
         print()
-        print("See 'results/visualization_algorithn.png' for visualizaton.")
+        print("For saved visualization see: 'results/visualization_algorithn.png'.")
 
 def restart_program():
     """
@@ -485,7 +496,9 @@ def restart_program():
     while not correct:
 
         # Prompt user for input
-        restart = input("\033[1m""Would you like to ... ?\n> 0 = continue\n> 1 = restart program\n> 2 = quit program\n""\033[1m")
+        print("\033[1m""Would you like to ... ?""\033[1m")
+        print("> 0 = continue\n> 1 = restart program\n> 2 = quit program")
+        restart = input()
         if restart in options:
             correct = True
 

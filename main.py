@@ -31,6 +31,8 @@ def main():
     # Prompt user for algorithm
     algorithm = hlp.uif.algorithm_input(netlist)
 
+    print()
+
     # Prompt user for heuristics if possible for algorithm choice
     if algorithm != 0:
         heuristic = hlp.uif.heuristic_input(netlist, algorithm)
