@@ -64,6 +64,10 @@ def main():
         algo = alg.GreedyLookAhead(graph, connections, run_approach)
     elif algorithm == 3 or algorithm == 4:
         algo = alg.HillClimber(graph, frequency, start_state_flow, conversion_plot_flow, chip, netlist)
+    elif algorithm == 1 and heuristic == 4:
+        algo = alg.GreedyNoIntersect(graph, connections, run_approach)
+    elif algorithm == 2 and heuristic == 4:
+        algo = alg.GreedyNoIntersectLookAhead(graph, connections, run_approach)
 
     # Run algorithm
     print("Running Algorithm...")
