@@ -80,6 +80,7 @@ class HillClimber(GreedyLookAhead):
         nets = list(self.wirePathDict.keys())
         net = random.choice(nets)
         
+        # Get Gate Objects
         gate_a = self.graph.gates[net[0]]
         gate_b = self.graph.gates[net[1]]
         gates = (gate_a, gate_b)
@@ -100,14 +101,12 @@ class HillClimber(GreedyLookAhead):
 
         net_path = self.wirePathDict[net]
        
-        # coord_storage = []
         for coordinates in net_path:    
             # Remove old path coordinates from the coordinate storage of the Wire Object
             # Gates can never be an intersection and thus will not be taken into account
             node = self.graph.nodes[coordinates]
             if node.isgate is False:
                 # Remove node from coordinate storage
-                print(f"node: {node}")
                 self.wire.coords.remove(node)
 
                 # Correct intersection-count of the Node object of the current coordinate
@@ -140,19 +139,19 @@ class HillClimber(GreedyLookAhead):
 
     def confirm_adjustment(self, cost):
         """
-        INFORMATIE
+        Updates best solution of the algorithm if the cost is lower than
+        the costs of all previous solutions.
+
+        Parameters
+        ----------
+        cost : int
+            The cost of the generated solution
         """
-        
-        # If state improved (cost decreased):
-        if cost < self.bestCost:
-            # Confirm adjustment
-            self.bestCost = cost
-            self.bestGraph = self.graph
-            self.bestWire = self.wire
-            self.bestWirePathDict = self.wirePathDict
-            self.improvements.append(True)
-        else:
-            self.improvements.append(False)
+        # Confirm adjustment
+        self.bestCost = cost
+        self.bestGraph = self.graph
+        self.bestWire = self.wire
+        self.bestWirePathDict = self.wirePathDict
     
     def track_iterations(self):
         """
@@ -170,7 +169,7 @@ class HillClimber(GreedyLookAhead):
         """
 
         visualisation = ChipVisualization(self.graph.gates, self.wirePathDict)
-        visualisation.run()
+        visualisation.run(True)
     
     def visualize_conversion(self):
         """
@@ -234,6 +233,13 @@ class HillClimber(GreedyLookAhead):
 
             # Compute cost of adjusted state
             cost = self.wire.compute_costs()
+
+            # If state improved (cost decreased):
+            if cost < self.bestCost:
+                self.confirm_adjustment(cost)
+                
+            # Add improvment status to the list of previous improvements
+            self.improvements.append(cost < self.bestCost)
 
             # Confirm adjustment if state improved
             self.confirm_adjustment(cost)

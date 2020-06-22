@@ -63,13 +63,8 @@ class Random():
         
         Parameters
         ----------
-<<<<<<< HEAD
-        neighbors: a list
-                A list containing the neighbors of the current position of the wire.
-=======
         connections: a list
                 A list containing the neighbours of the current position of the wire.
->>>>>>> 0771935e874b5bbff6e89a4d4de5350751d4039f
 
         Returns
         -------
@@ -183,17 +178,11 @@ class Random():
                     # Generate the connection between gate a and b
                     route[(a, b)] = self.make_connection(gate_a, gate_b)
 
-<<<<<<< HEAD
-                # Set not_found to False
-                not_found = False
-
-=======
                     not_found = False
->>>>>>> 0771935e874b5bbff6e89a4d4de5350751d4039f
             except ValueError:
 
                 # Clear graph, wire and route
-                self.graph.ClearGraph()
+                self.graph.clear_graph()
                 self.wire = Wire()
                 route = {}
         

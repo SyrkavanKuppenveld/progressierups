@@ -142,7 +142,7 @@ class Greedy():
         
         
         # Dit is voor testen: straks weghalen!
-        print(f"List of neighbors {lst}")
+        # print(f"List of neighbors {lst}")
         
         # Get minimum Manhattan Distance of steps
         min_value = min(lst, key=lambda x: x[1])
@@ -250,7 +250,7 @@ class Greedy():
             # Visualizatie is voor testen, later weghalen!
             print(f"if part")
             visualisation = ChipVisualization(self.graph.gates, route)
-            visualisation.run()
+            visualisation.run(True)
 
             return route
 
@@ -309,7 +309,7 @@ class Greedy():
             # Visualizatie is voor testen, later weghalen!
             print(f"else part")
             visualisation = ChipVisualization(self.graph.gates, route)
-            visualisation.run()
+            visualisation.run(True)
 
             return route
 
