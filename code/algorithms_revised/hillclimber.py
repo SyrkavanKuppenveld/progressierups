@@ -305,10 +305,11 @@ class HillClimber(GreedyLookAhead):
             # Reset conversion status
             self.improvements = [True]
         
-        # Visualize Conversion
+        # Visualize conversion plot
         if self.show_conversion_plot:
             self.visualize_conversion()
 
+        # Save conversion plot
         if self.save_conversion_plot:
             self.save_conversion()
 

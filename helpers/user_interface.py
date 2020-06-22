@@ -60,7 +60,7 @@ def netlist_input(chip):
 
     Parameters
     ----------
-    chip: int
+    chip: an int
             The chip number.
     
     Returns
@@ -104,7 +104,7 @@ def algorithm_input(netlist):
 
     Parameters
     ----------
-    netlist: int
+    netlist: an int
             Het netlist number.
 
     Returns
@@ -215,7 +215,7 @@ def hillclimber_restarts():
     while not correct:
         
         # Prompt user for the number of restarts
-        print("\033[1m""How many times would you like the hillclimber to restart?""\033[0m")
+        print("\033[1m""How many times would you like the hillclimber to restart?""\033[0m\n")
         frequency = input()
 
         # Quit if user input is correct
@@ -225,46 +225,63 @@ def hillclimber_restarts():
     return frequency
 
 
-def showing_plots():
+def get_flow(plot):
     """
-    Asks user if the start states need to be shown and if the conversion plot needs
-    to be shown. Returns True or False on both questions.
+    Asks user if the given plot needs to be shown and/or saved. Returns True or 
+    False on both questions.
 
     Returns
     -------
     boolean tuple
-            A tuple representing the choice on whether the plots need to be shown
-            (show_start_state, show_conversion_plot)
+            A tuple representing the choice on whether the plot needs to be 1) shown
+            and/or 2) saved
     """
 
     options = {'y', 'n'}
     correct = False
 
+    # Questions
+    q1_start_state = "Would you like to see the start states of the hillclimber algorithm?"
+    q1_conversion = "Would you like to see the conversion plot of the hillclimber algorithm?"
+    questions1 = [q1_start_state, q1_conversion_plot]
+
+    q2_start_state = "Would you like to save the start states of the hillclimber algorithm?"
+    q2_conversion = "Would you like to save the conversion plot of the hillclimber algorithm?"
+    questions2 = [q2_start_state, q2_conversion_plot]
+
+    # Adapt questions to the plot being asked
+    if plot == 'start_state'
+        q1 = questions1[0]
+        q2 = questions2[0]
+    else:
+        q1 = questions1[1]
+        q2 = questions2[1]
+
     # Ensure proper usage
     while not correct:
         
-        # Ask user if the start state(s) of the Hillclimber algorithm should be shown
-        print("\033[1m""Would you like to see the start states of the hillclimber algorithm?y/n?""\033[0m")
-        show_start_state = bool(input())
+        # Ask user if the plot should be shown
+        print(f"\033[1m""{q1} (y/n)?""\033[0m\n")
+        show_bool = bool(input())
 
         # Quit if user input is correct
-        if show_start_state in options:
+        if show_bool in options:
             correct = True
 
+    # Reset correct-status
     correct = False
 
     # Ensure proper usage
     while not correct:
-        
-        # Ask user if the conversion plot of the Hillclimber algorithm should be shown
-        print("\033[1m""Would you like to see the conversion plot of the hillclimber algorithm?y/n?""\033[0m")
-        show_conversion_plot = bool(input())
+        # Ask user if the start state(s) of the Hillclimber algorithm should be saved
+        print("\033[1m""{q2} (y/n)?""\033[0m\n")
+        save_bool = bool(input())
 
         # Quit if user input is correct
-        if show_conversion_plot in options:
+        if save_bool in options:
             correct = True
         
-    return show_start_state, show_conversion_plot
+    return show_bool, save_bool
 
 
 def get_hillclimber_flow(algorithm):
@@ -291,10 +308,12 @@ def get_hillclimber_flow(algorithm):
     else:
         frequency = 1
 
-    # Get answer to whether or not the plots should be shown
-    show_start_state, show_conversion_plot = showing_plots()
-
-    return frequency, show_start_state, show_conversion_plot
+    # Get answer to whether or not the plots should be shown and/or saved
+    plot = 'start_state'
+    start_state_flow =  get_flow(plot)
+    plot = 'conversion_plot'
+    conversion_plot_flow = get_flow(plot)
+    return frequency, start_state_flow, conversion_plot_flow
 
 
 def heuristic_input(netlist, algorithm):
