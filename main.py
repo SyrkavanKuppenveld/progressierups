@@ -85,7 +85,7 @@ def main():
         hlp.save_csv(netlist_file, output_file, wire_path, costs)
     print()
 
-    print("\033[1m""Would you like to run another algorithm? (y/n)\n""\033[0m")
+    print("\033[1m""Would you like to run another algorithm? (y/n)""\033[0m")
     rerun = input()
     if rerun == 'y':
         sys.stderr.write("\x1b[2J\x1b[H")

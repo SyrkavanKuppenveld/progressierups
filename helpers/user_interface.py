@@ -399,7 +399,14 @@ def heuristic_input(netlist, algorithm):
                 restart_program()
 
             # Print warning for greedy look ahead with none or no intersect heuristic
-            elif netlist > 4 and algorithm == 2 and (heuristic == 0 or heuristic == 4):
+            elif netlist > 3 and algorithm == 2 and heuristic == 4:
+                print()
+                print("\033[31m""WARNING: the combination of the algorithm and heuristic only works for netlist 1-3 within a reasonable amount of time.""\033[0m")
+                print()
+                restart_program()
+
+            # Print warning for greedy look ahead with none 
+            elif netlist > 3 and algorithm == 2 and heuristic == 0:
                 print()
                 print("\033[31m""WARNING: the combination of the algorithm and heuristic only works for netlist 1-4 within a reasonable amount of time.""\033[0m")
                 print()
