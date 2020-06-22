@@ -33,7 +33,7 @@ class HillClimber(GreedyLookAhead):
 
     Random adjustments
     ------------------
-    The path that is to be rebuilt, is chosen randomly.
+    The path that is to be rebuilt, is chosen randomly. Just checkin
 
     New path
     --------
