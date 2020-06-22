@@ -343,7 +343,7 @@ def heuristic_input(netlist, algorithm):
         # Prompt user for heuristic 
         print("\033[1m""Which heuristic would you like to implement?""\033[0m")
         print("For more information on the algorithms press 9 directly followed by the heuristic number.")
-        print("> 0 = none\n> 1 = 'Social Map'\n> 2 = 'Better a neighbor who is near than an brother far away?\n> 3 = 'Sky is the Limit'")
+        print("> 0 = none\n> 1 = 'Social Map'\n> 2 = 'Better a neighbor who is near than an brother far away?\n> 3 = 'Sky is the Limit'\n> 4 = 'Can't Touch This'")
         heuristic = input()
         
         if heuristic == '91':
@@ -365,10 +365,17 @@ def heuristic_input(netlist, algorithm):
         elif heuristic == '93':
             print("\033[1m""INFORMATION SKY IS THE LIMIT""\033[0m")
             print("The 'Social Map' heuristic increases the costs for not moving up in the grid if the Manhattan Distance between gates is higher than 4.")
-            print("This heuristic can be combined with 'Sky Is The Limit' and 'Better A Neighbor Who Is Near Than A Brother Far Away'.")
+            print("This heuristic can be combined with 'Social Map' and 'Better A Neighbor Who Is Near Than A Brother Far Away'.")
             print()
             time.sleep(3)
             print()
+
+        elif heuristic == '94':
+            print("\033[1m""INFORMATION CANT TOUCH THIS""\033[0m")
+            print("The 'Can't Touch This' heuristic has intersections as hard contrained.")
+            print("This heuristic can be combined with 'Sky Is The Limit' and 'Better A Neighbor Who Is Near Than A Brother Far Away'.")
+            print()
+
 
         if heuristic in options:
 
