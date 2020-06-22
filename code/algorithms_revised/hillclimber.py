@@ -33,7 +33,7 @@ class HillClimber(GreedyLookAhead):
 
     Random adjustments
     ------------------
-    The path that is to be rebuilt, is chosen randomly. Just checkin
+    The path that is to be rebuilt, is chosen randomly.
 
     New path
     --------
@@ -172,7 +172,7 @@ class HillClimber(GreedyLookAhead):
 
         Parameters
         ----------
-        neconnectiont : tuple of ints
+        connection : tuple of ints
                 A tuple of gateIDs.
         gates : tuple
                 A tuple of Gate Objects.
@@ -269,15 +269,15 @@ class HillClimber(GreedyLookAhead):
         """
 
         # Save conversion plot to results folder
-        scriptDir = os.path.dirname(__file__)
-        resultsDir = os.path.join(scriptDir, f'results/chip_{self.chip}/netlist_{self.netlist}')
+        script_dir = os.path.dirname(__file__)
+        results_dir = os.path.join(script_dir, f'results/chip_{self.chip}/netlist_{self.netlist}')
 
         # Create results folder if the results folder does not yet exist
-        if not os.path.isdir(resultsDir):
-            os.makedirs(resultsDir)
+        if not os.path.isdir(results_dir):
+            os.makedirs(results_dir)
 
         # Save figure
-        plt.savefig(resultsDir + filename, bbox_inches='tight')
+        plt.savefig(results_dir + filename, bbox_inches='tight')
     
     def visualize_conversion(self):
         """
@@ -296,8 +296,8 @@ class HillClimber(GreedyLookAhead):
         ax.plot(self.iteration, self.climbers_costs, color='lightseagreen')
         
         # Set labels
-        titleDict = {'fontsize': 12}
-        ax.set_title(label='Conversion Plot', fontdict=titleDict)
+        title_dict = {'fontsize': 12}
+        ax.set_title(label='Conversion Plot', fontdict=title_dict)
         ax.set_xlabel('Iteration')
         ax.set_ylabel('Cost')
 
@@ -390,4 +390,3 @@ class HillClimber(GreedyLookAhead):
         # Save conversion plot
         if self.save_conversion_plot:
             self.save_plot(conversion_plot_visualisation, filename)
-
