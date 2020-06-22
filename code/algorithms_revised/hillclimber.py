@@ -40,12 +40,16 @@ class HillClimber(GreedyLookAhead):
     The new path will be build with the use of the Greedy LookaHead algorithm.
     """
 
-    # NB show_start_state, show_conversion_plot nog te implementeren!!!!
-
-    def __init__(self, graph, frequency, show_start_state, show_conversion_plot):
+    def __init__(self, graph, frequency, start_state_flow, conversion_flow):
         """ 
         Initializes the states of the algorithm.
         """
+
+        # Answers to whether the plots should be shown/saved or not
+        self.show_start_state = start_state_flow[0]
+        self.save_start_state = start_state_flow[1]
+        self.show_conversion_plot = conversion_flow[0]
+        self.save_conversion_plot = conversion_flow[1]
         
         # Empirically chosen number of iterations
         self.iterations = 200
@@ -86,7 +90,7 @@ class HillClimber(GreedyLookAhead):
         self.cost = algo.wire.compute_costs()
         self.bestCost = algo.wire.compute_costs()
         
-        print("Start State found")
+        print("Start state found")
     
     def get_random_net(self):
         """
@@ -163,12 +167,32 @@ class HillClimber(GreedyLookAhead):
         self.wirePathDict[net] = new_path
 
     def check_improvement(self, cost):
-        """ Returns True if the state improved, else false."""
+        """ 
+        Checks if the adjusment was an improvent or not.
+
+        Paramters
+        ---------
+        cost: an int
+                An int representing the hight of the cost of the adjusted state
+        
+        Returns 
+        -------
+        Bool:
+                True if the state improved, else false.
+        """
+
         return cost < self.bestCost
 
     def confirm_improvement(self, improvement, cost):
         """
-        Update improvement
+        Update best found state if the adjusted state was an improvement.
+
+        Paramters
+        ---------
+        improvement: bool
+                A boolean representing the answer to wether or not the costs decreased
+        cost: an int
+                An int representing the hights of the cost of the adjusted state
         """
         
         # If state improved (cost decreased):
@@ -181,7 +205,7 @@ class HillClimber(GreedyLookAhead):
     
     def track_iterations(self):
         """
-        INFORMATIE
+        Tracks previous iterations.
         """
         
         # Keep track of the past N iterations
@@ -196,6 +220,9 @@ class HillClimber(GreedyLookAhead):
 
         visualisation = ChipVisualization(self.graph.gates, self.wirePathDict)
         visualisation.run(True)
+
+    def save_chip(self):
+        pass
     
     def visualize_conversion(self):
         """
@@ -217,11 +244,8 @@ class HillClimber(GreedyLookAhead):
         # Show conversion plot
         plt.show()
     
-    
-    
-    
-    
-    
+    def save_conversion(self):
+        pass
     
     def run(self):
         """
@@ -232,11 +256,16 @@ class HillClimber(GreedyLookAhead):
 
         for i in range(self.frequency):
 
-            # Get random Start State
+            # Get random start state
             self.get_random_start_state()
 
-            # Visualise starting State
-            self.visualize_chip()
+            # Visualise start state
+            if self.show_start_state:
+                self.visualize_chip()
+
+            # Save start state
+            if self.save_start_state:
+                self.save_chip()
 
             # Repeat until conversion has occured
             while True in self.improvements:
@@ -275,10 +304,11 @@ class HillClimber(GreedyLookAhead):
             
             # Reset conversion status
             self.improvements = [True]
-
-        # Visualize end result
-        self.visualize_chip()
-
+        
         # Visualize Conversion
-        self.visualize_conversion()
+        if self.show_conversion_plot:
+            self.visualize_conversion()
+
+        if self.save_conversion_plot:
+            self.save_conversion()
 
