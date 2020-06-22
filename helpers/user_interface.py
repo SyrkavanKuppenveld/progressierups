@@ -134,7 +134,7 @@ def algorithm_input(netlist):
             # Print warning message and prompt user for next approach
             if netlist > 2:
                 print()
-                print("\033[91m""WARNING! The random algorithm only works for netlist 1 and 2 within a reasonable amount of time.""\033[0m")
+                print("\033[31m""WARNING! The random algorithm only works for netlist 1 and 2 within a reasonable amount of time.""\033[0m")
                 print()
                 restart_program()
 

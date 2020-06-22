@@ -891,6 +891,147 @@ class GreedyNoIntersectLookAhead(GreedyNoIntersect):
         return dist
 
 
+class GreedyCosts(Greedy):
+    """ 
+    Creates a Wire object that connects the gates according to the netlist and 
+    the lowest Manhattan Distance. 
+
+    Random element
+    --------------
+    * The order of the connections are generated randomly.
+    * If multiple neighbours have the same distance, the next position is generated
+      randomly. 
+    
+    Greedy element
+    --------------
+    The next position will be the neighbour with the lowest Manhattan distance.
+
+    Costs
+    -----
+    The cost assigned to the step are higher if the step and its neighbors already 
+    are wired, in order to avoid these places on the grid. 
+
+    """
+
+    def compute_wire_costs(self, position, step, goal):
+        """
+        Returns the increase in wire costs of the step.
+
+        Parameters 
+        ----------
+        step: a Node object
+                A Node object representing the next position of the wire.
+
+        goal: a Node object
+                A Node object representing the goal position on the grid.
+            
+        Returns
+        -------
+        int 
+                The wire costs of the step.
+        """
+        
+        # Get the coordinates of step and goal
+        step_coords = step.xcoord, step.ycoord, step.zcoord
+        goal_coords = goal.xcoord, step.ycoord, step.zcoord
+
+        cost = 0
+
+        dist = self.compute_manhattan_dist(step, goal)
+
+        # Only add extra costs if step is not goal
+        if step_coords != goal_coords and dist > 4:
+
+            # Increment the cost with 5 if the step with cause intersection
+            # if step.zcoord - position.zcoord < 0:
+            #     cost += 5
+            
+            if step.zcoord == 0:
+                cost += 10
+            elif step.zcoord == 1:
+                cost += 8
+            elif step.zcoord == 2:
+                cost += 6
+            elif step.zcoord == 3:
+                cost += 4
+
+            # Increment the costs for intersections
+            if step.intersection > 0:
+                cost += 10
+
+            # Increment the costs with 2 per neighbor of the step who is alread wired
+            for neighbor in step.neighbors:
+                if neighbor.intersection > 0:
+                    cost += 2
+
+        return cost
+
+    def compute_total_costs(self, position, step, goal):
+        """
+        Returns the costs of the step according to the Manhattan Distance and the 
+        wire costs.
+
+        Parameters 
+        ----------
+        position: a Node object
+                A Node object representing the current position of the wire.
+
+        step: a Node object
+                A Node object representing the next position of the wire.
+
+        goal: a Node object
+                A Node object repesenting the goal position on the grid.
+
+        Returns
+        -------
+        int 
+                The costs of the path.
+        """
+
+        # Compute Manhattan Distance between position and goal
+        mdist = self.compute_manhattan_dist(step, goal)
+        
+        # Compute wire costs
+        wire_cost = self.compute_wire_costs(position, step, goal)
+
+        return mdist + wire_cost
+
+
+    def next_position(self, position, goal):
+            """
+            Returns the next position, according to the lowest Manhattan Distance.
+                    
+            Parameters
+            ----------
+            position: a Node object
+                    A Node object representing the current position of the wire.
+
+            goal: a Node object
+                    A Node object repesenting the goal position on the grid.
+            
+            Returns
+            -------
+            Node object
+                    The Node object that will be the new position of the wire.
+            """
+
+            mdist = []
+
+            # Iterate over neighbors current position
+            for neighbor in position.neighbors:
+
+                # If move is allowed compute and append Manhattan Distance
+                if self.wire.check_collision(position, neighbor) and (neighbor.isgate is False or neighbor == goal):
+                    dist = self.compute_total_costs(position, neighbor, goal)
+                    mdist.append((neighbor, dist))
+
+            # Assign new position
+            position = self.get_random_min(mdist)
+
+            return position
+
+
+
 class GreedyLookAheadCosts(GreedyLookAhead):
     """ 
     Creates a Wire object that connects the gates according to the netlist and 
@@ -1028,89 +1169,6 @@ class GreedyLookAheadCosts(GreedyLookAhead):
 
         return mdist
 
-    def compute_wire_costs(self, position, step, goal):
-        """
-        Returns the increase in wire costs of the step.
-
-        Parameters 
-        ----------
-        step: a Node object
-                A Node object representing the next position of the wire.
-
-        goal: a Node object
-                A Node object representing the goal position on the grid.
-            
-        Returns
-        -------
-        int 
-                The wire costs of the step.
-        """
-        
-        # Get the coordinates of step and goal
-        step_coords = step.xcoord, step.ycoord, step.zcoord
-        goal_coords = goal.xcoord, step.ycoord, step.zcoord
-
-        cost = 0
-
-        dist = self.compute_manhattan_dist(step, goal)
-
-        # Only add extra costs if step is not goal
-        if step_coords != goal_coords and dist > 4:
-
-            # Increment the cost with 5 if the step with cause intersection
-            # if step.zcoord - position.zcoord < 0:
-            #     cost += 5
-            
-            if step.zcoord == 0:
-                cost += 10
-            elif step.zcoord == 1:
-                cost += 8
-            elif step.zcoord == 2:
-                cost += 6
-            elif step.zcoord == 3:
-                cost += 4
-
-            # Increment the costs for intersections
-            if step.intersection > 0:
-                cost += 10
-
-            # Increment the costs with 2 per neighbor of the step who is alread wired
-            for neighbor in step.neighbors:
-                if neighbor.intersection > 0:
-                    cost += 2
-
-        return cost
-
-    def compute_total_costs(self, position, step, goal):
-        """
-        Returns the costs of the step according to the Manhattan Distance and the 
-        wire costs.
-
-        Parameters 
-        ----------
-        position: a Node object
-                A Node object representing the current position of the wire.
-
-        step: a Node object
-                A Node object representing the next position of the wire.
-
-        goal: a Node object
-                A Node object repesenting the goal position on the grid.
-
-        Returns
-        -------
-        int 
-                The costs of the path.
-        """
-
-        # Compute Manhattan Distance between position and goal
-        mdist = self.compute_manhattan_dist(step, goal)
-        
-        # Compute wire costs
-        wire_cost = self.compute_wire_costs(position, step, goal)
-
-        return mdist + wire_cost
-
     def path_distance(self, path, position, goal):
         """
         Returns the total costs of the total path.
@@ -1136,7 +1194,6 @@ class GreedyLookAheadCosts(GreedyLookAhead):
                 dist += self.compute_total_costs(position, step, goal)
 
         return dist
-
 
     
 class WireJam(Greedy):
