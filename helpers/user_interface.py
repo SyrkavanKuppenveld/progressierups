@@ -35,7 +35,7 @@ def chip_input():
     Returns
     -------
     int 
-            A integer representing the chip number choosen by the user.
+            An integer representing the chip number choosen by the user.
     """
 
     options = {'0', '1', '2'}
@@ -60,13 +60,13 @@ def netlist_input(chip):
 
     Parameters
     ----------
-    chip: a int
+    chip: int
             The chip number.
     
     Returns
     -------
     int
-            A integer representing the netlist number choosen bij the user.
+            An integer representing the netlist number chosen by the user.
     """
     
     # Ensure correct usage
@@ -98,21 +98,22 @@ def netlist_input(chip):
 
 def algorithm_input(netlist):
     """
-    Returns a integer representring the algorithm choosen by the user.
-    Option to print more information on the algorithms. 
+    Asks user which algorithm is to be used.
+    Returns an integer representing the algorithm chosen by the user.
+    Provides an option to print more information on the algorithms. 
 
     Parameters
     ----------
-    netlist: a int
+    netlist: int
             Het netlist number.
 
     Returns
     -------
     int
-            A integer representing the algorithm choice
+            An integer corresponding with the chosen algorithm.
     """
 
-    options = {'0', '1', '2', '3'}
+    options = {'0', '1', '2', '3', '4'}
     
     correct = False
     while not correct:
@@ -120,11 +121,11 @@ def algorithm_input(netlist):
         # Prompt user for algorithm
         print("\033[1m""Which algorithm would you like to run?""\033[0m")
         print("For more information on the algorithms press 9 directly followed by the algorithm number.")
-        print("> 0 = Random\n> 1 = Greedy\n> 2 = Greedy Look Ahead\n> 3 = Hillclimber")
+        print("> 0 = Random\n> 1 = Greedy\n> 2 = Greedy Look Ahead\n> 3 = Hillclimber\n> 4 = Restart Hillclimber")
         algorithm = input()
         print()
 
-        # Information on random algorithm
+        # Provide information on random algorithm
         if algorithm == '90':
             print("\033[1m""INFORMATION RANDOM ALGORITHM:""\033[0m")
             print("Creates a Wire object that connects the gates according to the netlist.")
@@ -138,7 +139,7 @@ def algorithm_input(netlist):
                 print()
                 restart_program()
 
-        # Information on the greedy algorithm
+        # Provide information on the greedy algorithm
         elif algorithm == '91':
             print("\033[1m""INFORMATION GREEDY ALGORITHM:""\033[0m")
             print("Creates a Wire object that connects the gates according to the netlist and according to the lowest Manhattan Distance.")
@@ -153,7 +154,7 @@ def algorithm_input(netlist):
             time.sleep(5)
             print()
 
-        # Information on the greedy look ahead algorithm
+        # Provide information on the greedy look ahead algorithm
         elif algorithm == '92':
             print("\033[1m""INFORMATION GREEDY LOOK AHEAD ALGORITHM:""\033[0m")
             print("Creates a Wire object that connects the gates according to the netlist and according to the lowest Manhattan Distance with a 4 step look ahead.")
@@ -167,15 +168,21 @@ def algorithm_input(netlist):
             time.sleep(5)
             print()
 
-        # Information on the hillclimber algorithm
-        elif algorithm == '93':
+        # Provide information on the hillclimber algorithm
+        elif algorithm == '93' or algorithm == '94':
             print("\033[1m""INFORMATION HILLCLIMBER ALGORITHM""\033[0m")
-            # MEER INFORMATIE NOG TOEVOEGEN
+            print("The HillCLimber is a stochastic HillClimber.")
+            print()
+            print("Start state:\n* Acquires a Random start state using the Random algorithm.")
+            print()
+            print("Random adjustments:\n* The path that is to be re-build is chosen randomly.")
+            print()
+            print("New path:\n* The new path will be build with the use of the Greedy LookaHead algorithm.")
             time.sleep(5)
             print()
 
         # Continue if algorithm choice is valid
-        elif algorithm in options:
+        if algorithm in options:
             correct = True
 
             # Print warning and prompt user for next approach
@@ -184,26 +191,128 @@ def algorithm_input(netlist):
                 print()
                 restart_program()
             
+            # Print warning and prompt user for next approach
+            if algorithm == '3' and netlist > 2:
+                print("\033[31m""WARNING! The hillclimber algorithm only works for netlist 1 and 2 within a reasonable amount of time.""\033[0m")
+                print()
+                restart_program()
+
     return int(algorithm)
 
-
-def heuristic_input(netlist, algorithm):
+def get_hillclimber_flow(self, algorithm):
     """
-    Returns the integer representing the heuristic choosen by the user.
-    Option to print extra information these heuristics. 
+    Asks user what the prefered work flow of the hillblimber is.
 
     Parameters
     ----------
-    netlist: a int
-            The netlist choosen by the user.
-    
-    algorith: a int
-            The algorithm choosen by the user.
+    algorithm: an int
+            The algorithm that is chosen, 3 for Hillclimber, 4 for Restart Hillclimber
+
+    Returns
+    -------
+    boolean tuple
+            A tuple representing the answers on 1) what the frequency should be of 
+            the Restart Hillclimber and whether or not 2) the start states 3) and
+            the conversion plot shouldbe shown.
+    """
+
+    # Get the frequency of the Restart Hillclimber
+    if algorithm == 4:
+        frequency = self.hillclimber_restarts()
+    # Default frequency for the normal Hillclimber  to 1
+    else:
+        frequency = 1
+
+    # Get answer to whether or not the plots should be shown
+    show_start_state, show_conversion_plot = self.showing_plots()
+
+    return frequency, show_start_state, show_conversion_plot
+
+
+def hillclimber_restarts():
+    """
+    Prompts user for the number of times the Hillclimber should be run and returns the frequency.
 
     Returns
     -------
     int
-            A integer representing the choosen heuristic. 
+            A number representing the number of times the Hillclimber will be run.
+    """
+
+    correct = False
+
+    while not correct:
+        
+        # Prompt user for the number of restarts
+        print("\033[1m""How many times would you like the hillclimber to restart?""\033[0m")
+        frequency = input()
+
+        # Quit if user input is correct
+        if frequency.isdigit():
+            correct = True
+        
+    return frequency
+
+
+def showing_plots(self):
+    """
+    Asks user if the start states need to be shown and if the conversion plot needs
+    to be shown. Returns True or False on both questions.
+
+    Returns
+    -------
+    boolean tuple
+            A tuple representing the choice on whether the plots need to be shown
+            (show_start_state, show_conversion_plot)
+    """
+
+    options = {'y', 'n'}
+    correct = False
+
+    # Ensure proper usage
+    while not correct:
+        
+        # Ask user if the start state(s) of the Hillclimber algorithm should be shown
+        print("\033[1m""Would you like to see the start states of the hillclimber algorithm?y/n?""\033[0m")
+        show_start_state = bool(input())
+
+        # Quit if user input is correct
+        if show_start_state in options:
+            correct = True
+
+    correct = False
+
+    # Ensure proper usage
+    while not correct:
+        
+        # Ask user if the conversion plot of the Hillclimber algorithm should be shown
+        print("\033[1m""Would you like to see the conversion plot of the hillclimber algorithm?y/n?""\033[0m")
+        show_conversion_plot = bool(input())
+
+        # Quit if user input is correct
+        if show_conversion_plot in options:
+            correct = True
+        
+    return show_start_state, show_conversion_plot
+
+
+def heuristic_input(netlist, algorithm):
+    """
+    Returns the integer representing the heuristic chosen by the user.
+    Option to print extra information on the heuristics. 
+
+    Parameters
+    ----------
+    netlist: int
+            The netlist chosen by the user.
+    
+    algorith: int
+            The algorithm chosen by the user.
+
+    Returns
+    -------
+    int
+            An integer representing the chosen heuristic. 
     """
 
     options = {'0', '1', '2', '3'}
@@ -235,13 +344,13 @@ def heuristic_input(netlist, algorithm):
 
         elif heuristic == '93':
             print("\033[1m""INFORMATION SKY IS THE LIMIT""\033[0m")
-            print("The 'Sky Is The Limit' heuristic increases the costs for not moving up in the grid if the Manhattan Distance between gates is higher than 4.")
+            print("The 'Social Map' heuristic increases the costs for not moving up in the grid if the Manhattan Distance between gates is higher than 4.")
             print("This heuristic can be combined with 'Sky Is The Limit' and 'Better A Neighbor Who Is Near Than A Brother Far Away'.")
             print()
             time.sleep(3)
             print()
 
-        elif heuristic in options:
+        if heuristic in options:
 
             # Set correct to true
             correct = True
@@ -261,8 +370,8 @@ def heuristic_input(netlist, algorithm):
 def heuristic_extention(chip, graph):
 
     """
-    chip: a int
-            The chip number choosen by the user.
+    chip: int
+            The chip number chosen by the user.
 
     graph: a Graph object
             A graph object representing the chip grid.
@@ -270,7 +379,7 @@ def heuristic_extention(chip, graph):
     Returns
     -------
     list 
-            A list containining containing gateIDs or connections.
+            A list containing gateIDs or connections.
 
     bool
             True if list contains connections, false if list contains gates.
@@ -301,7 +410,7 @@ def heuristic_extention(chip, graph):
         correct = False
         while not correct:
             
-            # Prompt user for order heuristic list
+            # Prompt user for the order in which the heuristic list should be
             print()
             print("\033[1m""How would you like to implement the heuristic?""\033[0m")
             print("> 0 = min-max\n> 1 = max-min")
@@ -312,7 +421,7 @@ def heuristic_extention(chip, graph):
                 correct = True
                 order = bool(order)
 
-        # Instantiate connection list based on heuristic and in correct order,
+        # Instantiate connection list based on heuristic, in correct order
         # and return correct approach
         if extention == 1:
 
@@ -324,28 +433,28 @@ def heuristic_extention(chip, graph):
 
             # Generate connection list
             connections = graph.get_gate_densities(order, density_radius)
-
             return connections, False
+        
         elif extention == 2:
 
             # Generate connection list
             connections = graph.get_connection_distance(order)
             return connections, True
+    
     else:
 
         # Generate connection list
         connections = list(graph.netlist)
-
         return connections, True
     
 
 def heuristic_order_input(chip, heuristic, graph):
     """
-    chip: a int
-            The chip number choosen by the user.
+    chip: int
+            The chip number chosen by the user.
 
-    heuristic: a int
-            The heuristic choosen by the user.
+    heuristic: int
+            The heuristic chosen by the user.
 
     graph: a Graph object
             A graph object representing the chip grid.
@@ -378,7 +487,7 @@ def heuristic_order_input(chip, heuristic, graph):
                 correct = True
                 order = bool(order)
 
-        # Instantiate connection list based on heuristic and in correct order,
+        # Instantiate connection list based on heuristic, correct order
         # and return correct approach
         if heuristic == 1:
 
@@ -392,6 +501,7 @@ def heuristic_order_input(chip, heuristic, graph):
             connections = graph.get_gate_densities(order, density_radius)
 
             return connections, False
+        
         elif heuristic == 2:
 
             # Generate connection list
@@ -407,7 +517,7 @@ def heuristic_order_input(chip, heuristic, graph):
 
 def visualize_save_results(graph, wire_path):
     """
-    Visualizes and/orsaves the results of the algorithm.
+    Visualizes and/or saves the results of the algorithm.
 
     Parameters
     ----------
