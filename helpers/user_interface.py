@@ -134,7 +134,7 @@ def algorithm_input(netlist):
             # Print warning message and prompt user for next approach
             if netlist > 2:
                 print()
-                print("WARNING! The random algorithm only works for netlist 1 and 2 within a reasonable amount of time.")
+                print("\033[91m""WARNING! The random algorithm only works for netlist 1 and 2 within a reasonable amount of time.""\033[0m")
                 print()
                 restart_program()
 
@@ -180,7 +180,7 @@ def algorithm_input(netlist):
 
             # Print warning and prompt user for next approach
             if algorithm == '0' and netlist > 2:
-                print("\033[1m""WARNING! The random algorithm only works for netlist 1 and 2 within a reasonable amount of time.""\033[0m")
+                print("\033[31m""WARNING! The random algorithm only works for netlist 1 and 2 within a reasonable amount of time.""\033[0m")
                 print()
                 restart_program()
             
@@ -257,6 +257,7 @@ def heuristic_input(netlist, algorithm):
            
     return int(heuristic)
 
+
 def heuristic_extention(chip, graph):
 
     """
@@ -282,7 +283,7 @@ def heuristic_extention(chip, graph):
     while not correct:
         
         # Prompt user for order heuristic list
-        print("\033[1m""With which second heuristic would you like to extent 'Sky Is The Limit'?""\033[1m")
+        print("\033[1m""With which second heuristic would you like to extent 'Sky Is The Limit'?""\033[0m")
         print("> 0 = none\n> 1 = 'Social Map'\n> 2 = 'Better a neighbor who is near than an brother far away?")
         extention = input()
 
@@ -302,7 +303,7 @@ def heuristic_extention(chip, graph):
             
             # Prompt user for order heuristic list
             print()
-            print("\033[1m""How would you like to implement the heuristic?""\033[1m")
+            print("\033[1m""How would you like to implement the heuristic?""\033[0m")
             print("> 0 = min-max\n> 1 = max-min")
             order = input()
 
@@ -368,8 +369,8 @@ def heuristic_order_input(chip, heuristic, graph):
         while not correct:
             
             # Prompt user for order heuristic list
-            print("\033[1m""How would you like to implement the heuristic?""\033[1m")
-            print("> 0 = min-max\n> 1 = max-min\n")
+            print("\033[1m""How would you like to implement the heuristic?""\033[0m")
+            print("> 0 = min-max\n> 1 = max-min")
             order = input()
 
             # If usage is correct set correct to true and convert order to bool
@@ -432,7 +433,7 @@ def visualize_save_results(graph, wire_path):
     while not correct:
 
         # Prompt user for input for visualization
-        print("\033[1m""Would you like to visualize the results? (y/n)\n""\033[1m")
+        print("\033[1m""Would you like to visualize the results? (y/n)""\033[0m")
         show = input()
 
         # Check input user
@@ -444,7 +445,7 @@ def visualize_save_results(graph, wire_path):
         
         # Prompt user for input for saving visualization
         print()
-        print("\033[1m""Would you like to save the visualization of the results? (y/n)\n""\033[1m")
+        print("\033[1m""Would you like to save the visualization of the results? (y/n)""\033[0m")
         save = input()
 
         # Check input user
@@ -486,7 +487,7 @@ def restart_program():
     while not correct:
 
         # Prompt user for input
-        print("\033[1m""Would you like to ... ?""\033[1m")
+        print("\033[1m""Would you like to ... ?""\033[0m")
         print("> 0 = continue\n> 1 = restart program\n> 2 = quit program")
         restart = input()
         if restart in options:

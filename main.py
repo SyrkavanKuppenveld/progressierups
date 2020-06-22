@@ -4,6 +4,7 @@ from code.visualization.visualize import ChipVisualization
 import helpers as hlp
 import csv
 import sys
+import os
 
 def main():
     """
@@ -11,7 +12,7 @@ def main():
     """
 
     # Clear terminal
-    sys.stderr.write("\x1b[2J\x1b[H")
+    os.system('cls')
 
     # Prompt user for chip
     chip = hlp.uif.chip_input()
@@ -31,14 +32,13 @@ def main():
     # Prompt user for algorithm
     algorithm = hlp.uif.algorithm_input(netlist)
 
-    print()
-
     # Prompt user for heuristics if possible for algorithm choice
     if algorithm != 0:
         heuristic = hlp.uif.heuristic_input(netlist, algorithm)
         if heuristic < 3:
             connections, run_approach = hlp.uif.heuristic_order_input(chip, heuristic, graph)
         else:
+            print()
             connections, run_approach = hlp.uif.heuristic_extention(chip, graph)
 
     print()
@@ -63,6 +63,7 @@ def main():
 
     # Visualize and or save algorithm results based on user's input
     hlp.uif.visualize_save_results(graph, wire_path)
+    print()
 
     # Create output file
     with open("output.csv", 'w', newline='') as output_file:
