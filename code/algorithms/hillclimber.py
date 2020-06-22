@@ -47,17 +47,22 @@ class HillClimber(GreedyLookAhead):
         Parameters
         ---------
         graph: a Graph Object
-                A Graph Object of the used chip and netlist
+                A Graph Object of the used chip and netlist.
+
         frequency: an int
-                The number of times the HillClimber needs to run
+                The number of times the HillClimber needs to run.
+
         start_state_flow: boolean tuple
-                A boolean tuple needed for showing and saving the visualization of the start state
+                A boolean tuple needed for showing and saving the visualization of the start state.
+
         conversion_flow: boolean tuple
-                A boolean tuple needed for showing and saving the visualization of the conversion plot
+                A boolean tuple needed for showing and saving the visualization of the conversion plot.
+
         chip: an int
-                The number of the used chip
+                The number of the used chip.
+
         netlist: an int
-                The number of the used netlist
+                The number of the used netlist.
         """
 
         # Used chip and netlist

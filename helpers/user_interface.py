@@ -211,11 +211,10 @@ def hillclimber_restarts():
     """
 
     correct = False
-
     while not correct:
         
         # Prompt user for the number of restarts
-        print("\033[1m""How many times would you like the hillclimber to restart?""\033[0m\n")
+        print("\033[1m""How many times would you like the hillclimber to restart?""\033[0m")
         frequency = input()
 
         # Quit if user input is correct
@@ -261,25 +260,39 @@ def get_flow(plot):
     while not correct:
         
         # Ask user if the plot should be shown
-        print("\033[1m"f"{q1} (y/n)?""\033[0m\n")
-        show_bool = bool(input())
+        print("\033[1m"f"{q1} (y/n)""\033[0m")
+        show = input()
 
         # Quit if user input is correct
-        if show_bool in options:
+        if show in options:
             correct = True
+
+    # Convert save to bool
+    if show == 'y':
+        show_bool = True
+    else:
+        show_bool = False
 
     # Reset correct-status
     correct = False
 
     # Ensure proper usage
     while not correct:
+
         # Ask user if the plot of the Hillclimber algorithm should be saved
-        print("\033[1m"f"{q2} (y/n)?""\033[0m\n")
-        save_bool = bool(input())
+        print()
+        print("\033[1m"f"{q2} (y/n)?""\033[0m")
+        save = input()
 
         # Quit if user input is correct
-        if save_bool in options:
+        if save in options:
             correct = True
+    
+    # Convert save to bool
+    if save == 'y':
+        save_bool = True
+    else:
+        save_bool = False
         
     return show_bool, save_bool
 
@@ -304,6 +317,7 @@ def get_hillclimber_flow(algorithm):
     # Get the frequency of the Restart Hillclimber
     if algorithm == 4:
         frequency = hillclimber_restarts()
+
     # Default frequency for the normal Hillclimber  to 1
     else:
         frequency = 1
@@ -313,6 +327,7 @@ def get_hillclimber_flow(algorithm):
     start_state_flow =  get_flow(plot)
     plot = 'conversion_plot'
     conversion_plot_flow = get_flow(plot)
+
     return frequency, start_state_flow, conversion_plot_flow
 
 
