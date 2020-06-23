@@ -43,9 +43,9 @@ Subsequently, it will ask whether the solution(s) and/or plot(s) need to be show
 After all choices have been made, the program will start generating a solution.
 
 **Possible Choices**    
-_Chip_      _Netlist_    
-Chip 0      Netlist 1    
-            Netlsit 2    
+_Chip_&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_Netlist_    
+Chip 0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Netlist 1    
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Netlsit 2    
             Netlist 3    
 
 Chip 1      Netlist 4    
