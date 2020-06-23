@@ -357,12 +357,22 @@ def heuristic_input(netlist, algorithm):
 
         # Prompt user for heuristic 
         print("\033[1m""Which heuristic would you like to implement?""\033[0m")
+        print("If none, order of connections is randomly generated.")
         print("For more information on the algorithms press 9 directly followed by the heuristic number.")
         print("> 0 = none\n> 1 = 'Social Map'\n> 2 = 'Better a neighbor who is near than an brother far away?\n> 3 = 'Sky is the Limit'\n> 4 = 'Can't Touch This'\n> 5 = 'Wire Jam'")
         heuristic = input()
         
+        # Print none information
+        if heuristic  == '90':
+            print()
+            print("\033[1m""INFORMATION NONE""\033[0m")
+            print("The order of connections is randomly generated.")
+            time.sleep(3)
+            print()
+
         # Print social map information
-        if heuristic == '91':
+        elif heuristic == '91':
+            print
             print("\033[1m""INFORMATION SOCIAL MAP""\033[0m")
             print("The 'Social Map' heuristic orders the gates based on the number of gates within a pre-specified radius.")
             print()
@@ -372,6 +382,7 @@ def heuristic_input(netlist, algorithm):
 
         # Print better a neighbor who is near than a brother far away information
         elif heuristic == '92':
+            print()
             print("\033[1m""INFORMATION BETTER A NEIGHBOR WHO IS NEAR THAN A BROTHER FAR AWAY?""\033[0m")
             print("The 'Better A Neighbor Who Is Near Than A Brother Far Away' heuristic orders the connections based on distance between the gates.")
             print()
@@ -381,28 +392,31 @@ def heuristic_input(netlist, algorithm):
 
         # Print sky is the limit information
         elif heuristic == '93':
+            print()
             print("\033[1m""INFORMATION SKY IS THE LIMIT""\033[0m")
             print("The 'Sky Is The Limit' heuristic increases the costs for not moving up in the grid and wired neighbors if the Manhattan Distance between gates is higher than 4.")
-            print("This heuristic can be combined with 'Social Map' and 'Better A Neighbor Who Is Near Than A Brother Far Away'.")
             print()
+            print("This heuristic can be combined with 'Social Map' and 'Better A Neighbor Who Is Near Than A Brother Far Away'.")
             time.sleep(3)
             print()
 
         # Print can't touch this information
         elif heuristic == '94':
+            print()
             print("\033[1m""INFORMATION CANT TOUCH THIS""\033[0m")
             print("The 'Can't Touch This' heuristic has intersections as hard contrained.")
-            print("This heuristic can be combined with 'Social Map' and 'Better A Neighbor Who Is Near Than A Brother Far Away'.")
             print()
+            print("This heuristic can be combined with 'Social Map' and 'Better A Neighbor Who Is Near Than A Brother Far Away'.")
             time.sleep(3)
             print()
 
         # Print wire jam information
         elif heuristic == '95':
+            print()
             print("\033[1m""INFORMATION WIRE JAM""\033[0m")
             print("The 'Wire Jam' heuristic avoids places on the grid that are crowed with wire.")
-            print("This heuristic can be combined with 'Social Map' and 'Better A Neighbor Who Is Near Than A Brother Far Away'.")
             print()
+            print("This heuristic can be combined with 'Social Map' and 'Better A Neighbor Who Is Near Than A Brother Far Away'.")
             time.sleep(3)
             print()
 
@@ -437,7 +451,7 @@ def heuristic_input(netlist, algorithm):
                 restart_program()
 
             # Print warning for greedy look ahead with none 
-            elif netlist > 3 and algorithm == 2 and heuristic == 0:
+            elif netlist > 4 and algorithm == 2 and heuristic == 0:
                 print()
                 print("\033[31m""WARNING: the combination of the algorithm and heuristic only works for netlist 1-4 within a reasonable amount of time.""\033[0m")
                 print()
@@ -495,6 +509,7 @@ def heuristic_extention(chip, heuristic, graph):
         
         # Prompt user for order heuristic list
         print("\033[1m"f"With which second heuristic would you like to extent '{heur_name}'?""\033[0m")
+        print("If none, order of connections is randomly generated.")
         print("> 0 = none\n> 1 = 'Social Map'\n> 2 = 'Better a neighbor who is near than an brother far away?")
         extention = input()
 
@@ -515,6 +530,7 @@ def heuristic_extention(chip, heuristic, graph):
             # Prompt user for the order in which the heuristic list should be
             print()
             print("\033[1m""How would you like to implement the heuristic?""\033[0m")
+            print("If none, order of connections is randomly generated.")
             print("> 0 = sorted from min-max\n> 1 = sorted from max-min")
             order = input()
 
