@@ -24,7 +24,7 @@ if __name__ == "__main__":
         index = []
 
         # Open and write new file
-        with open(f"results/algorithms/part1/no_inter_lookahead/netlist_{netlist}.csv", 'w', newline='') as output_file:
+        with open(f"results/algorithms/part2/no_inter_lookahead/netlist_{netlist}.csv", 'w', newline='') as output_file:
             writer = csv.writer(output_file)
             writer.writerow(['index', 'costs'])
 
