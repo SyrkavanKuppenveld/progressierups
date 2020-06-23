@@ -691,7 +691,7 @@ class GreedyNoIntersectLookAhead(GreedyNoIntersect):
                 The Node object that will be the new position of the wire.
         """
 
-        depth = 4
+        DEPTH = 4
         stack = [[]]
         paths = []
 
@@ -705,13 +705,13 @@ class GreedyNoIntersectLookAhead(GreedyNoIntersect):
             # Append the state to path if first iteration is false and it reached the goal 
             # gate or state length equals the depth
             length = len(state)
-            if first is False and (length == depth + 1 or state[length - 1] == goal):
+            if first is False and (length == DEPTH + 1 or state[length - 1] == goal):
                 paths.append(state)
 
             # Only continue if len state does not exceed the depth
             # depth + 1 >> because the current position is also added to the state in the
             # first iteration, however, this should not be included as a depth level
-            elif len(state) < depth + 1:
+            elif len(state) < DEPTH + 1:
                 
                 # Assign next position according to first
                 if first:
@@ -802,7 +802,6 @@ class GreedyNoIntersectLookAhead(GreedyNoIntersect):
         -------
         bool
                 True if successful, otherwise False.
-        
         """
        
         neighbor_coords = neighbor.xcoord, neighbor.ycoord, neighbor.zcoord
@@ -828,7 +827,6 @@ class GreedyNoIntersectLookAhead(GreedyNoIntersect):
         -------
         bool
                 True if successful, otherwise False.
-        
         """
 
         # Get coordinates of neighbor
@@ -947,6 +945,14 @@ class GreedyCosts(Greedy):
                 The wire costs of the step.
         """
         
+        # Magic numbers
+        COST_LAYER_0 = 10
+        COST_LAYER_1 = 8
+        COST_LAYER_2 = 6
+        COST_LAYER_3 = 4
+        COST_INTERSECTION = 10
+        COST_NEIGHBORS = 2
+
         # Get the coordinates of step and goal
         step_coords = step.xcoord, step.ycoord, step.zcoord
         goal_coords = goal.xcoord, step.ycoord, step.zcoord
@@ -960,24 +966,25 @@ class GreedyCosts(Greedy):
         # Only add extra costs if step is not goal
         if step_coords != goal_coords and dist > 4:
             
+            # Add costs according to the layer on which the step lies (zcoord)
             if step.zcoord == 0:
-                cost += 10
+                cost += COST_LAYER_0
             elif step.zcoord == 1:
-                cost += 8
+                cost += COST_LAYER_1
             elif step.zcoord == 2:
-                cost += 6
+                cost += COST_LAYER_2
             elif step.zcoord == 3:
-                cost += 4
+                cost += COST_LAYER_3
 
             # Increment the costs for intersections
             if step.intersection > 0:
-                cost += 10
+                cost += COST_INTERSECTION
 
             # Increment the costs with 2 per neighbor of the step who is 
             # alread wired
             for neighbor in step.neighbors:
                 if neighbor.intersection > 0:
-                    cost += 2
+                    cost += COST_NEIGHBORS
 
         return cost
 
@@ -1089,7 +1096,7 @@ class GreedyLookAheadCosts(GreedyLookAhead):
                 The Node object that will be the new position of the wire.
         """
 
-        depth = 4
+        DEPTH = 4
         stack = [[]]
         paths = []
 
@@ -1103,13 +1110,13 @@ class GreedyLookAheadCosts(GreedyLookAhead):
             # Append the state to path if first iteration is false and it reached the goal 
             # gate or if state length equals the depth
             length = len(state)
-            if first is False and (length == depth + 1 or state[length - 1] == goal):
+            if first is False and (length == DEPTH + 1 or state[length - 1] == goal):
                 paths.append(state)
 
             # Only continue if len state does not exceed the depth
             # depth + 1 >> because the current position is also added to the state in the
             # first iteration, however, this should not be included as a depth level
-            elif len(state) < depth + 1:
+            elif len(state) < DEPTH + 1:
                 
                 # Assign next position according to first
                 if first:
@@ -1177,6 +1184,14 @@ class GreedyLookAheadCosts(GreedyLookAhead):
                 The wire costs of the step.
         """
         
+        # Magic numbers
+        COST_LAYER_0 = 10
+        COST_LAYER_1 = 8
+        COST_LAYER_2 = 6
+        COST_LAYER_3 = 4
+        COST_INTERSECTION = 10
+        COST_NEIGHBORS = 2
+
         # Get the coordinates of step and goal
         step_coords = step.xcoord, step.ycoord, step.zcoord
         goal_coords = goal.xcoord, step.ycoord, step.zcoord
@@ -1188,22 +1203,22 @@ class GreedyLookAheadCosts(GreedyLookAhead):
         # Only add extra costs if step is not goal
         if step_coords != goal_coords and dist > 4:
             if step.zcoord == 0:
-                cost += 10
+                cost += COST_LAYER_0
             elif step.zcoord == 1:
-                cost += 8
+                cost += COST_LAYER_1
             elif step.zcoord == 2:
-                cost += 6
+                cost += COST_LAYER_2
             elif step.zcoord == 3:
-                cost += 4
+                cost += COST_LAYER_3
 
             # Increment the costs for intersections
             if step.intersection > 0:
-                cost += 10
+                cost += COST_INTERSECTION
 
             # Increment the costs with 2 per neighbor of the step who is alread wired
             for neighbor in step.neighbors:
                 if neighbor.intersection > 0:
-                    cost += 2
+                    cost += COST_NEIGHBORS
 
         return cost
 
