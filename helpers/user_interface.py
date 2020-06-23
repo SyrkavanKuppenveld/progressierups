@@ -216,6 +216,7 @@ def hillclimber_restarts():
         # Prompt user for the number of restarts
         print("\033[1m""How many times would you like the hillclimber to restart?""\033[0m")
         frequency = input()
+        print()
 
         # Quit if user input is correct
         if frequency.isdigit():
@@ -241,7 +242,7 @@ def get_flow(plot):
 
     # Questions
     q1_start_state = "Would you like to see the start states of the hillclimber algorithm?"
-    q1_conversion = "\nWould you like to see the conversion plot of the hillclimber algorithm?"
+    q1_conversion = "Would you like to see the conversion plot of the hillclimber algorithm?"
 
     q2_start_state = "Would you like to save the start states of the hillclimber algorithm?"
     q2_conversion = "Would you like to save the conversion plot of the hillclimber algorithm?"
@@ -260,6 +261,7 @@ def get_flow(plot):
         # Ask user if the plot should be shown
         print("\033[1m"f"{q1} (y/n)""\033[0m")
         show = input()
+        print()
 
         # Quit if user input is correct
         if show in options:
@@ -278,9 +280,9 @@ def get_flow(plot):
     while not correct:
 
         # Ask user if the plot of the Hillclimber algorithm should be saved
-        print()
         print("\033[1m"f"{q2} (y/n)""\033[0m")
         save = input()
+        print()
 
         # Quit if user input is correct
         if save in options:
@@ -685,7 +687,7 @@ def visualize_save_results(graph, wire_path):
         plot = visualisation.run(True)
         plot.savefig("results/visualization_algorithm.png")
         print()
-        print("For saved visualization see: 'results/visualization_algorithm.png'.")
+        print("\033[34m""For saved visualization see: 'results/visualization_algorithm.png'.""\033[0m")
     elif show == 'y' and save == 'n':
 
         # Visualize the results
@@ -698,7 +700,7 @@ def visualize_save_results(graph, wire_path):
         plot = visualisation.run(False)
         plot.savefig("results/visualization_algorithm.png")
         print()
-        print("For saved visualization see: 'results/visualization_algorithm.png'.")
+        print("\033[34m""For saved visualization see: 'results/visualization_algorithm.png'.""\033[0m")
 
 
 def heatmap_visualize_save(nodes, wire):
@@ -757,7 +759,7 @@ def heatmap_visualize_save(nodes, wire):
         plot = heatmap.run(True)
         plot.savefig("results/heatmap_algorithm.png")
         print()
-        print("For saved visualization see: 'results/heatmap_algorithm.png'.")
+        print("\033[34m""For saved visualization see: 'results/heatmap_algorithm.png'.""\033[0m")
     elif show == 'y' and save == 'n':
 
         # Visualize the heatmap
@@ -770,7 +772,7 @@ def heatmap_visualize_save(nodes, wire):
         plot = heatmap.run(False)
         plot.savefig("results/heatmap_algorithm.png")
         print()
-        print("For saved visualization see: 'results/heatmap_algorithm.png'.")
+        print("\033[34m""For saved visualization see: 'results/heatmap_algorithm.png'.""\033[0m")
 
 
 def restart_program():
@@ -798,3 +800,5 @@ def restart_program():
         main()
     elif restart == '2':
         sys.exit()
+
+    print()

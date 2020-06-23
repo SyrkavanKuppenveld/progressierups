@@ -72,6 +72,6 @@ def save_csv(netlist_file, outfile, wire_path, costs):
         writer.writerow([f"({connection[0]},{connection[1]})", f"{layout}"])
 
     # Write row with chip and netlist information
-    writer.writerow([f'chip_{chip}_net_{net}', costs])
+    writer.writerow([f"chip_{chip}_net_{net}", costs])
 
-    print("For output see: 'output.csv'.")
+    print("\033[34m""For output see: 'output.csv'.""\033[0m")
