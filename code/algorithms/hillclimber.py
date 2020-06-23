@@ -23,6 +23,12 @@ __maintainer__ = 'Eline van Groningen, Mimoun Boulfich, Syrka van Kuppenveld'
 __email__ = 'elinevangroningen@gmail.com, mimounboulfich@live.nl, syrkavankuppenveld@gmail.com'
 __status__ = 'Dev'
 
+"""
+Code for Hillclimber algorithm.
+
+
+This module contains the code for the hillclimber algorithm. 
+"""
 
 class HillClimber(GreedyLookAhead):
     """ 
@@ -168,10 +174,12 @@ class HillClimber(GreedyLookAhead):
         connection_path = self.wire_path[connection]
        
         for coordinates in connection_path:    
+
             # Remove old path coordinates from the coordinate storage of the Wire Object
             # Gates can never be an intersection and thus will not be taken into account
             node = self.graph.nodes[coordinates]
             if node.isgate is False:
+
                 # Remove node from coordinate storage
                 self.wire.coords.remove(node)
 
@@ -201,6 +209,7 @@ class HillClimber(GreedyLookAhead):
         
         not_found = True
         new_path = None
+
         # Repeat until a path is correctly built
         while not_found:
                 try:
@@ -237,6 +246,7 @@ class HillClimber(GreedyLookAhead):
         
         # If state improved (i.e. cost decreased):
         if improvement:
+
             # Confirm adjustment
             self.best_cost = self.cost
             self.best_graph = self.graph

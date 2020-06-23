@@ -13,6 +13,13 @@ __maintainer__ = 'Eline van Groningen, Mimoun Boulfich, Syrka van Kuppenveld'
 __email__ = 'elinevangroningen@gmail.com, mimounboulfich@live.nl, syrkavankuppenveld@gmail.com'
 __status__ = 'Dev'
 
+"""
+Code for th Wire class.
+
+
+This module contains the code for the Wire class. 
+"""
+
 
 class Wire():
     """

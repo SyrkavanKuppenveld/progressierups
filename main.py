@@ -21,6 +21,13 @@ __maintainer__ = 'Eline van Groningen, Mimoun Boulfich, Syrka van Kuppenveld'
 __email__ = 'elinevangroningen@gmail.com, mimounboulfich@live.nl, syrkavankuppenveld@gmail.com'
 __status__ = 'Dev'
 
+"""
+Run program.
+
+
+This module contains the code for running the program.
+"""
+
 
 def main():
     """

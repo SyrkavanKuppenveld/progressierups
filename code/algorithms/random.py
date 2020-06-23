@@ -17,6 +17,12 @@ __maintainer__ = 'Eline van Groningen, Mimoun Boulfich, Syrka van Kuppenveld'
 __email__ = 'elinevangroningen@gmail.com, mimounboulfich@live.nl, syrkavankuppenveld@gmail.com'
 __status__ = 'Dev'
 
+"""
+Code for a Random algorithm. 
+
+
+This module contains the code for a Random algorithm. 
+"""
 
 class Random():
     """ 
@@ -43,7 +49,8 @@ class Random():
         self.wire = Wire()   
 
     def get_next_connection(self, connections):
-        """Randomly returns a connection.
+        """
+        Randomly returns a connection.
         
         Parameters
         ----------
@@ -59,7 +66,8 @@ class Random():
         return connections.pop(random.randrange(0, len(connections)))
 
     def get_next_neighbor(self, neighbors):
-        """Randomly returns a neighbour.
+        """
+        Randomly returns a neighbour.
         
         Parameters
         ----------
