@@ -1,10 +1,26 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+# Built-in/Generic Imports
+import csv
+import os
+import sys
+
+# Own modules
 import code.classes as cs
 import code.algorithms as alg
 from code.visualization.visualize import ChipVisualization
 import helpers as hlp
-import csv
-import sys
-import os
+
+__author__ = 'Eline van Groningen, Mimoun Boulfich, Syrka van Kuppenveld'
+__copyright__ = 'Copyright 2020, Chips & Circuits'
+__credits__ = ['Eline van Groningen, Mimoun Boulfich, Syrka van Kuppenveld']
+__license__ = 'GNU GPL 3.0'
+__version__ = '0.1.0'
+__maintainer__ = 'Eline van Groningen, Mimoun Boulfich, Syrka van Kuppenveld'
+__email__ = 'elinevangroningen@gmail.com, mimounboulfich@live.nl, syrkavankuppenveld@gmail.com'
+__status__ = 'Dev'
+
 
 def main():
     """
