@@ -453,4 +453,4 @@ class HillClimber(GreedyLookAhead):
             self.save_plot(conversion_plot_visualisation, filename)
         
         # Returns a dictionary of the connections (=key) and the constructed path (=value)
-        return self.wire_path
+        return self.overall_best_wire_path
