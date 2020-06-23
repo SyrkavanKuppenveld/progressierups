@@ -444,12 +444,17 @@ class HillClimber(GreedyLookAhead):
         # and the overall best found cost
         else:
             for i, cost in enumerate(self.restart_climbers_costs):
-                print(f"Best cost Hillclimber no. {i}: {cost}")
+                print(f"Best wire cost Hillclimber no. {i} = {cost}")
             print("\033[33m"f"Overall best wire costs = {self.overall_best_cost}\n""\033[0m")
 
     def get_return_path(self):
         """
-        Returns the best path acquired by the hillclimber
+        Returns the best path acquired by the hillclimber.
+
+        Returns
+        -------
+        dict
+                A dict with connections as key and the wire path as value.
         """
 
         return_path = None
@@ -457,16 +462,22 @@ class HillClimber(GreedyLookAhead):
         # Returns a dictionary the best found path of the single Hillclimber
         if self.frequency == 1:
             return_path = self.best_wire_path
+
         # Returns a dictionary the overall best found path by the Restart hillclimber
         else:
             return_path = self.overall_best_wire_path
 
         return return_path
 
-    
     def run(self):
         """
         Runs the HillClimber algorithm a number of times, the frequency is given by user.
+
+        Returns
+        -------
+
+        dict
+                A dict with connections as key and the wire path as value.
         """
 
         hillclimber_count = 0
