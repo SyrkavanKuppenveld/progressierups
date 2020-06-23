@@ -402,6 +402,7 @@ def heuristic_input(netlist, algorithm):
         # Only continue if heuristic for correct input
         if heuristic in options:
 
+            # Convert heuristic to integer
             heuristic = int(heuristic)
 
             # Set correct to true
