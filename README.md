@@ -6,7 +6,7 @@ Chips (or: integrated circuits) are found in various places in our everyday life
 
 A chip is made up of a small plate of silicon, an is usually designed logically and subsequentially transformed to a list of connectable gates (= netlist). This netlist, is finally transformed into a 2-dimensional design on a silicon base. The last step of connecting the gates, is highly volatile. Good arrangements with short nets lead to faster circuits, whereas poor arrangements with long nets lead to slower circuits. Besides, shorter nets are cheaper than long nets. So, a good arrangement of logical gates and short nets between them is of vital importance, both economically and performancewise.
 
-We are provided with chips and netlists and it is up to us to find good wiring patterns.
+We are provided with chips and netlists and it is up to us to write algorithms and use use heuristics to find good wiring patterns with.
 
 ## Getting Started
 The code is entirely written in Python 3.7. The instructions below will enable you to get the project up and running on your local machine.
