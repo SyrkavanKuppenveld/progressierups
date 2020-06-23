@@ -4,6 +4,7 @@
 # Built-in/Generic Imports
 import random
 import os
+import math
 
 # Libs
 import matplotlib.pyplot as plt
@@ -90,11 +91,17 @@ class HillClimber(GreedyLookAhead):
         self.wire_path = None
         self.cost = None
 
-        # Keeps track of best state encountered
+        # Keeps track of best state encountered in run
         self.best_graph = graph
         self.best_wire = None
         self.best_wire_path = None
         self.best_cost = None
+
+        # Keeps track of best state encountered by all Hillclimbers
+        self.overall_best_graph = None
+        self.overall_best_wire = None
+        self.overall_best_wire_path = None
+        self.overall_best_cost = math.inf
 
         # Used to check on conversion
         self.improvements = [True]
@@ -207,24 +214,19 @@ class HillClimber(GreedyLookAhead):
         # Update wire_path
         self.wire_path[connection] = new_path
 
-    def check_improvement(self, cost):
+    def check_improvement(self):
         """ 
         Checks if the adjusment was an improvent or not.
 
-        Paramters
-        ---------
-        cost: an int
-                An int representing the hight of the cost of the adjusted state.
-        
         Returns 
         -------
         Bool:
                 True if the state improved, else false.
         """
 
-        return cost < self.best_cost
+        return self.cost < self.best_cost
 
-    def confirm_improvement(self, improvement, cost):
+    def confirm_improvement(self, improvement):
         """
         Update best found state if the adjusted state was an improvement.
 
@@ -232,17 +234,27 @@ class HillClimber(GreedyLookAhead):
         ---------
         improvement: bool
                 A boolean representing the answer to wether or not the costs decreased.
-        cost: an int
-                An int representing the hights of the cost of the adjusted state.
         """
         
         # If state improved (i.e. cost decreased):
         if improvement:
             # Confirm adjustment
-            self.best_cost = cost
+            self.best_cost = self.cost
             self.best_graph = self.graph
             self.best_wire = self.wire
             self.best_wire_path = self.wire_path
+
+    def check_overall_improvement(self):
+        """ 
+        Checks if the current Hillclimber generated a solution with the lowest
+        cost thusfar.
+
+        Returns 
+        -------
+        Bool:
+                True if the overall best cost improved, else false.
+        """
+        return self.best_cost < self.overall_best_cost
     
     def track_iterations(self):
         """
@@ -392,13 +404,13 @@ class HillClimber(GreedyLookAhead):
                 self.apply_random_adjustment(connection, gates)
 
                 # Compute cost of adjusted state
-                cost = self.wire.compute_costs()
+                self.cost = self.wire.compute_costs()
 
-                # Check is adjusment resulted in an improved state
-                improvement = self.check_improvement(cost)
+                # Check is adjustment resulted in an improved state
+                improvement = self.check_improvement()
 
                 # Confirm adjustment if state improved
-                self.confirm_improvement(improvement, cost)
+                self.confirm_improvement(improvement)
 
                 # Update improvements list
                 self.improvements.append(improvement)
@@ -408,6 +420,13 @@ class HillClimber(GreedyLookAhead):
 
                 # Update iter count of current climb
                 iter_count += 1
+
+            # Check if an overall improvement has taken place
+            overall_improvement = self.check_overall_improvement()
+
+            # If an overall improvement has taken place, update overall best cost
+            if overall_improvement:
+                self.overall_best_cost = self.best_cost
             
             # Reset conversion status
             self.improvements = [True]
@@ -417,6 +436,7 @@ class HillClimber(GreedyLookAhead):
 
         # Notify user
         print("Algorithm converged")
+        print(f"Best cost: {self.best_cost}")
 
         # Visualize conversion plot
         if self.show_conversion_plot:

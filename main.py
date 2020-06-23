@@ -39,8 +39,8 @@ def main():
     if algorithm == 3 or algorithm == 4:
         frequency, start_state_flow, conversion_plot_flow = hlp.uif.get_hillclimber_flow(algorithm)
 
-    # Prompt user for heuristics if possible for algorithm choice
-    if algorithm != 0:
+    # Only prompt user for heuristics if algorithm is not random (=0) and no hillclimber (=3 & 4)
+    if algorithm != 0 and algorithm != 3 and algorithm != 4:
         heuristic = hlp.uif.heuristic_input(netlist, algorithm)
         if heuristic < 3:
             print()
