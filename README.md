@@ -100,3 +100,6 @@ The following list describes the most important files in the project and where t
 
 ## License
 This project is licensed under the GNU GENERAL PUBLIC LICENSE 3.0 - see the [LICENSE](https://github.com/SyrkavanKuppenveld/progressierups/blob/master/LICENSE) file for details.
+
+## Acknowledgements
+Many thanks to all the TA's for guiding us through the state space!
