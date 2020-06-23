@@ -79,7 +79,7 @@ def main():
     wire_path = algo.run()
     print("Algorithm completed!\n")
 
-    # Print wire costs
+    # Print wire costs if
     wire_costs = algo.wire.compute_costs()
     print("\033[1m"f"Wire costs = {wire_costs}""\033[0m")
     print()
