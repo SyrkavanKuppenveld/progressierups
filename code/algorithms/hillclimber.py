@@ -65,6 +65,9 @@ class HillClimber(GreedyLookAhead):
                 The number of the used netlist.
         """
 
+        # Empirically chosen number of iterations
+        self.ITERATIONS = 300
+        
         # Used chip and netlist
         self.chip = chip
         self.netlist = netlist
@@ -75,11 +78,8 @@ class HillClimber(GreedyLookAhead):
         self.show_conversion_plot = conversion_flow[0]
         self.save_conversion_plot = conversion_flow[1]
 
-        # Empirically chosen number of iterations
-        self.iterations = 200
-
         # Frequency of restarts entered by user
-        self.frequency = frequency
+        self.frequency = int(frequency)
 
         # Keeps track state after adjustment
         self.graph = graph
@@ -232,7 +232,7 @@ class HillClimber(GreedyLookAhead):
         """
         
         # Keep track of the past N iterations
-        if len(self.improvements) == self.iterations:
+        if len(self.improvements) == self.ITERATIONS:
             # Make room for next iteration
             self.improvements.pop(0)
     
@@ -246,6 +246,7 @@ class HillClimber(GreedyLookAhead):
                 A matplotlib figure of the start state of the chip.
         """
         visualization = ChipVisualization(self.graph.gates, self.wire_path)
+        print(f"self.wire_path {self.wire_path}")
         start_state_visualisation = visualization.run(False)
         
         return start_state_visualisation
@@ -396,3 +397,6 @@ class HillClimber(GreedyLookAhead):
         # Save conversion plot
         if self.save_conversion_plot:
             self.save_plot(conversion_plot_visualisation, filename)
+        
+        # Returns a dictionary of the connections (=key) and the constructed path (=value)
+        return self.wire_path

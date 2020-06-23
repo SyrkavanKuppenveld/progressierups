@@ -30,12 +30,12 @@ This module contains the code for the implementation of the user interface of th
 
 def chip_input():
     """
-    Returns the chip number choosen by the user.
+    Returns the chip number chosen by the user.
 
     Returns
     -------
     int 
-            An integer representing the chip number choosen by the user.
+            An integer representing the chip number chosen by the user.
     """
 
     options = {'0', '1', '2'}
@@ -44,7 +44,7 @@ def chip_input():
     while not correct:
 
         # Prompt user for chip
-        print("\033[1m""Choose a chip: 0, 1 or 2?""\033[0m")
+        print("\n\033[1m""Choose a chip: 0, 1 or 2?""\033[0m")
         chip = input()
 
         # Quit if user input is correct
@@ -56,7 +56,7 @@ def chip_input():
 
 def netlist_input(chip):
     """
-    Returns netlist number choosen by the user.
+    Returns netlist number chosen by the user.
 
     Parameters
     ----------
@@ -240,34 +240,32 @@ def get_flow(plot):
     correct = False
 
     # Questions
-    q1_start_state = "Would you like to see the start states of the hillclimber algorithm?"
-    q1_conversion = "Would you like to see the conversion plot of the hillclimber algorithm?"
-    questions1 = [q1_start_state, q1_conversion]
+    q1_start_state = "\nWould you like to see the start states of the hillclimber algorithm?"
+    q1_conversion = "\nWould you like to see the conversion plot of the hillclimber algorithm?"
 
     q2_start_state = "Would you like to save the start states of the hillclimber algorithm?"
     q2_conversion = "Would you like to save the conversion plot of the hillclimber algorithm?"
-    questions2 = [q2_start_state, q2_conversion]
 
     # Adapt questions to the plot being asked
     if plot == 'start_state':
-        q1 = questions1[0]
-        q2 = questions2[0]
+        q1 = q1_start_state
+        q2 = q2_start_state
     else:
-        q1 = questions1[1]
-        q2 = questions2[1]
+        q1 = q1_conversion
+        q2 = q2_conversion
 
     # Ensure proper usage
     while not correct:
         
         # Ask user if the plot should be shown
-        print("\033[1m"f"{q1} (y/n)""\033[0m")
+        print("\033[1m"f"{q1} (y/n)?""\033[0m")
         show = input()
 
         # Quit if user input is correct
         if show in options:
             correct = True
 
-    # Convert save to bool
+    # Convert show to bool
     if show == 'y':
         show_bool = True
     else:
@@ -356,7 +354,7 @@ def heuristic_input(netlist, algorithm):
     while not correct:
 
         # Prompt user for heuristic 
-        print("\033[1m""Which heuristic would you like to implement?""\033[0m")
+        print("\n\033[1m""Which heuristic would you like to implement?""\033[0m")
         print("For more information on the algorithms press 9 directly followed by the heuristic number.")
         print("> 0 = none\n> 1 = 'Social Map'\n> 2 = 'Better a neighbor who is near than an brother far away?\n> 3 = 'Sky is the Limit'\n> 4 = 'Can't Touch This'")
         heuristic = input()
