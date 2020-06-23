@@ -23,7 +23,6 @@ file according to the correct check50 layout.
 """
 
 
-
 def save_csv(netlist_file, outfile, wire_path, costs):
     """
     Output a CSV file containing the wire path per connection.
@@ -74,4 +73,4 @@ def save_csv(netlist_file, outfile, wire_path, costs):
     # Write row with chip and netlist information
     writer.writerow([f"chip_{chip}_net_{net}", costs])
 
-    print("\033[34m""For output see: 'output.csv'.""\033[0m")
+    print("\033[34m""For output see: 'results/output.csv'.""\033[0m")
