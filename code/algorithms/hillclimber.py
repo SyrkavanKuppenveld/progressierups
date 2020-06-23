@@ -438,14 +438,14 @@ class HillClimber(GreedyLookAhead):
 
         # If a normal hillclimber was run, print best found cost
         if self.frequency == 1:
-            print("\033[33m"f"Cost: {self.best_cost}\n""\033[0m")
+            print("\033[33m"f"Wire costs = {self.best_cost}\n""\033[0m")
         
         # If a restart hillclimber was run print best found costs of all hillclimbers
         # and the overall best found cost
         else:
             for i, cost in enumerate(self.restart_climbers_costs):
                 print(f"Best cost Hillclimber no. {i}: {cost}")
-            print("\033[33m"f"Overall best cost: {self.overall_best_cost}\n""\033[0m")
+            print("\033[33m"f"Overall best wire costs = {self.overall_best_cost}\n""\033[0m")
 
     def get_return_path(self):
         """
