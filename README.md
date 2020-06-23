@@ -28,6 +28,59 @@ This will install the correct versions of:
 - seaborn (0.10.1)     
 
 ### Usage
+Running:
+
+`python main.py`
+
+will start an interactive interface. It will ask you which:
+- chip
+- netlist
+- algorithm
+- heuristic(s)
+...are to be used for generating a solution.
+
+Subsequently, it will ask whether the solution(s) and/or plot(s) need to be shown and/or saved.
+
+After all choices have been made, the program will start generating a solution.
+
+**Possible Choices**
+_Chip_      _Netlist_
+Chip 0      Netlist 1
+            Netlsit 2
+            Netlist 3
+
+Chip 1      Netlist 4
+            Netlist 5
+            Netlist 6
+
+Chip 2      Netlist 7
+            Netlist 8
+            Netlist 9
+
+_Algorithm_
+- Random
+    Korte uitleg...
+- Greedy
+    Korte uitleg...
+- Greedy Look Ahead
+    Korte uitleg...
+- Hillclimber
+    Korte uitleg...
+- Restart Hillclimber
+    Korte uitleg...
+
+_Heuristics_
+- Social Map
+    Korte uitleg...
+- Better A Neighbor Who Is Near Than A Brother Far Away?
+    Korte uitleg...
+- Sky Is The Limit
+    Korte uitleg...
+- Wire Can’t Touch This
+    Korte uitleg...
+- Wire Jam
+    Korte uitleg...
+
 (...<nog verder in te vullen>)
 
 ### Repository

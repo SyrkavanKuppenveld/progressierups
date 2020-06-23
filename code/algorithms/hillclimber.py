@@ -105,7 +105,11 @@ class HillClimber(GreedyLookAhead):
     
     def get_random_start_state(self, i):
         
-        print(f"Computing random start state no. {i}...")
+        # Update user on which climber is running if multiple
+        if i > 1:
+            print(f"Hillclimber no. : {i}")
+        
+        print(f"Computing random start state...")
         
         # Get random Start State
         algo = Random(self.best_graph)
@@ -117,6 +121,7 @@ class HillClimber(GreedyLookAhead):
         self.best_cost = algo.wire.compute_costs()
         
         print("Start state found")
+        print("Running algorithm...")
     
     def get_random_connection(self):
         """
@@ -340,7 +345,7 @@ class HillClimber(GreedyLookAhead):
 
         iteration = 0
 
-        for i in range(self.frequency):
+        for i in range(self.frequency):  
 
             # Get random start state
             self.get_random_start_state(i)
@@ -354,7 +359,7 @@ class HillClimber(GreedyLookAhead):
             
             # Personalize the filenames of the start state
             filename = None
-            if i == 1:
+            if self.frequency == 1:
                 filename = 'Start state Hillclimber.png'
             else:
                 filename = f'Start state Restart Hillclimber no. {i}.png'
@@ -363,10 +368,15 @@ class HillClimber(GreedyLookAhead):
             if self.save_start_state:
                 self.save_plot(start_state_visualisation, filename)
 
+            iter_count = 0
+
             # Repeat until conversion has occured
             while True in self.improvements:
 
-                # # Keep track of the HillClimbers' cost
+                # Update user on progress 
+                print(f"Iteration: {iter_count}")
+
+                # Keep track of the HillClimbers' cost
                 self.climbers_costs.append(self.best_cost)
                 self.iteration.append(iteration)
                 iteration += 1
@@ -393,8 +403,11 @@ class HillClimber(GreedyLookAhead):
                 # Update improvements list
                 self.improvements.append(improvement)
 
-                # Keep track of the pas N iterations
+                # Keep track of the past N iterations of all climbs if multiple
                 self.track_iterations()
+
+                # Update iter count of current climb
+                iter_count += 1
             
             # Reset conversion status
             self.improvements = [True]
@@ -411,7 +424,7 @@ class HillClimber(GreedyLookAhead):
 
         # Personalize the filenames of the conversion plot
         filename = None
-        if i == 1:
+        if self.frequency == 1:
                 filename = 'Conversion Plot Hillclimber.png'
         else:
                 filename = f'Conversion Plot Restart Hillclimber no. {i}.png'
