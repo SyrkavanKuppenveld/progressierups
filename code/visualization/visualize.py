@@ -176,7 +176,7 @@ class WireHeatmap(ChipVisualization):
         # Plot wire density per node
         self.plot_heat(dfNodeWireDensities)
 
-        # Show the 3D visualisation of the Chip
+        # Show the 3D visualisation of the Heatmap
         if visualization_bool == True:
             plt.show()
 

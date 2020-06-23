@@ -28,60 +28,53 @@ This will install the correct versions of:
 - seaborn (0.10.1)     
 
 ### Usage
-Running:
-
-`python main.py`
-
-will start an interactive interface. It will ask you which:
+Running `python main.py` will start an interactive interface which will ask you which:
 - chip
 - netlist
 - algorithm
-- heuristic(s)
-...are to be used for generating a solution.
+- heuristic(s)     
+...are to be used.
 
 Subsequently, it will ask whether the solution(s) and/or plot(s) need to be shown and/or saved.
-
 After all choices have been made, the program will start generating a solution.
 
-**Possible Choices**
-_Chip_      _Netlist_
-Chip 0      Netlist 1
-            Netlsit 2
-            Netlist 3
+**Possible Choices**    
+_Chip_&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_Netlist_    
+Chip 0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Netlist 1    
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Netlist 2    
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Netlist 3    
 
-Chip 1      Netlist 4
-            Netlist 5
-            Netlist 6
+Chip 1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Netlist 4    
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Netlist 5    
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Netlist 6    
 
-Chip 2      Netlist 7
-            Netlist 8
-            Netlist 9
+Chip 2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Netlist 7    
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Netlist 8    
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Netlist 9    
 
-_Algorithm_
-- Random
+_Algorithm_    
+- Random    
     Korte uitleg...
-- Greedy
+- Greedy    
     Korte uitleg...
-- Greedy Look Ahead
+- Greedy Look Ahead    
     Korte uitleg...
-- Hillclimber
+- Hillclimber    
     Korte uitleg...
-- Restart Hillclimber
-    Korte uitleg...
-
-_Heuristics_
-- Social Map
-    Korte uitleg...
-- Better A Neighbor Who Is Near Than A Brother Far Away?
-    Korte uitleg...
-- Sky Is The Limit
-    Korte uitleg...
-- Wire Can’t Touch This
-    Korte uitleg...
-- Wire Jam
+- Restart Hillclimber    
     Korte uitleg...
 
-(...<nog verder in te vullen>)
+_Heuristics_    
+- Social Map    
+    Korte uitleg...    
+- Better A Neighbor Who Is Near Than A Brother Far Away?    
+    Korte uitleg...    
+- Sky Is The Limit    
+    Korte uitleg...    
+- Wire Can’t Touch This    
+    Korte uitleg...    
+- Wire Jam    
+    Korte uitleg...    
 
 ### Repository
 The following list describes the most important files in the project and where to find them:
