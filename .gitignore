@@ -1,3 +1,6 @@
+# Ignore exmple files
+example
+
 # Ignore personal test files
 eline.py
 class_eline.py
