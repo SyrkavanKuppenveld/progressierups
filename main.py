@@ -79,12 +79,19 @@ def main():
     wire_path = algo.run()
     print("Algorithm completed!\n")
 
+<<<<<<< HEAD
     # Print wire costs if anything but a Hillclimber is run, since the Hillclimber
     # handles its own costst
     if algorithm != 3 and algorithm != 4:
         wire_costs = algo.wire.compute_costs()
         print("\033[1m"f"Wire costs = {wire_costs}""\033[0m")
         print()
+=======
+    # Print wire costs
+    wire_costs = algo.wire.compute_costs()
+    print("\033[1m"f"Wire costs = {wire_costs}""\033[0m")
+    print()
+>>>>>>> 2bf311d3f45899090d4178c3d8072d016e54ebec
 
     # Visualize and or save algorithm results based on user's input
     hlp.uif.visualize_save_results(graph, wire_path)
@@ -100,6 +107,7 @@ def main():
         hlp.save_csv(netlist_file, output_file, wire_path, costs)
     print()
 
+    # Restart or quit program
     print("\033[1m""Would you like to run another algorithm? (y/n)""\033[0m")
     rerun = input()
     if rerun == 'y':
