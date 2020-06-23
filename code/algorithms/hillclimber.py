@@ -323,7 +323,7 @@ class HillClimber(GreedyLookAhead):
 
     def show_conversion(self, plt):
         """
-        Shows conversion plot
+        Shows conversion plot of the HillClimber
 
         Paramters
         ---------
@@ -335,7 +335,7 @@ class HillClimber(GreedyLookAhead):
     
     def run(self):
         """
-        Runs the HillClimber algorithm a number of times, frequency is given by user.
+        Runs the HillClimber algorithm a number of times, the frequency is given by user.
         """
 
         iteration = 0
