@@ -106,12 +106,13 @@ class HillClimber(GreedyLookAhead):
 
         # Keep track of the HillClimbers' cost
         self.climbers_costs = []
+        self.restart_climbers_costs = []
         self.iteration = []
     
     def get_random_start_state(self, i):
         
         # Update user on which climber is running if multiple
-        if i > 1:
+        if self.frequency > 1:
             print(f"Hillclimber no. : {i}")
         
         print(f"Computing random start state...")
@@ -264,6 +265,23 @@ class HillClimber(GreedyLookAhead):
             # Make room for next iteration
             self.improvements.pop(0)
     
+    def handle_start_state_visualization(self, i):
+        """
+        Handles the showing and saving of the start state visualization.
+        """
+        # Construct visualisation of the start state
+        start_state_visualisation = self.visualize_chip()
+
+        # Visualise start state
+        if self.show_start_state:
+            self.show_chip(start_state_visualisation)
+        
+        # Save start state
+        if self.save_start_state:
+            filename = self.get_filename_startstate(i)
+            self.save_plot(start_state_visualisation, filename)
+    
+    
     def visualize_chip(self):
         """
         Constructs a visualization of the start state of the chip.
@@ -289,6 +307,44 @@ class HillClimber(GreedyLookAhead):
         """
         _ = self.visualization.run(True)
 
+    def get_filename_startstate(self, i):
+        """ 
+        Personalizes and returns filename of the start state according to 
+        the type of Hillclimber used.
+
+        Returns
+        -------
+        string
+                A string representing the name of the file
+        """
+        
+        filename = None
+        if self.frequency == 1:
+            filename = 'Start state Hillclimber.png'
+        else:
+            filename = f'Start state Restart Hillclimber no. {i}.png'
+        
+        return filename
+
+    def get_filename_conversion(self):
+        """ 
+        Personalizes and returns filename of the conversion plot according to 
+        the type of Hillclimber used.
+
+        Returns
+        -------
+        string
+                A string representing the name of the file
+        """
+        
+        filename = None
+        if self.frequency == 1:
+                filename = 'Conversion Plot Hillclimber.png'
+        else:
+                filename = f'Conversion Plot Restart Hillclimber.png'
+
+        return filename
+
     def save_plot(self, plt, filename):
         """
         Saves the start state to the results folder.
@@ -311,6 +367,23 @@ class HillClimber(GreedyLookAhead):
 
         # Save figure
         plt.savefig(results_dir + filename)
+
+    def handle_conversion_plot_visualization(self):
+        """
+        Handles the showing and saving of the conversion plot of the hillclimber(s).
+        """
+
+        # Construct conversion plot
+        conversion_plot_visualisation = self.visualize_conversion()
+
+        # Visualize conversion plot
+        if self.show_conversion_plot:
+            self.show_conversion(conversion_plot_visualisation)
+
+        # Save conversion plot
+        if self.save_conversion_plot:
+            filename = self.get_filename_conversion()
+            self.save_plot(conversion_plot_visualisation, filename)
     
     def visualize_conversion(self):
         """
@@ -347,12 +420,29 @@ class HillClimber(GreedyLookAhead):
         """
         plt.show()
 
+    def notify_user(self):
+        """
+        Notify user on the found costs.
+        """
+
+        # If a normal hillclimber was run, print best found cost
+        if self.frequency == 1:
+            print(f"Best cost: {self.best_cost}\n")
+        
+        # If a restart hillclimber was run print best found costs of all hillclimbers
+        # and the overall best found cost
+        else:
+            for i, cost in enumerate(self.restart_climbers_costs):
+                print(f"Best cost Hillclimber no. {i}: {cost}")
+            print(f"Overall best cost: {self.overall_best_cost}\n")
+
     
     def run(self):
         """
         Runs the HillClimber algorithm a number of times, the frequency is given by user.
         """
 
+        hillclimber_count = 0
         iteration = 0
 
         for i in range(self.frequency):  
@@ -360,33 +450,19 @@ class HillClimber(GreedyLookAhead):
             # Get random start state
             self.get_random_start_state(i)
 
-            # Construct visualisation of the start state
-            start_state_visualisation = self.visualize_chip()
+            # Handle the visualization of the start state
+            self.handle_start_state_visualization(i)
 
-            # Visualise start state
-            if self.show_start_state:
-                self.show_chip(start_state_visualisation)
-            
-            # Personalize the filenames of the start state
-            filename = None
-            if self.frequency == 1:
-                filename = 'Start state Hillclimber.png'
-            else:
-                filename = f'Start state Restart Hillclimber no. {i}.png'
-            
-            # Save start state
-            if self.save_start_state:
-                self.save_plot(start_state_visualisation, filename)
-
-            iter_count = 0
+            reset_iter = 0
 
             # Repeat until conversion has occured
             while True in self.improvements:
 
                 # Update user on progress 
-                print(f"Iteration: {iter_count}")
+                print(f"Iteration: {reset_iter}")
+                reset_iter += 1
 
-                # Keep track of the HillClimbers' cost
+                # Keep track of the HillClimbers' costs
                 self.climbers_costs.append(self.best_cost)
                 self.iteration.append(iteration)
                 iteration += 1
@@ -416,41 +492,39 @@ class HillClimber(GreedyLookAhead):
                 # Keep track of the past N iterations of all climbs if multiple
                 self.track_iterations()
 
-                # Update iter count of current climb
-                iter_count += 1
+                # Update count of current hillclibmer
+                hillclimber_count += 1
+            
+            # Notify user on conversion of algorithm
+            print("Algorithm converged\n")
 
-            # Check if an overall improvement has taken place
-            overall_improvement = self.check_overall_improvement()
-
-            # If an overall improvement has taken place, update overall best cost en best wire path
-            if overall_improvement:
-                self.overall_best_cost = self.best_cost
-                self.overall_best_wire_path = self.best_wire_path
+            # If a restart hillclimber is run:
+            if self.frequency != 1:
+                # Keep track of best costs found per restart
+                self.restart_climbers_costs.append(self.best_cost)
+                # Check if an overall improvement has taken place
+                overall_improvement = self.check_overall_improvement()
+                # If an overall improvement has taken place, update overall best cost en best wire path
+                if overall_improvement:
+                    self.overall_best_cost = self.best_cost
+                    self.overall_best_wire_path = self.best_wire_path
             
             # Reset conversion status
             self.improvements = [True]
+
+        # Notify user on conversion and costs
+        self.notify_user()
+
+        # Handle the showing and saving of the conversion plot
+        self.handle_conversion_plot_visualization()
         
-        # Construct conversion plot
-        conversion_plot_visualisation = self.visualize_conversion()
-
-        # Notify user
-        print("Algorithm converged")
-        print(f"Best cost: {self.best_cost}")
-
-        # Visualize conversion plot
-        if self.show_conversion_plot:
-            self.show_conversion(conversion_plot_visualisation)
-
-        # Personalize the filenames of the conversion plot
-        filename = None
+        return_path = None
+        
+        # Returns a dictionary the best found
         if self.frequency == 1:
-                filename = 'Conversion Plot Hillclimber.png'
+            return_path = self.best_wire_path
+        # Returns a dictionary the overall best found path by all hillclimbers
         else:
-                filename = f'Conversion Plot Restart Hillclimber no. {i}.png'
+            return_path = self.overall_best_wire_path
 
-        # Save conversion plot
-        if self.save_conversion_plot:
-            self.save_plot(conversion_plot_visualisation, filename)
-        
-        # Returns a dictionary of the connections (=key) and the constructed path (=value)
-        return self.overall_best_wire_path
+        return return_path
