@@ -66,14 +66,14 @@ _Algorithm_
 
 _Heuristics_
 - Social Map    
-    - min: determines connection order according to 
-    - max: 
+    - min: starts building connections of gates that have the fewest gates in their vicinity.
+    - max: starts building connections of gates that have the most gates in their vicinity.
 - Better A Neighbor Who Is Near Than A Brother Far Away?    
-    - min: starts building connections between gates that are closest to each other
-    - max: starts building connections between gates that are furthest away from each other
+    - min: starts building connections between gates that are closest to each other.
+    - max: starts building connections between gates that are furthest away from each other.
 - Sky Is The Limit: increases cost when steps are on the bottom 4 layers of the chip.   
 - Wire Can’t Touch This: handles intersections as a hard constraint.
-- Wire Jam: increases costs of steps that are in a wire-dense area.    
+- Wire Jam: increases costs of steps that are in a wire-dense area.
 
 ### Repository
 The following list describes the most important files in the project and where to find them:
