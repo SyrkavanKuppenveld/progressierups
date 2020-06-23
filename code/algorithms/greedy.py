@@ -214,6 +214,8 @@ class Greedy():
                 A dictionary containing the route of the wire per connection.
         """
         
+        run_counter = 1
+
         # Built connections based on an ordered list of connection which is  
         # pre-determined by a chosen heuristic
         if self.approach is True:
@@ -249,6 +251,10 @@ class Greedy():
                     self.graph.clear_graph()
                     self.wire = Wire()
                     route = {}
+
+                    # Print restart
+                    print(f"Restart {run_counter}...")
+                    run_counter += 1
 
             return route
         # Built connections based on an ordered list of gates which is  
@@ -305,6 +311,10 @@ class Greedy():
                     self.wire = Wire()
                     completed = set()
                     route = {}
+
+                    # Print restart
+                    print(f"Restart {run_counter}...")
+                    run_counter += 1
 
             return route
 
