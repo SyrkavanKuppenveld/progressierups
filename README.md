@@ -52,7 +52,8 @@ Chip 2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Netlist 7
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Netlist 8    
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Netlist 9    
 
-**Short Descriptions**    
+**Short Descriptions**
+        
 _Algorithms_
 - Random
     - The order of the connections is random and the next position of the path is generated randomly.
