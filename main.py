@@ -79,7 +79,7 @@ def main():
     wire_path = algo.run()
     print("Algorithm completed!\n")
 
-    # Print wire costs if
+    # Print wire costs
     wire_costs = algo.wire.compute_costs()
     print("\033[1m"f"Wire costs = {wire_costs}""\033[0m")
     print()
@@ -98,6 +98,7 @@ def main():
         hlp.save_csv(netlist_file, output_file, wire_path, costs)
     print()
 
+    # Restart or quit program
     print("\033[1m""Would you like to run another algorithm? (y/n)""\033[0m")
     rerun = input()
     if rerun == 'y':
