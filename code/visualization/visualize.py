@@ -169,11 +169,12 @@ class WireHeatmap(ChipVisualization):
     
     def get_DataFrame(self):
         """
+        Creates pandas DataFrame 
 
         Returns
         -------
         pandas DataFrame
-                
+
         """
 
         wireDensitiesList = []
