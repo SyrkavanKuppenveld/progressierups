@@ -54,16 +54,16 @@ Chip 2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Netlist 7
 
 *Short Descriptions*    
 _Algorithm_
-- Random:    
-&nbsp;&nbsp;&nbsp;&nbsp;The order of the connections is random and the next position of the path is generated randomly.
-- Greedy:    
-&nbsp;&nbsp;&nbsp;&nbsp;Chooses the step with the lowest Manhattan Distance, if multiple steps with the lowest Manhattan Distance, chooses one of these randomly.
-- Greedy LookAhead:    
-&nbsp;&nbsp;&nbsp;&nbsp;Inherits functionality from the Greedy algorithm, but also looks 4 steps ahead when chosing a next step. If multiple steps are equally favourable, it chooses one of these randomly.
-- Hillclimber:    
-&nbsp;&nbsp;&nbsp;&nbsp;Acquires a start state from the Random algorithm and randomly chooses the connection that is to be altered. Builts the new path with an inherited function og the Greedy LookAhead algorithm.
-- Restart Hillclimber:     
-&nbsp;&nbsp;&nbsp;&nbsp;Runs the Hillclimber multiple times in a row.
+- Random:
+    - The order of the connections is random and the next position of the path is generated randomly.
+- Greedy:
+    - Chooses the step with the lowest Manhattan Distance, if multiple steps with the lowest Manhattan Distance, chooses one of these randomly.
+- Greedy LookAhead:
+    - Inherits functionality from the Greedy algorithm, but also looks 4 steps ahead when chosing a next step. If multiple steps are equally favourable, it chooses one of these randomly.
+- Hillclimber:
+    - Acquires a start state from the Random algorithm and randomly chooses the connection that is to be altered. Builts the new path with an inherited function og the Greedy LookAhead algorithm.
+- Restart Hillclimber:
+    - Runs the Hillclimber multiple times in a row.
 
 _Heuristics_
 - Social Map    
@@ -74,7 +74,7 @@ _Heuristics_
     - max: starts building connections between gates that are furthest away from each other.
 - Sky Is The Limit: increases cost when steps are on the bottom 4 layers of the chip.   
 - Wire Can’t Touch This: handles intersections as a hard constraint.
-- Wire Jam: increases costs of steps that are in a wire-dense area.
+- Wire Jam: increases costs of steps that lead to a wire-dense area.
 
 ### Repository
 The following list describes the most important files in the project and where to find them:
