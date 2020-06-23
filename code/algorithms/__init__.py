@@ -9,6 +9,6 @@ Also see:
         pydoc algorithms.hillclimber
 """
 
-from code.algorithms.greedy import Greedy, GreedyLookAhead, GreedyNoIntersect, GreedyNoIntersectLookAhead, GreedyCosts, GreedyLookAheadCosts, WireJam
+from code.algorithms.greedy import Greedy, GreedyLookAhead, GreedyNoIntersect, GreedyNoIntersectLookAhead, GreedyCosts, GreedyLookAheadCosts, GreedyWireJam, GreedyLookAheadWireJam
 from code.algorithms.random import Random
 from code.algorithms.hillclimber import HillClimber

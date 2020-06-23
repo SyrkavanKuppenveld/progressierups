@@ -38,7 +38,7 @@ class Greedy():
 
     Random element
     --------------
-    * If multiple neighbours have the same distance, the next position is 
+    If multiple neighbours have the same distance, the next position is 
     generated randomly. 
     
     Greedy element
@@ -316,7 +316,7 @@ class GreedyLookAhead(Greedy):
 
     Random element
     --------------
-    * If multiple neighbours have the same distance, the next position is generated r
+    If multiple neighbours have the same distance, the next position is generated r
     andomly. 
     
     Greedy element
@@ -561,7 +561,7 @@ class GreedyNoIntersect(Greedy):
 
     Random element
     --------------
-    * If multiple neighbors have the same distance, the next position is 
+    If multiple neighbors have the same distance, the next position is 
     generated randomly. 
     
     Greedy element
@@ -661,7 +661,7 @@ class GreedyNoIntersectLookAhead(GreedyNoIntersect):
 
     Random element
     --------------
-    * If multiple neighbors have the same lowest Manhattan distance, the next 
+    If multiple neighbors have the same lowest Manhattan distance, the next 
     position is generated randomly. 
     
     Greedy element
@@ -907,7 +907,7 @@ class GreedyCosts(Greedy):
 
     Random element
     --------------
-    * If multiple neighbours have the same distance, the next position is 
+    If multiple neighbours have the same distance, the next position is 
     generated randomly. 
     
     Greedy element
@@ -1053,7 +1053,7 @@ class GreedyLookAheadCosts(GreedyLookAhead):
 
     Random element
     --------------
-    * If multiple neighbours have the same distance, the next position is 
+    If multiple neighbours have the same distance, the next position is 
     generated randomly. 
     
     Greedy element
@@ -1295,15 +1295,20 @@ class GreedyLookAheadCosts(GreedyLookAhead):
         return dist
 
     
-class WireJam(Greedy):
+class GreedyWireJam(Greedy):
     """ 
-    Creates a Wire object that connects the gates according to the Greedy
-    algorithm with one exception conscidering the ....
+    Creates a Wire object that connects the gates.
+    
+    Greedy element
+    --------------
+    All of the functions are inherited from the Greedy algorithm except for
+    the function that computes the cost of a step.
 
-    Heuristic
-    ---------
-    ...
-
+    Wire Jam element
+    ----------------
+    Instead of solely using the Manhattan distance as the cost for a step, the cost
+    is incremented based upon the number of wires surrounding the endpoint of the 
+    respective step.
     """
 
     def compute_manhattan_dist(self, position, goal):
@@ -1335,3 +1340,48 @@ class WireJam(Greedy):
         # Return heuristic score of the current position
         return x_dist + y_dist + z_dist + 2 * surrounding_wires
         
+
+class GreedyLookAheadWireJam(GreedyLookAhead):
+    """ 
+    Creates a Wire object that connects the gates.
+    
+    Greedy Look Ahead element
+    -------------------------
+    All of the functions are inherited form the Greedy Look Ahead algorithm except for
+    the function that computes the cost of a step.
+
+    Wire Jam element
+    ----------------
+    Instead of solely using the Manhattan distance as the cost for a step, the cost
+    is incremented based upon the number of wires surrounding the endpoint of the 
+    respective step.
+    """
+
+    def compute_manhattan_dist(self, position, goal):
+        """
+        Returns the heuristic cost of going to the current position
+        
+        Parameters
+        ----------
+        position: a Node object
+                A Node object representing the current position of the wire.
+
+        goal: a Node object
+                A Node object repesenting the goal position on the grid.
+
+        Returns
+        -------
+        int 
+                Heuristic cost (= Manhattan distance + 2 * nr of surrounding wires)
+        """
+
+        # Compute Manhattan Distance for each dimension
+        x_dist = abs(position.xcoord - goal.xcoord)
+        y_dist = abs(position.ycoord - goal.ycoord)
+        z_dist = abs(position.zcoord - goal.zcoord)
+
+        # Compute the number of wires surrounding the current position
+        surrounding_wires = position.get_wire_density(position, self.wire.path)
+
+        # Return heuristic score of the current position
+        return x_dist + y_dist + z_dist + 2 * surrounding_wires

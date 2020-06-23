@@ -52,7 +52,7 @@ Chip 2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Netlist 7
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Netlist 8    
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Netlist 9    
 
-_Algorithm_    
+_Algorithm_
 - Random    
     Korte uitleg...
 - Greedy    
@@ -64,7 +64,7 @@ _Algorithm_
 - Restart Hillclimber    
     Korte uitleg...
 
-_Heuristics_    
+_Heuristics_
 - Social Map    
     Korte uitleg...    
 - Better A Neighbor Who Is Near Than A Brother Far Away?    

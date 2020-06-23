@@ -58,12 +58,16 @@ def main():
         algo = alg.GreedyCosts(graph, connections, run_approach)
     elif algorithm == 1 and heuristic == 4:
         algo = alg.GreedyNoIntersect(graph, connections, run_approach)
+    elif algorithm == 1 and heuristic == 5:
+        algo = alg.GreedyWireJam(graph, connections, run_approach)
     elif algorithm == 1:
         algo = alg.Greedy(graph, connections, run_approach)
     elif algorithm == 2 and heuristic == 3:
         algo = alg.GreedyLookAheadCosts(graph, connections, run_approach)
     elif algorithm == 2 and heuristic == 4:
         algo = alg.GreedyNoIntersectLookAhead(graph, connections, run_approach)
+    elif algorithm == 2 and heuristic == 5:
+        algo = alg.GreedyLookAheadWireJam(graph, connections, run_approach)
     elif algorithm == 2:
         algo = alg.GreedyLookAhead(graph, connections, run_approach)
     elif algorithm == 3 or algorithm == 4:
