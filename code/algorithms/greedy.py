@@ -520,8 +520,8 @@ class GreedyLookAhead(Greedy):
 
         costs = []
 
+        # Compute the number of steps (= cost) needed to get to the goal gate
         for path in paths:
-            # Compute the number of steps (= Cost) needed to get to the goal gate
             total_dist = self.path_distance(path, goal)
             costs.append((path[1], total_dist))
 
@@ -723,7 +723,7 @@ class GreedyNoIntersectLookAhead(GreedyNoIntersect):
                 for neighbor in position_next.neighbors:
      
                     # Different approach for first iteration
-                    if first:
+                    if first and neighbor.intersection ==  0:
                         child = [position_next.get_copy(), neighbor.get_copy()]
 
                         # Return position if goal gate is reached and no collision is caused
@@ -804,22 +804,12 @@ class GreedyNoIntersectLookAhead(GreedyNoIntersect):
                 True if successful, otherwise False.
         
         """
-
-        # Returns False if collision occurs
-        if self.wire.check_collision(position, neighbor) is False:
-            return False
-        
-        # Return False if intersection will occur if neighbor is appended to path
-        if neighbor.intersection != 0:
-            return False
-        
-        # Returns False if neighbor is in child
+       
         neighbor_coords = neighbor.xcoord, neighbor.ycoord, neighbor.zcoord
         neighbor_node = self.graph.nodes[neighbor_coords]
-        if neighbor_node in child:
-            return False
 
-        return True
+        return self.wire.check_collision(position, neighbor) and neighbor.intersection == 0 and neighbor_node not in child
+
 
     def valid_check(self, child, neighbor):
         """
