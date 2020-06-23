@@ -40,9 +40,9 @@ After all choices have been made, the program will start generating a solution.
 
 **Possible Choices**    
 _Chip_&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_Netlist_    
-Chip 0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Netlist 1    
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Netlist 2    
-            Netlist 3    
+Chip 0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Netlist 1    
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Netlist 2    
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Netlist 3    
 
 Chip 1      Netlist 4    
             Netlist 5    
