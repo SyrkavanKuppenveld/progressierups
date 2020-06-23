@@ -320,9 +320,9 @@ class HillClimber(GreedyLookAhead):
         
         filename = None
         if self.frequency == 1:
-            filename = 'Start state Hillclimber.png'
+            filename = 'start_state_hillclimber.png'
         else:
-            filename = f'Start state Restart Hillclimber no. {i}.png'
+            filename = f'start_state_restart_hillclimber_{i}.png'
         
         return filename
 
@@ -339,34 +339,37 @@ class HillClimber(GreedyLookAhead):
         
         filename = None
         if self.frequency == 1:
-                filename = 'Conversion Plot Hillclimber.png'
+                filename = 'conversion_plot_hillclimber.png'
         else:
-                filename = f'Conversion Plot Restart Hillclimber.png'
+                filename = f'conversion_plot_restart_hillclimber.png'
 
         return filename
 
-    def save_plot(self, plt, filename):
+    def save_plot(self, plot, filename):
         """
         Saves the start state to the results folder.
 
         Paramters
         --------
-        plt: a matplotlib figure
+        plot: a matplotlib figure
                 A matplotlib figure of the visualization that needs to be saved.
+
         filename: a string
                 A string representing the name of the figure.
         """
 
-        # Save conversion plot to results folder
-        script_dir = os.path.dirname(__file__)
-        results_dir = os.path.join(script_dir, f'results/chip_{self.chip}/netlist_{self.netlist}/')
+        plot.savefig(f"results/{filename}")
 
-        # Create results folder if the results folder does not yet exist
-        if not os.path.isdir(results_dir):
-            os.makedirs(results_dir)
+        # # Save conversion plot to results folder
+        # script_dir = os.path.dirname(__file__)
+        # results_dir = os.path.join(script_dir, f'results/chip_{self.chip}/netlist_{self.netlist}/')
 
-        # Save figure
-        plt.savefig(results_dir + filename)
+        # # Create results folder if the results folder does not yet exist
+        # if not os.path.isdir(results_dir):
+        #     os.makedirs(results_dir)
+
+        # # Save figure
+        # plot.savefig(results_dir + filename)
 
     def handle_conversion_plot_visualization(self):
         """
@@ -409,16 +412,17 @@ class HillClimber(GreedyLookAhead):
 
         return fig
 
-    def show_conversion(self, plt):
+    def show_conversion(self, plot):
         """
         Shows conversion plot of the HillClimber
 
         Paramters
         ---------
-        plt: a matplotlib figure
+        plot: a matplotlib figure
                 A matplotlib figure representing the conversion plot.
         """
-        plt.show()
+        
+        plot.show()
 
     def track_restart(self):
         """
@@ -428,8 +432,10 @@ class HillClimber(GreedyLookAhead):
         
         # Keep track of best costs found per restart
         self.restart_climbers_costs.append(self.best_cost)
+
         # Check if an overall improvement has taken place
         overall_improvement = self.check_overall_improvement()
+
         # If an overall improvement has taken place, update overall best cost en best wire path
         if overall_improvement:
             self.overall_best_cost = self.best_cost
@@ -442,19 +448,20 @@ class HillClimber(GreedyLookAhead):
 
         # If a normal hillclimber was run, print best found cost
         if self.frequency == 1:
-            print(f"Best cost: {self.best_cost}\n")
+            print("\033[33m"f"Cost: {self.best_cost}\n""\033[0m")
         
         # If a restart hillclimber was run print best found costs of all hillclimbers
         # and the overall best found cost
         else:
             for i, cost in enumerate(self.restart_climbers_costs):
                 print(f"Best cost Hillclimber no. {i}: {cost}")
-            print(f"Overall best cost: {self.overall_best_cost}\n")
+            print("\033[33m"f"Overall best cost: {self.overall_best_cost}\n""\033[0m")
 
     def get_return_path(self):
         """
         Returns the best path acquired by the hillclimber
         """
+        
         return_path = None
 
         # Returns a dictionary the best found path of the single Hillclimber
