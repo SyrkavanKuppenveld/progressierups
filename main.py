@@ -79,10 +79,12 @@ def main():
     wire_path = algo.run()
     print("Algorithm completed!\n")
 
-    # Print wire costs if
-    wire_costs = algo.wire.compute_costs()
-    print("\033[1m"f"Wire costs = {wire_costs}""\033[0m")
-    print()
+    # Print wire costs if anything but a Hillclimber is run, since the Hillclimber
+    # handles its own costst
+    if algorithm != 3 and algorithm != 4:
+        wire_costs = algo.wire.compute_costs()
+        print("\033[1m"f"Wire costs = {wire_costs}""\033[0m")
+        print()
 
     # Visualize and or save algorithm results based on user's input
     hlp.uif.visualize_save_results(graph, wire_path)
