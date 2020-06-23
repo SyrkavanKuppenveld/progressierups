@@ -478,9 +478,9 @@ def heuristic_extention(chip, heuristic, graph):
     if heuristic == 3:
         heur_name = "Sky Is The Limit"
     elif heuristic == 4:
-        heur_name == "Can't Touch This"
+        heur_name = "Can't Touch This"
     elif heuristic == 5:
-        heur_name == "Wire Jam"
+        heur_name ="Wire Jam"
         
     # Ensure correct usage
     correct = False
