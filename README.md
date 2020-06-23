@@ -66,15 +66,14 @@ _Algorithm_
 
 _Heuristics_
 - Social Map    
-    Korte uitleg...    
+    - min: determines connection order according to 
+    - max: 
 - Better A Neighbor Who Is Near Than A Brother Far Away?    
-    Korte uitleg...    
-- Sky Is The Limit    
-    Korte uitleg...    
-- Wire Can’t Touch This    
-    Korte uitleg...    
-- Wire Jam    
-    Korte uitleg...    
+    - min: starts building connections between gates that are closest to each other
+    - max: starts building connections between gates that are furthest away from each other
+- Sky Is The Limit: increases cost when steps are on the bottom 4 layers of the chip.   
+- Wire Can’t Touch This: handles intersections as a hard constraint.
+- Wire Jam: increases costs of steps that are in a wire-dense area.    
 
 ### Repository
 The following list describes the most important files in the project and where to find them:
@@ -89,7 +88,7 @@ The following list describes the most important files in the project and where t
         - /code/classes/graph.py: contains the Graph Class.
         - /code/classes/node.py: contains the Node Class.
         - /code/classes/wire.py: contains the Wire Class.
-    - /code/visualization: contains code that generates a visualisation of the designed chip and wire.
+    - /code/visualization: contains code that generates a visualisation of the designed chip.
 - /gates&netlists: contains multiple datafiles needed for initialization of the chip and connections.
 
 ## Authors
@@ -98,4 +97,4 @@ The following list describes the most important files in the project and where t
 - Syrka van Kuppenveld
 
 ## License
-This project is licensed under the GNU GENERAL PUBLIC LICENSE v3 - see the [LICENSE](https://github.com/SyrkavanKuppenveld/progressierups/blob/master/LICENSE) file for details.
+This project is licensed under the GNU GENERAL PUBLIC LICENSE 3.0 - see the [LICENSE](https://github.com/SyrkavanKuppenveld/progressierups/blob/master/LICENSE) file for details.

@@ -126,8 +126,8 @@ class HillClimber(GreedyLookAhead):
         self.cost = algo.wire.compute_costs()
         self.best_cost = algo.wire.compute_costs()
         
-        print("Start state found")
-        print("Running algorithm...")
+        print("Random start state found")
+        print("Running Hillclimber algorithm...")
     
     def get_random_connection(self):
         """
