@@ -40,7 +40,6 @@ will start an interactive interface. It will ask you which:
 ...are to be used for generating a solution.
 
 Subsequently, it will ask whether the solution(s) and/or plot(s) need to be shown and/or saved.
-
 After all choices have been made, the program will start generating a solution.
 
 **Possible Choices**
@@ -57,31 +56,29 @@ Chip 2      Netlist 7
             Netlist 8
             Netlist 9
 
-_Algorithm_
-- Random
+_Algorithm_    
+- Random    
     Korte uitleg...
-- Greedy
+- Greedy    
     Korte uitleg...
-- Greedy Look Ahead
+- Greedy Look Ahead    
     Korte uitleg...
-- Hillclimber
+- Hillclimber    
     Korte uitleg...
-- Restart Hillclimber
-    Korte uitleg...
-
-_Heuristics_
-- Social Map
-    Korte uitleg...
-- Better A Neighbor Who Is Near Than A Brother Far Away?
-    Korte uitleg...
-- Sky Is The Limit
-    Korte uitleg...
-- Wire Can’t Touch This
-    Korte uitleg...
-- Wire Jam
+- Restart Hillclimber    
     Korte uitleg...
 
-(...<nog verder in te vullen>)
+_Heuristics_    
+- Social Map    
+    Korte uitleg...    
+- Better A Neighbor Who Is Near Than A Brother Far Away?    
+    Korte uitleg...    
+- Sky Is The Limit    
+    Korte uitleg...    
+- Wire Can’t Touch This    
+    Korte uitleg...    
+- Wire Jam    
+    Korte uitleg...    
 
 ### Repository
 The following list describes the most important files in the project and where to find them:
