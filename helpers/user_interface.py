@@ -192,7 +192,7 @@ def algorithm_input(netlist):
                 restart_program()
             
             # Print warning and prompt user for next approach
-            if algorithm == '3' and netlist > 2:
+            elif algorithm == '3' and netlist > 2:
                 print("\033[31m""WARNING! The hillclimber algorithm only works for netlist 1 and 2 within a reasonable amount of time.""\033[0m")
                 print()
                 restart_program()
@@ -354,7 +354,7 @@ def heuristic_input(netlist, algorithm):
     while not correct:
 
         # Prompt user for heuristic 
-        print("\n\033[1m""Which heuristic would you like to implement?""\033[0m")
+        print("\033[1m""Which heuristic would you like to implement?""\033[0m")
         print("For more information on the algorithms press 9 directly followed by the heuristic number.")
         print("> 0 = none\n> 1 = 'Social Map'\n> 2 = 'Better a neighbor who is near than an brother far away?\n> 3 = 'Sky is the Limit'\n> 4 = 'Can't Touch This'\n> 5 = 'Wire Jam'")
         heuristic = input()
