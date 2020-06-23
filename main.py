@@ -88,6 +88,10 @@ def main():
     hlp.uif.visualize_save_results(graph, wire_path)
     print()
 
+    # Visualize and or save algorithm results based on user's input
+    hlp.uif.heatmap_visualize_save(graph, wire_path)
+    print()
+
     # Create output file
     with open("output.csv", 'w', newline='') as output_file:
         costs = algo.wire.compute_costs()

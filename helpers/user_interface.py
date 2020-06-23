@@ -680,7 +680,7 @@ def visualize_save_results(graph, wire_path):
         plot = visualisation.run(True)
         plot.savefig("results/visualization_algorithm.png")
         print()
-        print("For saved visualization see: 'results/visualization_algorithn.png'.")
+        print("For saved visualization see: 'results/visualization_algorithm.png'.")
     elif show == 'y' and save == 'n':
 
         # Visualize the results
@@ -693,7 +693,80 @@ def visualize_save_results(graph, wire_path):
         plot = visualisation.run(False)
         plot.savefig("results/visualization_algorithm.png")
         print()
-        print("For saved visualization see: 'results/visualization_algorithn.png'.")
+        print("For saved visualization see: 'results/visualization_algorithm.png'.")
+
+
+def heatmap_visualize_save(graph, wire_path):
+    """
+    Visualizes and/or saves the wire heatmap of the chip grid. 
+
+    Parameters
+    ----------
+    graph: a Graph object
+            Representing the chip grid.
+
+    wire_path: a dict
+            Dictionary with connection as key and list with path coordinates as value.
+
+    Outputs
+    -------
+    plot 
+            Wire heatmap of the results of the wire in the grid. 
+    
+    png file
+            A png file of the visualization.
+    """
+
+    options = {'y', 'n'}
+
+    # Ensure correct usage
+    correct = False
+    while not correct:
+
+        # Prompt user for input for visualization heatmap
+        print("\033[1m""Would you like see the wire heatmap of the chip grid? (y/n)""\033[0m")
+        show = input()
+
+        # Check input user
+        if show in options:
+            correct = True
+
+    # Ensure correct usage
+    correct = False
+    while not correct:
+        
+        # Prompt user for input for saving heatmap
+        print()
+        print("\033[1m""Would you like to save the wire heatmap of the chipgrid? (y/n)""\033[0m")
+        save = input()
+
+        # Check input user
+        if save in options:
+            correct = True
+
+    # Show and save heatmap visualization based on user input
+    if show == 'y' and save == 'y':
+
+        # Visualize and save the heatmap
+        heatmap = vs.WireHeatmap(graph.gates, wire_path)
+        plot = heatmap.run(True)
+        plot.savefig("results/heatmap_algorithm.png")
+        print()
+        print("For saved visualization see: 'results/heatmap_algorithm.png'.")
+    elif show == 'y' and save == 'n':
+
+        # Visualize the heatmap
+        heatmap = vs.WireHeatmap(graph.gates, wire_path)
+        plot = heatmap.run(True)
+    elif show == 'n' and save == 'y':
+
+        # Save the visualization of the resutls
+        heatmap = vs.WireHeatmap(graph.gates, wire_path)
+        plot = heatmap.run(False)
+        plot.savefig("results/heatmap_algorithm.png")
+        print()
+        print("For saved visualization see: 'results/heatmap_algorithm.png'.")
+
 
 def restart_program():
     """
