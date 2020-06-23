@@ -1,5 +1,5 @@
 # Ignore exmple files
-example
+example/
 
 # Ignore personal test files
 eline.py
