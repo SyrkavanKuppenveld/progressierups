@@ -59,7 +59,8 @@ class ChipVisualization():
 
     def plot_gates(self):
         """
-        Adds gates to the 3D plot.
+        Adds gates to the 3D plot and stores the outlines of x- and y-axes
+        of the grid.
         """
 
         x_coord_gates = []
@@ -124,7 +125,8 @@ class ChipVisualization():
 
         Returns
         -------
-
+        fig
+            A matplotlib figure representing the designed chip.
         """
         
         # Initialize 3D plot
@@ -145,6 +147,7 @@ class ChipVisualization():
 
         return self.fig
 
+
 class WireHeatmap(ChipVisualization):
     """
     Visualise 3D wire density of the given solution.
@@ -158,8 +161,9 @@ class WireHeatmap(ChipVisualization):
         ----------
         nodes : dict
                 A dictionary containting all the Nodes (coordinates) of the Graph (Chip)
+        
         wireObject : a Wire Object
-                A Wire Object which is a solution of an algorithm
+                A Wire Object which is a solution of the used algorithm
         """
 
         self.nodes = nodes
@@ -169,12 +173,13 @@ class WireHeatmap(ChipVisualization):
     
     def get_DataFrame(self):
         """
-        Creates pandas DataFrame 
+        Creates pandas DataFrame with the coordinates of the nodes and
+        their wire density (the number of wires surrounding them).
 
         Returns
         -------
         pandas DataFrame
-
+                A Dataframe with the coordinates and wiredensities of the nodes
         """
 
         wireDensitiesList = []
@@ -188,6 +193,7 @@ class WireHeatmap(ChipVisualization):
         
     def plot_heat(self, DataFrame):
         """
+        Initializes the heatmap with the given wire density data.
         """
 
         self.ax.scatter(DataFrame[['x']], DataFrame[['y']], DataFrame[['z']], marker='s', s=140, c=DataFrame[['wire density']], cmap='Reds', alpha=0.5)
@@ -203,9 +209,8 @@ class WireHeatmap(ChipVisualization):
 
         Returns
         -------
-        plot 
-
-
+        fig
+                A matplotlib figure representing the HeatMap
         """
 
         # Initialize 3D plot
