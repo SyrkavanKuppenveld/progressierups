@@ -149,7 +149,7 @@ def algorithm_input(netlist):
             print("Random element:\n* If multiple neighbors have the same distance, the next position is generated randomly.")
             print()
             print("The greedy algorithm works with the following heuristics:")
-            print("* 'Social map'\n* 'Better a neighbor who is near than an brother far away?")
+            print("* 'Social map'\n* 'Better a neighbor who is near than an brother far away?'\n* 'Wire Jam'")
             print("Option for more information on the heuristics will be given later.")
             time.sleep(5)
             print()
@@ -164,7 +164,7 @@ def algorithm_input(netlist):
             print("Random element:\n* If multiple neighbors have the same distance, the next position is generated randomly.")
             print()
             print("The greedy look ahead algorithm works with the following heuristics:")
-            print("\n* 'Social map'\n* 'Better a neighbor who is near than an brother far away?\n* 'Sky is the Limit'")
+            print("\n* 'Social map'\n* 'Better a neighbor who is near than an brother far away?\n* 'Sky is the Limit'\n* 'Wire Jam'")
             time.sleep(5)
             print()
 
@@ -348,7 +348,7 @@ def heuristic_input(netlist, algorithm):
             An integer representing the chosen heuristic. 
     """
 
-    options = {'0', '1', '2', '3', '4'}
+    options = {'0', '1', '2', '3', '4', '5'}
 
     correct = False
     while not correct:
@@ -356,7 +356,7 @@ def heuristic_input(netlist, algorithm):
         # Prompt user for heuristic 
         print("\n\033[1m""Which heuristic would you like to implement?""\033[0m")
         print("For more information on the algorithms press 9 directly followed by the heuristic number.")
-        print("> 0 = none\n> 1 = 'Social Map'\n> 2 = 'Better a neighbor who is near than an brother far away?\n> 3 = 'Sky is the Limit'\n> 4 = 'Can't Touch This'")
+        print("> 0 = none\n> 1 = 'Social Map'\n> 2 = 'Better a neighbor who is near than an brother far away?\n> 3 = 'Sky is the Limit'\n> 4 = 'Can't Touch This'\n> 5 = 'Wire Jam'")
         heuristic = input()
         
         if heuristic == '91':
@@ -388,6 +388,10 @@ def heuristic_input(netlist, algorithm):
             print("The 'Can't Touch This' heuristic has intersections as hard contrained.")
             print("This heuristic can be combined with 'Social Map' and 'Better A Neighbor Who Is Near Than A Brother Far Away'.")
             print()
+
+        elif heuristic == '95':
+            # NB nog verder uitleg
+            pass
 
         # Only continue if heuristic for correct input
         if heuristic in options:
