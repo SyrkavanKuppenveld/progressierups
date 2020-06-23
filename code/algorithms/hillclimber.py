@@ -97,9 +97,7 @@ class HillClimber(GreedyLookAhead):
         self.best_wire_path = None
         self.best_cost = None
 
-        # Keeps track of best state encountered by all Hillclimbers
-        self.overall_best_graph = None
-        self.overall_best_wire = None
+        # Keeps track of best cost and wire path built by the Hillclimbers
         self.overall_best_wire_path = None
         self.overall_best_cost = math.inf
 
@@ -424,9 +422,10 @@ class HillClimber(GreedyLookAhead):
             # Check if an overall improvement has taken place
             overall_improvement = self.check_overall_improvement()
 
-            # If an overall improvement has taken place, update overall best cost
+            # If an overall improvement has taken place, update overall best cost en best wire path
             if overall_improvement:
                 self.overall_best_cost = self.best_cost
+                self.overall_best_wire_path = self.best_wire_path
             
             # Reset conversion status
             self.improvements = [True]
