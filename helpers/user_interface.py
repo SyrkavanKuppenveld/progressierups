@@ -146,7 +146,7 @@ def algorithm_input(netlist):
             print()
             print("Greedy elements:\n* The next position will be the neighbor with the lowest Manhattan distance.")
             print()
-            print("Random element:\n* If multiple neighbors have the same distance, the next position is generated randomly.")
+            print("Random element:\n* If multiple neighbors have the same distance, one of these neighbors is chosen randomly.")
             print()
             print("The greedy algorithm works with the following heuristics:")
             print("* 'Social map'\n* 'Better a neighbor who is near than an brother far away?'\n* 'Wire Jam'")

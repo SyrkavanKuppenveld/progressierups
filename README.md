@@ -39,7 +39,7 @@ Subsequently, it will ask whether the solution(s) and/or plot(s) need to be show
 After all choices have been made, the program will start generating a solution.
 
 **Possible Choices**    
-_Chip_&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_Netlist_    
+*_Chip_*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*_Netlist_*    
 Chip 0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Netlist 1    
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Netlist 2    
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Netlist 3    
@@ -52,17 +52,13 @@ Chip 2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Netlist 7
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Netlist 8    
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Netlist 9    
 
+#_Short Descriptions_*
 _Algorithm_
-- Random    
-    Korte uitleg...
-- Greedy    
-    Korte uitleg...
-- Greedy Look Ahead    
-    Korte uitleg...
-- Hillclimber    
-    Korte uitleg...
-- Restart Hillclimber    
-    Korte uitleg...
+- Random: The order of the connections is random and the next position of the path is generated randomly.
+- Greedy: Chooses the step with the lowest Manhattan Distance, if multiple steps with the lowest Manhattan Distance, chooses one of these randomly.
+- Greedy LookAhead: Inherits functionality from the Greedy algorithm, but also looks 4 steps ahead when chosing a next step. If multiple steps are equally favourable, it chooses one of these randomly.
+- Hillclimber: Acquires a start state from the Random algorithm and randomly chooses the connection that is to be altered. Builts the new path with an inherited function og the Greedy LookAhead algorithm.
+- Restart Hillclimber: Runs the Hillclimber multiple times in a row.
 
 _Heuristics_
 - Social Map    
