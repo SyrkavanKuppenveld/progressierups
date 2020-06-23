@@ -38,8 +38,8 @@ Running `python main.py` will start an interactive interface which will ask you 
 Subsequently, it will ask whether the solution(s) and/or plot(s) need to be shown and/or saved.
 After all choices have been made, the program will start generating a solution.
 
-#### Possible Choices**    
-#### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*_Netlist_*    
+#### Possible Choices    
+*Chip* &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*Netlist*    
 Chip 0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Netlist 1    
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Netlist 2    
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Netlist 3    
