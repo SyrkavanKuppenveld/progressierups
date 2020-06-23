@@ -4,7 +4,7 @@
 
 Chips (or: integrated circuits) are found in various places in our everyday life including our PC, MacBook, Android Phone and microwave oven.
 
-A chip is made up of a small plate of silicon, an is usually designed logically and subsequentially transformed to a list of connectable gates (= netlist). This netlist, is finally transformed into a 2-dimensional design on a silicon base. The last step of connecting the gates, is highly volatile. Good arrangements with short nets lead to faster circuits, whereas poor arrangements with long nets lead to slower circuits. Besides, shorter nets are cheaper than long nets. So, a good arrangement of logical gates and short nets between them is of vital importance, both economically and performancewise.
+A chip is made up of a small plate of silicon, and is usually designed logically and subsequentially transformed to a list of connectable gates (= netlist). This netlist, is finally transformed into a 2-dimensional design on a silicon base. The last step of connecting the gates, is highly volatile. Good arrangements with short nets lead to faster circuits, whereas poor arrangements with long nets lead to slower circuits. Besides, shorter nets are cheaper than long nets. So, a good arrangement of logical gates and short nets between them is of vital importance, both economically and performancewise.
 
 We are provided with chips and netlists and it is up to us to find good wiring patterns.
 
@@ -62,7 +62,7 @@ _Algorithms_
 - Greedy LookAhead
     - Inherits functionality from the Greedy algorithm, but also looks 4 steps ahead when chosing a next step. If multiple steps are equally favourable, it chooses one of these randomly.
 - Hillclimber
-    - Acquires a start state from the Random algorithm and randomly chooses the connection that is to be altered. Builts the new path with an inherited function of the Greedy LookAhead algorithm.
+    - Acquires a start state from the Random algorithm and randomly chooses the connection that is to be altered. Builds the new path with an inherited function of the Greedy LookAhead algorithm.
 - Restart Hillclimber
     - Runs the Hillclimber multiple times in a row.
 
