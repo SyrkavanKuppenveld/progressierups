@@ -240,7 +240,7 @@ def get_flow(plot):
     correct = False
 
     # Questions
-    q1_start_state = "\nWould you like to see the start states of the hillclimber algorithm?"
+    q1_start_state = "Would you like to see the start states of the hillclimber algorithm?"
     q1_conversion = "\nWould you like to see the conversion plot of the hillclimber algorithm?"
 
     q2_start_state = "Would you like to save the start states of the hillclimber algorithm?"
@@ -258,7 +258,7 @@ def get_flow(plot):
     while not correct:
         
         # Ask user if the plot should be shown
-        print("\033[1m"f"{q1} (y/n)?""\033[0m")
+        print("\033[1m"f"{q1} (y/n)""\033[0m")
         show = input()
 
         # Quit if user input is correct
@@ -279,7 +279,7 @@ def get_flow(plot):
 
         # Ask user if the plot of the Hillclimber algorithm should be saved
         print()
-        print("\033[1m"f"{q2} (y/n)?""\033[0m")
+        print("\033[1m"f"{q2} (y/n)""\033[0m")
         save = input()
 
         # Quit if user input is correct
@@ -680,7 +680,7 @@ def visualize_save_results(graph, wire_path):
         plot = visualisation.run(True)
         plot.savefig("results/visualization_algorithm.png")
         print()
-        print("For saved visualization see: 'results/visualization_algorithn.png'.")
+        print("For saved visualization see: 'results/visualization_algorithm.png'.")
     elif show == 'y' and save == 'n':
 
         # Visualize the results
@@ -693,7 +693,80 @@ def visualize_save_results(graph, wire_path):
         plot = visualisation.run(False)
         plot.savefig("results/visualization_algorithm.png")
         print()
-        print("For saved visualization see: 'results/visualization_algorithn.png'.")
+        print("For saved visualization see: 'results/visualization_algorithm.png'.")
+
+
+def heatmap_visualize_save(nodes, wire):
+    """
+    Visualizes and/or saves the wire heatmap of the chip grid. 
+
+    Parameters
+    ----------
+    nodes: dict
+            Dictionary of all nodes in chip grid.
+
+    wire: a Wire object
+            Representing the wire in the chip grid.
+
+    Outputs
+    -------
+    plot 
+            Wire heatmap of the results of the wire in the grid. 
+    
+    png file
+            A png file of the visualization.
+    """
+
+    options = {'y', 'n'}
+
+    # Ensure correct usage
+    correct = False
+    while not correct:
+
+        # Prompt user for input for visualization heatmap
+        print("\033[1m""Would you like see the wire heatmap of the chip grid? (y/n)""\033[0m")
+        show = input()
+
+        # Check input user
+        if show in options:
+            correct = True
+
+    # Ensure correct usage
+    correct = False
+    while not correct:
+        
+        # Prompt user for input for saving heatmap
+        print()
+        print("\033[1m""Would you like to save the wire heatmap of the chip grid? (y/n)""\033[0m")
+        save = input()
+
+        # Check input user
+        if save in options:
+            correct = True
+
+    # Show and save heatmap visualization based on user input
+    if show == 'y' and save == 'y':
+
+        # Visualize and save the heatmap
+        heatmap = vs.WireHeatmap(nodes, wire)
+        plot = heatmap.run(True)
+        plot.savefig("results/heatmap_algorithm.png")
+        print()
+        print("For saved visualization see: 'results/heatmap_algorithm.png'.")
+    elif show == 'y' and save == 'n':
+
+        # Visualize the heatmap
+        heatmap = vs.WireHeatmap(nodes, wire)
+        plot = heatmap.run(True)
+    elif show == 'n' and save == 'y':
+
+        # Save the visualization of the resutls
+        heatmap = vs.WireHeatmap(nodes, wire)
+        plot = heatmap.run(False)
+        plot.savefig("results/heatmap_algorithm.png")
+        print()
+        print("For saved visualization see: 'results/heatmap_algorithm.png'.")
+
 
 def restart_program():
     """
