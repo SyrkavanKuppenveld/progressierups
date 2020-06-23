@@ -42,19 +42,19 @@ will start an interactive interface. It will ask you which:
 Subsequently, it will ask whether the solution(s) and/or plot(s) need to be shown and/or saved.
 After all choices have been made, the program will start generating a solution.
 
-**Possible Choices**
-_Chip_      _Netlist_
-Chip 0      Netlist 1
-            Netlsit 2
-            Netlist 3
+**Possible Choices**    
+_Chip_      _Netlist_    
+Chip 0      Netlist 1    
+            Netlsit 2    
+            Netlist 3    
 
-Chip 1      Netlist 4
-            Netlist 5
-            Netlist 6
+Chip 1      Netlist 4    
+            Netlist 5    
+            Netlist 6    
 
-Chip 2      Netlist 7
-            Netlist 8
-            Netlist 9
+Chip 2      Netlist 7    
+            Netlist 8    
+            Netlist 9    
 
 _Algorithm_    
 - Random    
