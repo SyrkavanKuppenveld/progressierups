@@ -358,18 +358,8 @@ class HillClimber(GreedyLookAhead):
                 A string representing the name of the figure.
         """
 
+        # Save plot in results folder
         plot.savefig(f"results/{filename}")
-
-        # # Save conversion plot to results folder
-        # script_dir = os.path.dirname(__file__)
-        # results_dir = os.path.join(script_dir, f'results/chip_{self.chip}/netlist_{self.netlist}/')
-
-        # # Create results folder if the results folder does not yet exist
-        # if not os.path.isdir(results_dir):
-        #     os.makedirs(results_dir)
-
-        # # Save figure
-        # plot.savefig(results_dir + filename)
 
     def handle_conversion_plot_visualization(self):
         """
@@ -461,7 +451,7 @@ class HillClimber(GreedyLookAhead):
         """
         Returns the best path acquired by the hillclimber
         """
-        
+
         return_path = None
 
         # Returns a dictionary the best found path of the single Hillclimber
