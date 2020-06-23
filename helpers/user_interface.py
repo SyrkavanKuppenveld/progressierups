@@ -388,10 +388,16 @@ def heuristic_input(netlist, algorithm):
             print("The 'Can't Touch This' heuristic has intersections as hard contrained.")
             print("This heuristic can be combined with 'Social Map' and 'Better A Neighbor Who Is Near Than A Brother Far Away'.")
             print()
+            time.sleep(3)
+            print()
 
         elif heuristic == '95':
-            # NB nog verder uitleg
-            pass
+            print("\033[1m""INFORMATION WIRE JAM""\033[0m")
+            print("The 'Wire Jam' heuristic avoids places on the grid that are crowed with wire.")
+            print("This heuristic can be combined with 'Social Map' and 'Better A Neighbor Who Is Near Than A Brother Far Away'.")
+            print()
+            time.sleep(3)
+            print()
 
         # Only continue if heuristic for correct input
         if heuristic in options:
@@ -435,11 +441,18 @@ def heuristic_input(netlist, algorithm):
                 print("\033[31m""WARNING: the combination of the algorithm (and heuristic) only works for netlist 1-7 within a reasonable amount of time.""\033[0m")
                 print()
                 restart_program()
+
+            # Print warning for greedy and greedy look ahead with costs heuristic
+            elif netlist > 4 and (algorithm == 1 or algorithm == 2) and heuristic == 5:
+                print()
+                print("\033[31m""WARNING: the combination of the algorithm (and heuristic) only works for netlist 1-4 within a reasonable amount of time.""\033[0m")
+                print()
+                restart_program()
            
     return heuristic 
 
 
-def heuristic_extention(chip, graph):
+def heuristic_extention(chip, heuristic, graph):
     """
     Returns the correct connections list based on heuristic and the corresponding run approach.
 
@@ -459,13 +472,21 @@ def heuristic_extention(chip, graph):
     """
 
     extention_options = {'0', '1', '2'}
+    
+    # Set correct heuristic name for formatting
+    if heuristic == 3:
+        heur_name = "Sky Is The Limit"
+    elif heuristic == 4:
+        heur_name == "Can't Touch This"
+    elif heuristic == 5:
+        heur_name == "Wire Jam"
         
     # Ensure correct usage
     correct = False
     while not correct:
         
         # Prompt user for order heuristic list
-        print("\033[1m""With which second heuristic would you like to extent 'Sky Is The Limit' / 'Can't Touch This'?""\033[0m")
+        print("\033[1m"f"With which second heuristic would you like to extent '{heur_name}'?""\033[0m")
         print("> 0 = none\n> 1 = 'Social Map'\n> 2 = 'Better a neighbor who is near than an brother far away?")
         extention = input()
 
