@@ -347,7 +347,7 @@ class GreedyLookAhead(Greedy):
                 The Node object that will be the new position of the wire.
         """
 
-        depth = 4
+        DEPTH = 4
         stack = [[]]
         paths = []
 
@@ -361,13 +361,13 @@ class GreedyLookAhead(Greedy):
             # Append the state to path if first iteration is false and it reached the goal 
             # gate or if state length equals the depth
             length = len(state)
-            if first is False and (length == depth + 1 or state[length - 1] == goal):
+            if first is False and (length == DEPTH + 1 or state[length - 1] == goal):
                 paths.append(state)
 
             # Only continue if len state does not exceed the depth
             # depth + 1 >> because the current position is also added to the state in the
             # first iteration, however, this should not be included as a depth level
-            elif len(state) < depth + 1:
+            elif len(state) < DEPTH + 1:
                 
                 # Assign next position according to first
                 if first:
@@ -1329,6 +1329,8 @@ class GreedyWireJam(Greedy):
                 Heuristic cost (= Manhattan distance + 2 * nr of surrounding wires)
         """
 
+        CROWDED_COST = 3
+
         # Compute Manhattan Distance for each dimension
         x_dist = abs(position.xcoord - goal.xcoord)
         y_dist = abs(position.ycoord - goal.ycoord)
@@ -1338,7 +1340,7 @@ class GreedyWireJam(Greedy):
         surrounding_wires = position.get_wire_density(position, self.wire.path)
 
         # Return heuristic score of the current position
-        return x_dist + y_dist + z_dist + 2 * surrounding_wires
+        return x_dist + y_dist + z_dist + CROWDED_COST * surrounding_wires
         
 
 class GreedyLookAheadWireJam(GreedyLookAhead):
@@ -1375,6 +1377,8 @@ class GreedyLookAheadWireJam(GreedyLookAhead):
                 Heuristic cost (= Manhattan distance + 2 * nr of surrounding wires)
         """
 
+        CROWDED_COST = 3
+
         # Compute Manhattan Distance for each dimension
         x_dist = abs(position.xcoord - goal.xcoord)
         y_dist = abs(position.ycoord - goal.ycoord)
@@ -1384,4 +1388,4 @@ class GreedyLookAheadWireJam(GreedyLookAhead):
         surrounding_wires = position.get_wire_density(position, self.wire.path)
 
         # Return heuristic score of the current position
-        return x_dist + y_dist + z_dist + 2 * surrounding_wires
+        return x_dist + y_dist + z_dist + CROWDED_COST * surrounding_wires
