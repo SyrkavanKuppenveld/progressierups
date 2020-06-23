@@ -495,6 +495,7 @@ def heuristic_extention(chip, heuristic, graph):
         
         # Prompt user for order heuristic list
         print("\033[1m"f"With which second heuristic would you like to extent '{heur_name}'?""\033[0m")
+        print("If none, order of connections is randomly generated.")
         print("> 0 = none\n> 1 = 'Social Map'\n> 2 = 'Better a neighbor who is near than an brother far away?")
         extention = input()
 
@@ -515,6 +516,7 @@ def heuristic_extention(chip, heuristic, graph):
             # Prompt user for the order in which the heuristic list should be
             print()
             print("\033[1m""How would you like to implement the heuristic?""\033[0m")
+            print("If none, order of connections is randomly generated.")
             print("> 0 = sorted from min-max\n> 1 = sorted from max-min")
             order = input()
 
