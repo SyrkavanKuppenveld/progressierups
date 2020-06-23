@@ -77,7 +77,7 @@ def main():
     print("Running Algorithm...")
     print()
     wire_path = algo.run()
-    print("Algorithm completed!\n")
+    print("\033[0;32m""Algorithm completed!\n""\033[0m")
 
     # Print wire costs if anything but a Hillclimber is run, since the Hillclimber
     # handles its own costst
