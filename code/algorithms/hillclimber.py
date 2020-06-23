@@ -81,6 +81,9 @@ class HillClimber(GreedyLookAhead):
         # Frequency of restarts entered by user
         self.frequency = int(frequency)
 
+        # Visualization of the start state
+        self.visualization = None
+
         # Keeps track state after adjustment
         self.graph = graph
         self.wire = None
@@ -100,9 +103,9 @@ class HillClimber(GreedyLookAhead):
         self.climbers_costs = []
         self.iteration = []
     
-    def get_random_start_state(self):
+    def get_random_start_state(self, i):
         
-        print("Computing random start state...")
+        print(f"Computing random start state no. {i}...")
         
         # Get random Start State
         algo = Random(self.best_graph)
@@ -184,7 +187,17 @@ class HillClimber(GreedyLookAhead):
         """
 
         gate_a, gate_b = gates
-        new_path = self.make_connection(gate_a, gate_b)
+        
+        not_found = True
+        new_path = None
+        # Repeat until a path is correctly built
+        while not_found:
+                try:
+                        # Construct a new path via a function inherited from the Greedy LookAhead algorithm  
+                        new_path = self.make_connection(gate_a, gate_b)
+                        not_found = False
+                except:
+                        pass
  
         # Update wire_path
         self.wire_path[connection] = new_path
@@ -245,9 +258,8 @@ class HillClimber(GreedyLookAhead):
         fig
                 A matplotlib figure of the start state of the chip.
         """
-        visualization = ChipVisualization(self.graph.gates, self.wire_path)
-        print(f"self.wire_path {self.wire_path}")
-        start_state_visualisation = visualization.run(False)
+        self.visualization = ChipVisualization(self.graph.gates, self.wire_path)
+        start_state_visualisation = self.visualization.run(False)
         
         return start_state_visualisation
 
@@ -260,8 +272,7 @@ class HillClimber(GreedyLookAhead):
         visualization: matplotlib figure
                 A matplotlibfigure representing the start state of the Hillclimber.
         """
-        visualization = ChipVisualization(self.graph.gates, self.wire_path)
-        start_state_visualisation = visualization.run(True)
+        _ = self.visualization.run(True)
 
     def save_plot(self, plt, filename):
         """
@@ -277,14 +288,14 @@ class HillClimber(GreedyLookAhead):
 
         # Save conversion plot to results folder
         script_dir = os.path.dirname(__file__)
-        results_dir = os.path.join(script_dir, f'results/chip_{self.chip}/netlist_{self.netlist}')
+        results_dir = os.path.join(script_dir, f'results/chip_{self.chip}/netlist_{self.netlist}/')
 
         # Create results folder if the results folder does not yet exist
         if not os.path.isdir(results_dir):
             os.makedirs(results_dir)
 
         # Save figure
-        plt.savefig(results_dir + filename, bbox_inches='tight')
+        plt.savefig(results_dir + filename)
     
     def visualize_conversion(self):
         """
@@ -332,7 +343,7 @@ class HillClimber(GreedyLookAhead):
         for i in range(self.frequency):
 
             # Get random start state
-            self.get_random_start_state()
+            self.get_random_start_state(i)
 
             # Construct visualisation of the start state
             start_state_visualisation = self.visualize_chip()
@@ -341,7 +352,12 @@ class HillClimber(GreedyLookAhead):
             if self.show_start_state:
                 self.show_chip(start_state_visualisation)
             
-            filename = 'Start state Hillclimber.png'
+            # Personalize the filenames of the start state
+            filename = None
+            if i == 1:
+                filename = 'Start state Hillclimber.png'
+            else:
+                filename = f'Start state Restart Hillclimber no. {i}.png'
             
             # Save start state
             if self.save_start_state:
@@ -353,9 +369,7 @@ class HillClimber(GreedyLookAhead):
                 # # Keep track of the HillClimbers' cost
                 self.climbers_costs.append(self.best_cost)
                 self.iteration.append(iteration)
-                print(f"Iteration: {iteration}")
                 iteration += 1
-                print(f"Best cost: {self.best_cost}")
                 
                 # Apply random adjustment
                 # Get random net
@@ -385,14 +399,22 @@ class HillClimber(GreedyLookAhead):
             # Reset conversion status
             self.improvements = [True]
         
-        # Connstruct conversion plot
+        # Construct conversion plot
         conversion_plot_visualisation = self.visualize_conversion()
+
+        # Notify user
+        print("Algorithm converged")
 
         # Visualize conversion plot
         if self.show_conversion_plot:
             self.show_conversion(conversion_plot_visualisation)
 
-        filename = 'Conversion Plot Hillclimber.png'
+        # Personalize the filenames of the conversion plot
+        filename = None
+        if i == 1:
+                filename = 'Conversion Plot Hillclimber.png'
+        else:
+                filename = f'Conversion Plot Restart Hillclimber no. {i}.png'
 
         # Save conversion plot
         if self.save_conversion_plot:
