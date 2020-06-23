@@ -156,6 +156,9 @@ class Random():
         dict 
                 A dictionary containing the route of the wire per connection in netlist.
         """
+
+        run_counter = 1
+
         route = {}
 
         # Run algorithm until solution is found
@@ -185,6 +188,10 @@ class Random():
                 self.graph.clear_graph()
                 self.wire = Wire()
                 route = {}
+
+                # Print restart
+                print(f"Restart {run_counter}...")
+                run_counter += 1
         
         return route
 

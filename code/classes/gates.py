@@ -22,13 +22,13 @@ class Gate():
 
         Parameters
         ----------
-        gateID: int
+        gateID: an int
                 Gate ID.
 
-        xcoord: int
+        xcoord: an int
                 The x-coordinate of the gate.
 
-        ycoord: int
+        ycoord: an int
                 The y-coordinate of the gate.
         """
 

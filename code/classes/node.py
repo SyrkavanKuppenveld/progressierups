@@ -96,16 +96,16 @@ class Node():
         node : a Node object
                 A Node Object whose directions are checked on having a path laid upon them.
 
-        surroundingWires : int
+        surroundingWires : an int
                 A number representing the number of wire units encounters thus far.
 
-        wirePath : set
+        wirePath : a set
                 A set of tuples representing the wire units laid by the algorithm (thus far).
 
-        count : int
+        count : an int
                 An integers that keeps track of the recursion depth.
 
-        radius : int
+        radius : an int
                 An integer that specifies the depth of the recursion.
 
         Returns

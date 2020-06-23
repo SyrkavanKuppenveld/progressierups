@@ -28,9 +28,9 @@ class ChipVisualization():
 
         Parameters
         ----------
-        gates : a list
+        gates: a list
             A list of gate coordinates (x, y, z)
-        wire_path : a dict 
+        wire_path: a dict 
                 A dictionary (key = net) of paths between the gates (value: list of coordinates)
         """
 
@@ -41,9 +41,10 @@ class ChipVisualization():
         self.x_max_chip = 0
         self.y_max_chip = 0
 
-
     def create_3D_chip_outlines(self):
-        """ Creates a 3D figure."""
+        """
+        Creates a 3D figure.
+        """
         
         fig = plt.figure()  
         ax = fig.add_subplot(111, projection='3d')
@@ -57,7 +58,9 @@ class ChipVisualization():
         self.ax = ax
 
     def plot_gates(self):
-        """ Adds gates to the 3D plot."""
+        """
+        Adds gates to the 3D plot.
+        """
 
         x_coord_gates = []
         y_coord_gates = []
@@ -84,7 +87,9 @@ class ChipVisualization():
         self.ax.set_ylim(0,y_max_gate + 1)
 
     def plot_wire(self):
-        """ Adds wire paths to the 3D plot."""
+        """
+        Adds wire paths to the 3D plot.
+        """
         
         colors = ['lightseagreen', 'darkgray', 'lightcoral', 'gold'
                     , 'yellowgreen', 'salmon', 'dimgray', 'turquoise'
@@ -109,7 +114,18 @@ class ChipVisualization():
             self.ax.plot(x_coords, y_coords, z_coords, color=colors[i % 21])
 
     def run(self, visualization_bool):
-        """ Creates and displays the 3D visualisation of the chip."""
+        """
+        Creates and displays the 3D visualisation of the chip.
+
+        Parameters
+        ----------
+        visualization_bool: a bool
+                True for show plot, otherwise False.
+
+        Returns
+        -------
+
+        """
         
         # Initialize 3D plot
         self.create_3D_chip_outlines()
@@ -130,7 +146,9 @@ class ChipVisualization():
         return self.fig
 
 class WireHeatmap(ChipVisualization):
-    """ Visualise 3D wire density of the given solution."""    
+    """
+    Visualise 3D wire density of the given solution.
+    """    
 
     def __init__(self, nodes, wireObject):
         """
@@ -150,6 +168,13 @@ class WireHeatmap(ChipVisualization):
         self.ax = None
     
     def get_DataFrame(self):
+        """
+
+        Returns
+        -------
+        pandas DataFrame
+                
+        """
 
         wireDensitiesList = []
 
@@ -161,11 +186,26 @@ class WireHeatmap(ChipVisualization):
         return pd.DataFrame(wireDensitiesList, columns=['x','y','z', 'wire density'])    
         
     def plot_heat(self, DataFrame):
+        """
+        """
 
         self.ax.scatter(DataFrame[['x']], DataFrame[['y']], DataFrame[['z']], marker='s', s=140, c=DataFrame[['wire density']], cmap='Reds', alpha=0.5)
 
     def run(self, visualization_bool):
-        """ Creates and displays the 3D wire density of the solution."""
+        """
+        Creates and displays the 3D wire density of the solution.
+        
+        Parameters
+        ----------
+        visualization_bool: bool
+                True for show plot, otherwise False.
+
+        Returns
+        -------
+        plot 
+
+
+        """
 
         # Initialize 3D plot
         self.create_3D_chip_outlines()

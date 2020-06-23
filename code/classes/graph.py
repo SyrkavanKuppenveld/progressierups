@@ -37,7 +37,7 @@ class Graph():
         netlist_file: a csv file
                 A csv file containing a netlist.
 
-        layers: int
+        layers: an int
                 The number of layers of the chip.
         """
 
@@ -127,7 +127,7 @@ class Graph():
         
         Paramaters
         ----------
-        layers: int
+        layers: an int
                 The number of layers of the chip.
 
         """
@@ -196,16 +196,16 @@ class Graph():
     
         Parameters
         ----------
-        density : set
+        density: a set
                 A set that is to be filled with neighbouring gates.
 
-        node : a Node Object
+        node: a Node Object
                 A Node Object of the gate-coordinate whose neighboring gates are to be retrieved.
 
-        count : int
+        count: an int
                 An integers that keeps track of the recursion depth.
                 
-        radius : int
+        radius: an int
                 An integer that specifies the depth of the recursion.
 
         Returns

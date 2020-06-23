@@ -27,14 +27,18 @@ These are:
 * LookAhead: with a 4 step depth look ahead.
 * NoIntersect: intersections as hard constraint.
 * NoIntersectLookAhead: intersections as a hard constraint, and a 4 step look a head.
-* LookAheadCosts: different costs formula.
+* Costs: different costs formula.
+* LookAheadCosts: different costs formula and 4 step depth look ahead.
+* WireJam: different cost/distance formula, tries to avoid crowed wire places on grid.
+* LookAheadWireJam: different cost/distance formula, tries to avoid crowed wire places 
+  on grid with a 4 step depth look ahead. 
+
 """
 
 class Greedy():
     """ 
-    Creates a Wire object that connects the gates according to thethe lowest 
+    Creates a Wire object that connects the gates according to the lowest 
     Manhattan Distance. 
-
 
     Random element
     --------------
@@ -55,9 +59,11 @@ class Greedy():
         ----------
         graph: a Graph object
                 A Graph object representing the chip grid.
+
         order: a list
                 A list of either gates or connections that indicates the order in 
                 which the connections/nets of the netlist will be build.
+
         approach: boolean
                 A boolean of which True indicates that "order" is a list of 
                 connections and False indicates a list of gates.
@@ -160,10 +166,10 @@ class Greedy():
         
         Parameters
         ----------
-        gate_a: int
+        gate_a: an int
                 An integer representing the gateID of gate_a.
 
-        gate_a: int
+        gate_a: an int
                 An integer representing the gateID of gate_b.
 
         Returns
@@ -257,6 +263,7 @@ class Greedy():
                     run_counter += 1
 
             return route
+
         # Built connections based on an ordered list of gates which is  
         # pre-determined by a chosen heuristic
         else:
@@ -326,8 +333,8 @@ class GreedyLookAhead(Greedy):
 
     Random element
     --------------
-    If multiple neighbours have the same distance, the next position is generated r
-    andomly. 
+    If multiple neighbours have the same distance, the next position is generated 
+    randomly. 
     
     Greedy element
     --------------
@@ -469,6 +476,7 @@ class GreedyLookAhead(Greedy):
                 True if successful, otherwise False.
         """
 
+        # Get corresponding Node object from graph
         neighbor_coords = neighbor.xcoord, neighbor.ycoord, neighbor.zcoord
         neighbor_node = self.graph.nodes[neighbor_coords]
 
@@ -619,10 +627,10 @@ class GreedyNoIntersect(Greedy):
         
         Parameters
         ----------
-        gate_a: int
+        gate_a: an int
                 An integer representing the gateID of gate_a.
 
-        gate_a: int
+        gate_a: an int
                 An integer representing the gateID of gate_b.
 
         Returns
@@ -768,7 +776,6 @@ class GreedyNoIntersectLookAhead(GreedyNoIntersect):
 
         return position
 
-
     def copy_nodes(self, state):
         """
         Returns a 'deep' copy of list of nodes.
@@ -818,7 +825,6 @@ class GreedyNoIntersectLookAhead(GreedyNoIntersect):
         neighbor_node = self.graph.nodes[neighbor_coords]
 
         return self.wire.check_collision(position, neighbor) and neighbor.intersection == 0 and neighbor_node not in child
-
 
     def valid_check(self, child, neighbor):
         """
@@ -1023,44 +1029,44 @@ class GreedyCosts(Greedy):
         # Compute Manhattan Distance between position and goal
         mdist = self.compute_manhattan_dist(step, goal)
         
-        # Compute wire costs
+        # Compute costs of step
         wire_cost = self.compute_wire_costs(position, step, goal)
 
         return mdist + wire_cost
 
 
     def next_position(self, position, goal):
-            """
-            Returns the next position, according to the lowest Manhattan Distance.
-                    
-            Parameters
-            ----------
-            position: a Node object
-                    A Node object representing the current position of the wire.
+        """
+        Returns the next position, according to the lowest Manhattan Distance.
+                
+        Parameters
+        ----------
+        position: a Node object
+                A Node object representing the current position of the wire.
 
-            goal: a Node object
-                    A Node object repesenting the goal position on the grid.
-            
-            Returns
-            -------
-            Node object
-                    The Node object that will be the new position of the wire.
-            """
+        goal: a Node object
+                A Node object repesenting the goal position on the grid.
+        
+        Returns
+        -------
+        Node object
+                The Node object that will be the new position of the wire.
+        """
 
-            mdist = []
+        mdist = []
 
-            # Iterate over neighbors current position
-            for neighbor in position.neighbors:
+        # Iterate over neighbors current position
+        for neighbor in position.neighbors:
 
-                # If move is allowed compute and append Manhattan Distance
-                if self.wire.check_collision(position, neighbor) and (neighbor.isgate is False or neighbor == goal):
-                    dist = self.compute_total_costs(position, neighbor, goal)
-                    mdist.append((neighbor, dist))
+            # If move is allowed compute and append Manhattan Distance
+            if self.wire.check_collision(position, neighbor) and (neighbor.isgate is False or neighbor == goal):
+                dist = self.compute_total_costs(position, neighbor, goal)
+                mdist.append((neighbor, dist))
 
-            # Assign new position
-            position = self.get_random_min(mdist)
+        # Assign new position
+        position = self.get_random_min(mdist)
 
-            return position
+        return position
 
 
 class GreedyLookAheadCosts(GreedyLookAhead):
