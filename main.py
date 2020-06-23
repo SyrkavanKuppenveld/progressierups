@@ -77,7 +77,7 @@ def main():
     print("Running Algorithm...")
     print()
     wire_path = algo.run()
-    print("\033[0;32m""Algorithm completed!\n""\033[0m")
+    print("\033[0;32m""Algorithm completed!""\033[0m")
     print()
 
     # Print wire costs if anything but a Hillclimber is run, since the Hillclimber
@@ -96,7 +96,7 @@ def main():
     print()
 
     # Create output file
-    with open("output.csv", 'w', newline='') as output_file:
+    with open("results/output.csv", 'w', newline='') as output_file:
         costs = algo.wire.compute_costs()
         hlp.save_csv(netlist_file, output_file, wire_path, costs)
     print()
