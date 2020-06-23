@@ -89,7 +89,7 @@ def main():
     print()
 
     # Visualize and or save algorithm results based on user's input
-    hlp.uif.heatmap_visualize_save(graph, wire_path)
+    hlp.uif.heatmap_visualize_save(graph.nodes, algo.wire)
     print()
 
     # Create output file

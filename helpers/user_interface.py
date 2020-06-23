@@ -696,17 +696,17 @@ def visualize_save_results(graph, wire_path):
         print("For saved visualization see: 'results/visualization_algorithm.png'.")
 
 
-def heatmap_visualize_save(graph, wire_path):
+def heatmap_visualize_save(nodes, wire):
     """
     Visualizes and/or saves the wire heatmap of the chip grid. 
 
     Parameters
     ----------
-    graph: a Graph object
-            Representing the chip grid.
+    nodes: dict
+            Dictionary of all nodes in chip grid.
 
-    wire_path: a dict
-            Dictionary with connection as key and list with path coordinates as value.
+    wire: a Wire object
+            Representing the wire in the chip grid.
 
     Outputs
     -------
@@ -737,7 +737,7 @@ def heatmap_visualize_save(graph, wire_path):
         
         # Prompt user for input for saving heatmap
         print()
-        print("\033[1m""Would you like to save the wire heatmap of the chipgrid? (y/n)""\033[0m")
+        print("\033[1m""Would you like to save the wire heatmap of the chip grid? (y/n)""\033[0m")
         save = input()
 
         # Check input user
@@ -748,7 +748,7 @@ def heatmap_visualize_save(graph, wire_path):
     if show == 'y' and save == 'y':
 
         # Visualize and save the heatmap
-        heatmap = vs.WireHeatmap(graph.gates, wire_path)
+        heatmap = vs.WireHeatmap(nodes, wire)
         plot = heatmap.run(True)
         plot.savefig("results/heatmap_algorithm.png")
         print()
@@ -756,12 +756,12 @@ def heatmap_visualize_save(graph, wire_path):
     elif show == 'y' and save == 'n':
 
         # Visualize the heatmap
-        heatmap = vs.WireHeatmap(graph.gates, wire_path)
+        heatmap = vs.WireHeatmap(nodes, wire)
         plot = heatmap.run(True)
     elif show == 'n' and save == 'y':
 
         # Save the visualization of the resutls
-        heatmap = vs.WireHeatmap(graph.gates, wire_path)
+        heatmap = vs.WireHeatmap(nodes, wire)
         plot = heatmap.run(False)
         plot.savefig("results/heatmap_algorithm.png")
         print()
