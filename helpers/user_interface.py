@@ -357,12 +357,20 @@ def heuristic_input(netlist, algorithm):
 
         # Prompt user for heuristic 
         print("\033[1m""Which heuristic would you like to implement?""\033[0m")
+        print("If none, order of connections is randomly generated.")
         print("For more information on the algorithms press 9 directly followed by the heuristic number.")
         print("> 0 = none\n> 1 = 'Social Map'\n> 2 = 'Better a neighbor who is near than an brother far away?\n> 3 = 'Sky is the Limit'\n> 4 = 'Can't Touch This'\n> 5 = 'Wire Jam'")
         heuristic = input()
         
+        # Print none information
+        if heuristic  == '90':
+            print("\033[1m""INFORMATION NONE""\033[0m")
+            print("The order of connections is randomly generated.")
+            time.sleep(3)
+            print()
+
         # Print social map information
-        if heuristic == '91':
+        elif heuristic == '91':
             print("\033[1m""INFORMATION SOCIAL MAP""\033[0m")
             print("The 'Social Map' heuristic orders the gates based on the number of gates within a pre-specified radius.")
             print()
