@@ -110,8 +110,9 @@ class Node():
 
         Returns
         -------
-        int
-                A number representing the number of wire units encounters thus far
+        list
+                A list of which the number of elements represent the number of wires 
+                encountered thusfar.
 
         """
 
@@ -127,7 +128,7 @@ class Node():
                 # Check if a wire path has been placed on the path to the current neighbor 
                 wireToNeighbor = tuple(sorted((currentNodeCoords, neighborCoords))) 
                 if wireToNeighbor in wirePath:
-                    surroundingWires += 1
+                    surroundingWires.append(1)
                     return surroundingWires
                 
                 # Update the node and resume recursion
@@ -156,7 +157,7 @@ class Node():
         """
         
         node = initialNode
-        surroundingWires = 0
+        surroundingWires = []
         
         # Determine radius (recursion depth)
         count = 0
@@ -165,7 +166,7 @@ class Node():
         # Get the number of surrounding wires
         surroundingWires = self.get_resursive_wire_density(node, surroundingWires, wirePath, count, radius)
 
-        return surroundingWires
+        return len(surroundingWires)
     
     def __repr__(self):
         """Ensure that the object is printed properly if it is in a list/dict.
